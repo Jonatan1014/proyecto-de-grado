@@ -2,10 +2,7 @@
 // src/config/routes.php
 
 return [
-    '/' => ['controller' => 'HomeController', 'action' => 'index'],
-    '/login' => ['controller' => 'AuthController', 'action' => 'handleLogin'],
-    '/admin' => ['controller' => 'AdminController', 'action' => 'index'],
-    '/logout' => ['controller' => 'AuthController', 'action' => 'logout'],
+    '/' => '../app/Views/home.php',
     '/home' => '../app/Views/home.php',
     '/about' => '../app/Views/about.php',
     '/departments' => '../app/Views/departments.php',
@@ -29,4 +26,8 @@ return [
     '/404' => '../app/Views/404.php', // Agrega esta línea
 
     // Agrega más rutas aquí según necesites
+    // Rutas dinámicas (controladores)
+    '/login' => ['controller' => 'AuthController', 'action' => 'handleLogin'],
+    '/admin' => ['controller' => 'AdminController', 'action' => 'index'],
+    '/logout' => ['controller' => 'AuthController', 'action' => 'logout'],
 ];
