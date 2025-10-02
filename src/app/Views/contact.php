@@ -108,10 +108,13 @@
                     <div class="col-lg-6" data-aos="fade-up" data-aos-delay="500">
                         <div class="map-container">
                             <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3308.4770376449556!2d-117.39905292424607!3d33.978802323820714!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80dcb1f5d8fb6c75%3A0xd9d73340c90a71c6!2s4582%20Magnolia%20Ave%2C%20Riverside%2C%20CA%2092506!5e0!3m2!1sen!2sus!4v1692395638095!5m2!1sen!2sus"
-                                allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                src="https://www.google.com/maps/embed?pb=!4v1727900000000!6m8!1m7!1sePN3YmV6PrpDHGmydjkAJw!2m2!1d7.0627261!2d-73.8520238!3f247.54!4f83.91!5f0.7820865974627469"
+                                width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
                         </div>
                     </div>
+
 
                     <div class="col-lg-6" data-aos="fade-up" data-aos-delay="600">
                         <form action="forms/contact" method="post" class="php-email-form">

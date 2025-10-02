@@ -20,14 +20,25 @@ return [
     '/404' => '../app/Views/404.php',
     '/login' => '../app/Views/login.php',
     '/citas' => '../app/Views/citas.php',
-    '/admin' => '../app/Views/admin.php',
     '/pacientes' => '../app/Views/pacientes.php',
     '/historial' => '../app/Views/historial.php',
     '/404' => '../app/Views/404.php', // Agrega esta línea
+    
+
+    // rutas de admin    
+    '/apps-calendar' => ['controller' => 'AdminController', 'action' => 'appsCalendar'],
+    '/apps-tasks' => ['controller' => 'AdminController', 'action' => 'appsTasks'],
+    '/pages-profile' => ['controller' => 'AdminController', 'action' => 'pagesProfile'],
+    '/pages-add-medico' => ['controller' => 'AdminController', 'action' => 'pagesAddMedico'],
+    'admin/add-medico' => ['controller' => 'AdminController', 'action' => 'addMedico'],
+
+
+
 
     // Agrega más rutas aquí según necesites
     // Rutas dinámicas (controladores)
     '/login' => ['controller' => 'AuthController', 'action' => 'handleLogin'],
     '/admin' => ['controller' => 'AdminController', 'action' => 'index'],
+    '/index' => ['controller' => 'AdminController', 'action' => 'index'],
     '/logout' => ['controller' => 'AuthController', 'action' => 'logout'],
 ];

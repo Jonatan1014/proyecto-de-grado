@@ -15,21 +15,21 @@ class AuthController {
             $password = $_POST['password'] ?? null;
 
             if (!$email || !$password) {
-                header("Location: /login?error=1");
+                header("Location: login?error=1");
                 exit;
             }
 
             if (AuthService::login($email, $password)) {
-                header("Location: /admin");
+                header("Location: admin");
                 exit;
             } else {
-                header("Location: /login?error=1");
+                header("Location: login?error=1");
             }
         }
     }
 
     public function logout() {
         AuthService::logout();
-        header("Location: /login");
+        header("Location: login");
     }
 }
