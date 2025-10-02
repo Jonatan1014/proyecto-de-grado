@@ -3,4 +3,3 @@ node_modules/
 logs/
 .env
 *.log
-src/public/assets/
