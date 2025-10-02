@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Services - MediNest Bootstrap Template</title>
+    <title>Servicios</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
 
@@ -52,13 +52,12 @@
                 <div class="container">
                     <div class="row d-flex justify-content-center text-center">
                         <div class="col-lg-8">
-                            <h1 class="heading-title">Services</h1>
-                            <p class="mb-0">
-                                Odio et unde deleniti. Deserunt numquam exercitationem. Officiis quo
-                                odio sint voluptas consequatur ut a odio voluptatem. Sit dolorum
-                                debitis veritatis natus dolores. Quasi ratione sint. Sit quaerat
-                                ipsum dolorem.
-                            </p>
+                        <h1 class="heading-title">Servicios</h1>
+                        <p class="mb-0">
+                            La Dra. Yohanna ofrece atención médica integral y especializada,
+                            combinando experiencia profesional con un trato cercano y humano.
+                            Cada servicio está diseñado para cuidar tu salud y bienestar.
+                        </p>
                         </div>
                     </div>
                 </div>
@@ -66,7 +65,7 @@
             <nav class="breadcrumbs">
                 <div class="container">
                     <ol>
-                        <li><a href="home">Home</a></li>
+                        <li><a href="home">Inicio</a></li>
                         <li class="current">Services</li>
                     </ol>
                 </div>
@@ -87,222 +86,84 @@
                                     <div class="service-icon">
                                         <i class="fas fa-heartbeat"></i>
                                     </div>
-                                    <span class="service-category">Atención Primaria</span>
+                                <span class="service-category">Atención Médica</span>
                                 </div>
                                 <div class="service-body">
                                     <h4>Consulta General</h4>
-                                    <p>Evaluaciones integrales de salud y planificación de cuidados preventivos para
-                                        todos los miembros de la familia.</p>
-                                    <div class="service-features">
-                                        <span class="feature-badge">Monitoreo de Salud</span>
-                                        <span class="feature-badge">Programas de Bienestar</span>
-                                        <span class="feature-badge">Cuidado Preventivo</span>
-                                    </div>
+                                <p>Evaluaciones médicas completas, diagnóstico y orientación en el cuidado de tu salud.</p>
+                                <div class="service-features">
+                                    <span class="feature-badge">Chequeos Preventivos</span>
+                                    <span class="feature-badge">Control de Enfermedades</span>
+                                    <span class="feature-badge">Seguimiento Médico</span>
+                                </div>
                                 </div>
                                 <div class="service-footer">
                                     <a href="service-details" class="service-btn">
-                                        Agendar Visita
+                                    Agendar Cita
                                         <i class="fas fa-arrow-right"></i>
                                     </a>
                                 </div>
                             </div>
                         </div>
 
-
-                        <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="300">
-                            <div class="service-card specialty-care featured">
+<div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="200">
+                            <div class="service-card primary-care">
                                 <div class="service-header">
                                     <div class="service-icon">
-                                        <i class="fas fa-heart"></i>
+                                        <i class="fas fa-heartbeat"></i>
                                     </div>
-                                    <span class="service-category">Especialidad</span>
-                                    <div class="featured-badge">Más Popular</div>
+                                <span class="service-category">Atención Médica</span>
                                 </div>
                                 <div class="service-body">
-                                    <h4>Servicios de Cardiología</h4>
-                                    <p>Atención avanzada del corazón que incluye diagnósticos, tratamientos y programas
-                                        de rehabilitación postoperatoria.</p>
-                                    <div class="service-features">
-                                        <span class="feature-badge">Cirugía Cardíaca</span>
-                                        <span class="feature-badge">Pruebas de ECG</span>
-                                        <span class="feature-badge">Rehabilitación Cardíaca</span>
-                                    </div>
+                                    <h4>Consulta General</h4>
+                                <p>Evaluaciones médicas completas, diagnóstico y orientación en el cuidado de tu salud.</p>
+                                <div class="service-features">
+                                    <span class="feature-badge">Chequeos Preventivos</span>
+                                    <span class="feature-badge">Control de Enfermedades</span>
+                                    <span class="feature-badge">Seguimiento Médico</span>
+                                </div>
                                 </div>
                                 <div class="service-footer">
                                     <a href="service-details" class="service-btn">
-                                        Reservar Cita
+                                    Agendar Cita
                                         <i class="fas fa-arrow-right"></i>
                                     </a>
                                 </div>
                             </div>
                         </div>
 
-
-                        <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="400">
-                            <div class="service-card diagnostics">
+                        <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="200">
+                            <div class="service-card primary-care">
                                 <div class="service-header">
                                     <div class="service-icon">
-                                        <i class="fas fa-vials"></i>
+                                        <i class="fas fa-heartbeat"></i>
                                     </div>
-                                    <span class="service-category">Diagnósticos</span>
+                                <span class="service-category">Atención Médica</span>
                                 </div>
                                 <div class="service-body">
-                                    <h4>Pruebas de Laboratorio</h4>
-                                    <p>Gama completa de pruebas diagnósticas con tiempos de entrega rápidos y resultados
-                                        precisos.</p>
-                                    <div class="service-features">
-                                        <span class="feature-badge">Análisis de Sangre</span>
-                                        <span class="feature-badge">Patología</span>
-                                        <span class="feature-badge">Resultados en el Mismo Día</span>
-                                    </div>
+                                    <h4>Consulta General</h4>
+                                <p>Evaluaciones médicas completas, diagnóstico y orientación en el cuidado de tu salud.</p>
+                                <div class="service-features">
+                                    <span class="feature-badge">Chequeos Preventivos</span>
+                                    <span class="feature-badge">Control de Enfermedades</span>
+                                    <span class="feature-badge">Seguimiento Médico</span>
+                                </div>
                                 </div>
                                 <div class="service-footer">
                                     <a href="service-details" class="service-btn">
-                                        Solicitar Pruebas
+                                    Agendar Cita
                                         <i class="fas fa-arrow-right"></i>
                                     </a>
                                 </div>
                             </div>
                         </div>
 
-
-                        <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="500">
-                            <div class="service-card emergency">
-                                <div class="service-header">
-                                    <div class="service-icon">
-                                        <i class="fas fa-ambulance"></i>
-                                    </div>
-                                    <span class="service-category">Emergencias</span>
-                                    <div class="status-indicator">Disponible 24/7</div>
-                                </div>
-                                <div class="service-body">
-                                    <h4>Atención de Emergencia</h4>
-                                    <p>Servicios de emergencia las 24 horas con centro de trauma y capacidades de
-                                        cuidados críticos.</p>
-                                    <div class="service-features">
-                                        <span class="feature-badge">Centro de Trauma</span>
-                                        <span class="feature-badge">Cuidados Críticos</span>
-                                        <span class="feature-badge">Cirugía de Emergencia</span>
-                                    </div>
-                                </div>
-                                <div class="service-footer">
-                                    <a href="tel:911" class="service-btn emergency-btn">
-                                        Llamar a Emergencias
-                                        <i class="fas fa-phone"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="600">
-                            <div class="service-card maternal">
-                                <div class="service-header">
-                                    <div class="service-icon">
-                                        <i class="fas fa-baby"></i>
-                                    </div>
-                                    <span class="service-category">Salud Materna</span>
-                                </div>
-                                <div class="service-body">
-                                    <h4>Salud de la Mujer</h4>
-                                    <p>Atención materna integral desde controles prenatales hasta el parto y apoyo
-                                        posnatal.</p>
-                                    <div class="service-features">
-                                        <span class="feature-badge">Cuidado Prenatal</span>
-                                        <span class="feature-badge">Apoyo en el Parto</span>
-                                        <span class="feature-badge">Planificación Familiar</span>
-                                    </div>
-                                </div>
-                                <div class="service-footer">
-                                    <a href="service-details" class="service-btn">
-                                        Saber Más
-                                        <i class="fas fa-arrow-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="700">
-                            <div class="service-card vaccination">
-                                <div class="service-header">
-                                    <div class="service-icon">
-                                        <i class="fas fa-syringe"></i>
-                                    </div>
-                                    <span class="service-category">Prevención</span>
-                                </div>
-                                <div class="service-body">
-                                    <h4>Servicios de Vacunación</h4>
-                                    <p>Programas completos de inmunización para todas las edades, incluyendo vacunas de
-                                        viaje y dosis estacionales.</p>
-                                    <div class="service-features">
-                                        <span class="feature-badge">Vacunas de Viaje</span>
-                                        <span class="feature-badge">Vacunas contra la Gripe</span>
-                                        <span class="feature-badge">Inmunización Infantil</span>
-                                    </div>
-                                </div>
-                                <div class="service-footer">
-                                    <a href="service-details" class="service-btn">
-                                        Agendar Vacuna
-                                        <i class="fas fa-arrow-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
 
 
                     </div>
                 </div>
 
-                <div class="services-stats" data-aos="fade-up" data-aos-delay="800">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6">
-                            <div class="stat-item">
-                                <div class="stat-number" data-purecounter-start="0" data-purecounter-end="25000"
-                                    data-purecounter-duration="2"></div>
-                                <div class="stat-label">Patients Served</div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="stat-item">
-                                <div class="stat-number" data-purecounter-start="0" data-purecounter-end="150"
-                                    data-purecounter-duration="2"></div>
-                                <div class="stat-label">Medical Experts</div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="stat-item">
-                                <div class="stat-number" data-purecounter-start="0" data-purecounter-end="18"
-                                    data-purecounter-duration="2"></div>
-                                <div class="stat-label">Specializations</div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="stat-item">
-                                <div class="stat-number" data-purecounter-start="0" data-purecounter-end="24"
-                                    data-purecounter-duration="2"></div>
-                                <div class="stat-label">Hours Service</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="appointment-banner" data-aos="fade-up" data-aos-delay="900">
-                    <div class="banner-content">
-                        <div class="banner-text">
-                            <h3>Need Medical Attention?</h3>
-                            <p>Book your appointment with our qualified healthcare professionals and get the care you
-                                deserve.</p>
-                        </div>
-                        <div class="banner-actions">
-                            <a href="appointment" class="btn-primary">Book Appointment</a>
-                            <a href="tel:+15551234567" class="btn-secondary">
-                                <i class="fas fa-phone"></i>
-                                Call Now
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
+          
             </div>
 
         </section><!-- /Services Section -->

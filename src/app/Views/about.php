@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>About - MediNest Bootstrap Template</title>
+    <title>Acerca de</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
 
@@ -52,13 +52,11 @@
                 <div class="container">
                     <div class="row d-flex justify-content-center text-center">
                         <div class="col-lg-8">
-                            <h1 class="heading-title">About</h1>
+                          <h1 class="heading-title">Acerca de la Dra. Yohanna Isabel Nieto</h1>
                             <p class="mb-0">
-                                Odio et unde deleniti. Deserunt numquam exercitationem. Officiis quo
-                                odio sint voluptas consequatur ut a odio voluptatem. Sit dolorum
-                                debitis veritatis natus dolores. Quasi ratione sint. Sit quaerat
-                                ipsum dolorem.
-                            </p>
+            Odontóloga especializada en <strong>blanqueamiento dental, diseño de sonrisa, ortodoncia</strong>. 
+            Comprometida con transformar sonrisas y mejorar la confianza de sus pacientes en un ambiente cálido y profesional.
+          </p>
                         </div>
                     </div>
                 </div>
@@ -80,12 +78,12 @@
 
                 <div class="intro-section">
                     <div class="row justify-content-center">
-                        <div class="col-lg-8 text-center" data-aos="fade-up" data-aos-delay="100">
-                            <h2>Excellence in Healthcare Since 1985</h2>
-                            <p class="lead">We believe that exceptional medical care begins with understanding. Our
-                                dedicated team of professionals combines cutting-edge technology with compassionate,
-                                personalized treatment to ensure every patient receives the highest standard of care.
-                            </p>
+                       <div class="col-lg-8 text-center" data-aos="fade-up" data-aos-delay="100">
+                        <h2>Sonrisas Saludables y Radiantes</h2>
+                        <p class="lead">
+                            Con años de experiencia en odontología estética, la Dra. Yohanna Isabel Nieto ofrece tratamientos personalizados 
+                            que combinan tecnología avanzada con un trato humano y cercano, para que cada paciente logre la sonrisa que siempre soñó.
+                        </p>
                         </div>
                     </div>
                 </div>
@@ -109,43 +107,32 @@
 
                         <div class="col-lg-5" data-aos="fade-left" data-aos-delay="300">
                             <div class="stats-content">
-                                <h3>Trusted Healthcare Provider</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                    exercitation.</p>
-
+                                <h3>Confianza y Resultados</h3>
+                                    <p>
+                                    Más que tratamientos dentales, brindamos experiencias de bienestar. 
+                                    Cada sonrisa transformada refleja nuestro compromiso con la excelencia y la satisfacción de los pacientes.
+                                    </p>
                                 <div class="stats-list">
                                     <div class="stat-row">
-                                        <div class="stat-number">
-                                            <span data-purecounter-start="0" data-purecounter-end="22000"
-                                                data-purecounter-duration="0" class="purecounter">22000</span>
-                                        </div>
+                                        
                                         <div class="stat-info">
-                                            <h5>Successful Treatments</h5>
-                                            <p>Completed with excellent patient outcomes</p>
+                                        <h5>Sonrisas Transformadas</h5>
+                                        <p>Pacientes felices con resultados visibles</p>
                                         </div>
                                     </div>
 
                                     <div class="stat-row">
-                                        <div class="stat-number">
-                                            <span data-purecounter-start="0" data-purecounter-end="95"
-                                                data-purecounter-duration="0"
-                                                class="purecounter">95</span><span>%</span>
+                                      
+                                            <div class="stat-info">
+                                            <h5>Satisfacción</h5>
+                                            <p>Basada en encuestas y recomendaciones</p>
+                                            </div>
                                         </div>
-                                        <div class="stat-info">
-                                            <h5>Patient Satisfaction</h5>
-                                            <p>Based on comprehensive feedback surveys</p>
-                                        </div>
-                                    </div>
 
                                     <div class="stat-row">
-                                        <div class="stat-number">
-                                            <span data-purecounter-start="0" data-purecounter-end="85"
-                                                data-purecounter-duration="0" class="purecounter">85</span>
-                                        </div>
                                         <div class="stat-info">
-                                            <h5>Medical Professionals</h5>
-                                            <p>Specialists across various departments</p>
+                                         <h5>Años de Experiencia</h5>
+                                          <p>Ofreciendo atención especializada en estética dental</p>
                                         </div>
                                     </div>
                                 </div>
@@ -161,10 +148,9 @@
                                 <div class="mission-icon">
                                     <i class="bi bi-heart"></i>
                                 </div>
-                                <h4>Our Mission</h4>
-                                <p>To provide comprehensive, patient-centered healthcare that combines medical
-                                    excellence with genuine compassion, ensuring every individual receives personalized
-                                    care tailored to their unique needs.</p>
+                               <h4>Nuestra Visión</h4>
+                                <p>Ser reconocidos como un centro odontológico líder en Barrancabermeja, 
+                                especializado en estética dental e innovación en tratamientos modernos.</p>
                             </div>
                         </div>
 
@@ -173,10 +159,9 @@
                                 <div class="mission-icon">
                                     <i class="bi bi-eye"></i>
                                 </div>
-                                <h4>Our Vision</h4>
-                                <p>To be the leading healthcare provider in our region, recognized for innovative
-                                    treatments, exceptional outcomes, and our unwavering commitment to improving lives
-                                    in our community.</p>
+                                <h4>Nuestro Compromiso</h4>
+                                    <p>Brindar un ambiente seguro, confiable y cercano, donde cada sonrisa sea tratada con la dedicación y 
+                                    el profesionalismo que merece.</p>
                             </div>
                         </div>
 
@@ -185,106 +170,14 @@
                                 <div class="mission-icon">
                                     <i class="bi bi-star"></i>
                                 </div>
-                                <h4>Our Promise</h4>
-                                <p>Every patient will receive the highest quality care in a comfortable, supportive
-                                    environment where their health, dignity, and well-being are our top priorities.</p>
+                                <h4>Nuestro Compromiso</h4>
+                                <p>Brindar un ambiente seguro, confiable y cercano, donde cada sonrisa sea tratada con la dedicación y 
+                                el profesionalismo que merece.</p>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="specialties-section" data-aos="fade-up" data-aos-delay="500">
-                    <div class="row">
-                        <div class="col-lg-12 text-center">
-                            <h3>Areas of Excellence</h3>
-                            <p class="section-description">Our specialized departments work together to provide
-                                comprehensive care across multiple medical disciplines</p>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-2 col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="100">
-                            <div class="specialty-item">
-                                <i class="bi bi-activity"></i>
-                                <span>Cardiology</span>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="150">
-                            <div class="specialty-item">
-                                <i class="bi bi-brain"></i>
-                                <span>Neurology</span>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="200">
-                            <div class="specialty-item">
-                                <i class="bi bi-person-hearts"></i>
-                                <span>Pediatrics</span>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="250">
-                            <div class="specialty-item">
-                                <i class="bi bi-scissors"></i>
-                                <span>Surgery</span>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="300">
-                            <div class="specialty-item">
-                                <i class="bi bi-file-medical"></i>
-                                <span>Oncology</span>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="350">
-                            <div class="specialty-item">
-                                <i class="bi bi-clipboard2-pulse"></i>
-                                <span>Emergency</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accreditation-section" data-aos="fade-up" data-aos-delay="600">
-                    <div class="row">
-                        <div class="col-lg-12 text-center">
-                            <h3>Recognized Excellence</h3>
-                            <p class="section-description">Our commitment to quality is validated by prestigious
-                                healthcare organizations</p>
-                        </div>
-                    </div>
-
-                    <div class="row justify-content-center">
-                        <div class="col-lg-8">
-                            <div class="accreditation-grid">
-                                <div class="accreditation-item" data-aos="fade-up" data-aos-delay="100">
-                                    <img src="assets/img/clients/clients-6.webp" class="img-fluid"
-                                        alt="Healthcare accreditation">
-                                </div>
-                                <div class="accreditation-item" data-aos="fade-up" data-aos-delay="150">
-                                    <img src="assets/img/clients/clients-7.webp" class="img-fluid"
-                                        alt="Medical certification">
-                                </div>
-                                <div class="accreditation-item" data-aos="fade-up" data-aos-delay="200">
-                                    <img src="assets/img/clients/clients-8.webp" class="img-fluid"
-                                        alt="Quality assurance">
-                                </div>
-                                <div class="accreditation-item" data-aos="fade-up" data-aos-delay="250">
-                                    <img src="assets/img/clients/clients-9.webp" class="img-fluid"
-                                        alt="Healthcare excellence">
-                                </div>
-                                <div class="accreditation-item" data-aos="fade-up" data-aos-delay="300">
-                                    <img src="assets/img/clients/clients-10.webp" class="img-fluid"
-                                        alt="Medical standards">
-                                </div>
-                                <div class="accreditation-item" data-aos="fade-up" data-aos-delay="350">
-                                    <img src="assets/img/clients/clients-11.webp" class="img-fluid"
-                                        alt="Healthcare certification">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
-
         </section><!-- /About Section -->
 
     </main>

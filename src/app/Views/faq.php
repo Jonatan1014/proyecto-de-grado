@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Faq - MediNest Bootstrap Template</title>
+    <title>Preguntas Frecuentes</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
 
@@ -52,9 +52,11 @@
                 <div class="container">
                     <div class="row d-flex justify-content-center text-center">
                         <div class="col-lg-8">
-                            <h1 class="heading-title">Frequenty Asked Questions</h1>
-                            <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus,
-                                luctus nec ullamcorper mattis, pulvinar dapibus leo.</p>
+                            <h1 class="heading-title">Preguntas Frecuentes</h1>
+                       <p class="mb-0">
+                        Aquí encontrarás respuestas a las dudas más comunes sobre los servicios de la Dra. Yohanna,
+                        el proceso de citas y cuidados médicos.
+                    </p>
                         </div>
                     </div>
                 </div>
@@ -62,8 +64,8 @@
             <nav class="breadcrumbs">
                 <div class="container">
                     <ol>
-                        <li><a href="home">Home</a></li>
-                        <li class="current">Faq</li>
+                        <li><a href="home">Inicio</a></li>
+                        <li class="current">Preguntas Frecuente</li>
                     </ol>
                 </div>
             </nav>
@@ -81,65 +83,54 @@
                         <div class="faq-container">
 
                             <div class="faq-item faq-active">
-                                <h3>Non consectetur a erat nam at lectus urna duis?</h3>
+                        <h3>¿Cómo puedo agendar una cita con la Dra. Yohanna?</h3>
                                 <div class="faq-content">
-                                    <p>Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus
-                                        laoreet non curabitur gravida. Venenatis lectus magna fringilla urna porttitor
-                                        rhoncus dolor purus non.</p>
+                               <p>Puedes agendar tu cita directamente en la sección <a href="citas">“Citas”</a> de la página web
+                                o comunicarte vía telefónica/WhatsApp. Se recomienda reservar con anticipación para asegurar disponibilidad.</p>
+
                                 </div>
                                 <i class="faq-toggle bi bi-chevron-right"></i>
                             </div><!-- End Faq item-->
 
                             <div class="faq-item">
-                                <h3>Feugiat scelerisque varius morbi enim nunc faucibus?</h3>
+                        <h3>¿Qué servicios médicos ofrece?</h3>
                                 <div class="faq-content">
-                                    <p>Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id
-                                        interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus
-                                        scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim.
-                                        Mauris ultrices eros in cursus turpis massa tincidunt dui.</p>
+                            <p>La Dra. Yohanna ofrece consulta general, salud de la mujer, tratamientos de medicina estética y programas de prevención y bienestar.</p>
+
                                 </div>
                                 <i class="faq-toggle bi bi-chevron-right"></i>
                             </div><!-- End Faq item-->
 
                             <div class="faq-item">
-                                <h3>Dolor sit amet consectetur adipiscing elit pellentesque?</h3>
+                        <h3>¿Atienden pacientes sin cita previa?</h3>
                                 <div class="faq-content">
-                                    <p>Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci.
-                                        Faucibus pulvinar elementum integer enim. Sem nulla pharetra diam sit amet nisl
-                                        suscipit. Rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis
-                                        convallis tellus. Urna molestie at elementum eu facilisis sed odio morbi quis
-                                    </p>
+                            <p>Generalmente se atiende con cita previa. En casos de urgencia menor se recomienda llamar antes para confirmar disponibilidad.</p>
+
                                 </div>
                                 <i class="faq-toggle bi bi-chevron-right"></i>
                             </div><!-- End Faq item-->
 
                             <div class="faq-item">
-                                <h3>Ac odio tempor orci dapibus. Aliquam eleifend mi in nulla?</h3>
+                        <h3>¿Qué métodos de pago están disponibles?</h3>
                                 <div class="faq-content">
-                                    <p>Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id
-                                        interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus
-                                        scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim.
-                                        Mauris ultrices eros in cursus turpis massa tincidunt dui.</p>
+                            <p>Se aceptan pagos en efectivo, transferencia y algunas billeteras digitales. Pregunta al momento de agendar tu cita para mayor claridad.</p>
+
                                 </div>
                                 <i class="faq-toggle bi bi-chevron-right"></i>
                             </div><!-- End Faq item-->
 
                             <div class="faq-item">
-                                <h3>Tempus quam pellentesque nec nam aliquam sem et tortor?</h3>
+                        <h3>¿Realizan tratamientos estéticos en la primera cita?</h3>
                                 <div class="faq-content">
-                                    <p>Molestie a iaculis at erat pellentesque adipiscing commodo. Dignissim suspendisse
-                                        in est ante in. Nunc vel risus commodo viverra maecenas accumsan. Sit amet nisl
-                                        suscipit adipiscing bibendum est. Purus gravida quis blandit turpis cursus in
-                                    </p>
+                                        <p>No siempre. Primero se hace una valoración médica para determinar si el paciente es apto y se programa el procedimiento de forma segura.</p>
                                 </div>
                                 <i class="faq-toggle bi bi-chevron-right"></i>
                             </div><!-- End Faq item-->
 
                             <div class="faq-item">
-                                <h3>Perspiciatis quod quo quos nulla quo illum ullam?</h3>
+                        <h3>¿La Dra. Yohanna atiende pacientes pediátricos?</h3>
                                 <div class="faq-content">
-                                    <p>Enim ea facilis quaerat voluptas quidem et dolorem. Quis et consequatur non sed
-                                        in suscipit sequi. Distinctio ipsam dolore et.</p>
+                            <p>El enfoque principal es atención a adultos y salud de la mujer. En caso de pacientes pediátricos, se recomienda consultar previamente la disponibilidad.</p>
                                 </div>
                                 <i class="faq-toggle bi bi-chevron-right"></i>
                             </div><!-- End Faq item-->

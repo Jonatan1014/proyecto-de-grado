@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Appointment - MediNest Bootstrap Template</title>
+    <title>Cita</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
 
@@ -52,12 +52,11 @@
                 <div class="container">
                     <div class="row d-flex justify-content-center text-center">
                         <div class="col-lg-8">
-                            <h1 class="heading-title">Appointment</h1>
+                            <h1 class="heading-title">Agendar Cita</h1>
                             <p class="mb-0">
-                                Odio et unde deleniti. Deserunt numquam exercitationem. Officiis quo
-                                odio sint voluptas consequatur ut a odio voluptatem. Sit dolorum
-                                debitis veritatis natus dolores. Quasi ratione sint. Sit quaerat
-                                ipsum dolorem.
+                Agenda tu cita de manera rápida y sencilla. Selecciona la fecha y hora que más te convenga 
+                                        y recibe atención médica y estética personalizada con la Dra. Yohanna.
+
                             </p>
                         </div>
                     </div>
@@ -66,8 +65,8 @@
             <nav class="breadcrumbs">
                 <div class="container">
                     <ol>
-                        <li><a href="home">Home</a></li>
-                        <li class="current">Appointment</li>
+                        <li><a href="home">Inicio</a></li>
+                        <li class="current">Agendar Cita</li>
                     </ol>
                 </div>
             </nav>
@@ -125,13 +124,7 @@
                                 </div><!-- End Info Item -->
                             </div>
 
-                            <div class="emergency-contact mt-4" data-aos="fade-up" data-aos-delay="350">
-                                <div class="emergency-card p-3">
-                                    <h6 class="mb-2"><i class="bi bi-telephone-fill me-2"></i>Línea de Emergencia</h6>
-                                    <p class="mb-0">Llama al <strong>+1 (555) 911-4567</strong> para asistencia médica
-                                        urgente</p>
-                                </div>
-                            </div>
+                       
 
                         </div>
                     </div><!-- End Appointment Info -->
@@ -211,52 +204,56 @@
                 </div>
 
                 <!-- Pasos del Proceso -->
-                <div class="process-steps mt-5" data-aos="fade-up" data-aos-delay="300">
-                    <div class="row text-center gy-4">
-                        <div class="col-lg-3 col-md-6">
-                            <div class="step-item">
-                                <div class="step-number">1</div>
-                                <div class="step-icon">
-                                    <i class="bi bi-person-fill"></i>
-                                </div>
-                                <h5>Completar Datos</h5>
-                                <p>Proporciona tu información personal y selecciona tu departamento preferido</p>
-                            </div>
-                        </div><!-- End Step -->
+<div class="process-steps mt-5" data-aos="fade-up" data-aos-delay="300">
+    <div class="row text-center gy-4">
+        
+        <!-- Paso 1 -->
+        <div class="col-lg-3 col-md-6">
+            <div class="step-item">
+                <div class="step-number">1</div>
+                <div class="step-icon">
+                    <i class="bi bi-person-fill"></i>
+                </div>
+                <h5>Registra tus Datos</h5>
+                <p>Ingresa tu información básica y el motivo de tu consulta para iniciar tu proceso de atención.</p>
+            </div>
+        </div><!-- End Step -->
 
-                        <div class="col-lg-3 col-md-6">
-                            <div class="step-item">
-                                <div class="step-number">2</div>
-                                <div class="step-icon">
-                                    <i class="bi bi-calendar-event"></i>
-                                </div>
-                                <h5>Elegir Fecha</h5>
-                                <p>Selecciona tu fecha y horario preferidos de las opciones disponibles</p>
-                            </div>
-                        </div><!-- End Step -->
+        <!-- Paso 2 -->
+        <div class="col-lg-3 col-md-6">
+            <div class="step-item">
+                <div class="step-number">2</div>
+                <div class="step-icon">
+                    <i class="bi bi-calendar-event"></i>
+                </div>
+                <h5>Elige la Fecha</h5>
+                <p>Selecciona el día y la hora que mejor se adapten a tu disponibilidad.</p>
+            </div>
+        </div><!-- End Step -->
 
-                        <div class="col-lg-3 col-md-6">
-                            <div class="step-item">
-                                <div class="step-number">3</div>
-                                <div class="step-icon">
-                                    <i class="bi bi-check-circle"></i>
-                                </div>
-                                <h5>Confirmación</h5>
-                                <p>Recibe confirmación inmediata y detalles de la cita por correo o SMS</p>
-                            </div>
-                        </div><!-- End Step -->
+        <!-- Paso 3 -->
+        <div class="col-lg-3 col-md-6">
+            <div class="step-item">
+                <div class="step-number">3</div>
+                <div class="step-icon">
+                    <i class="bi bi-check-circle"></i>
+                </div>
+                <h5>Confirma tu Cita</h5>
+                <p>Recibe la confirmación y detalles de tu cita directamente en tu correo o WhatsApp.</p>
+            </div>
+        </div><!-- End Step -->
 
-                        <div class="col-lg-3 col-md-6">
-                            <div class="step-item">
-                                <div class="step-number">4</div>
-                                <div class="step-icon">
-                                    <i class="bi bi-heart-pulse"></i>
-                                </div>
-                                <h5>Recibir Tratamiento</h5>
-                                <p>Visita nuestra clínica en el horario programado y recibe atención médica de calidad
-                                </p>
-                            </div>
-                        </div><!-- End Step -->
+        <!-- Paso 4 -->
+        <div class="col-lg-3 col-md-6">
+            <div class="step-item">
+                <div class="step-number">4</div>
+                <div class="step-icon">
+                    <i class="bi bi-heart-pulse"></i>
+                </div>
+                <h5>Atención Personalizada</h5>
+                <p>Acude a tu cita y recibe un servicio médico y estético de calidad, pensado en tu bienestar.</p>
+            </div>
+        </div><!-- End Step -->
 
                     </div>
                 </div><!-- End Process Steps -->

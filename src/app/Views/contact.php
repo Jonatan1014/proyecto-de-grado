@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Contact - MediNest Bootstrap Template</title>
+    <title>Contanto</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
 
@@ -52,12 +52,10 @@
                 <div class="container">
                     <div class="row d-flex justify-content-center text-center">
                         <div class="col-lg-8">
-                            <h1 class="heading-title">Contact</h1>
+                            <h1 class="heading-title">Contacto</h1>
                             <p class="mb-0">
-                                Odio et unde deleniti. Deserunt numquam exercitationem. Officiis quo
-                                odio sint voluptas consequatur ut a odio voluptatem. Sit dolorum
-                                debitis veritatis natus dolores. Quasi ratione sint. Sit quaerat
-                                ipsum dolorem.
+                                                   Ponte en contacto con la Dra. Yohanna para agendar tu cita, resolver dudas o recibir más información sobre los servicios médicos y estéticos.
+
                             </p>
                         </div>
                     </div>
@@ -66,8 +64,8 @@
             <nav class="breadcrumbs">
                 <div class="container">
                     <ol>
-                        <li><a href="home">Home</a></li>
-                        <li class="current">Contact</li>
+                        <li><a href="home">Inicio</a></li>
+                        <li class="current">Contacto</li>
                     </ol>
                 </div>
             </nav>
@@ -82,23 +80,23 @@
                     <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
                         <div class="info-box">
                             <i class="bi bi-geo-alt"></i>
-                            <h3>Our Address</h3>
-                            <p>4582 Magnolia Avenue<br>Riverside, CA 92506</p>
+                            <h3>Dirección</h3>
+                            <p>Calle 52B #27-117<br>Barrancabermeja, Colombia</p>
                         </div>
                     </div>
 
                     <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
                         <div class="info-box">
                             <i class="bi bi-telephone"></i>
-                            <h3>Call Us</h3>
-                            <p>+1 (951) 684-9123<br>+1 (951) 787-4534</p>
+                            <h3>Teléfono / WhatsApps</h3>
+                    <p><a href="https://wa.me/573000000000" target="_blank">+57 300 000 0000</a></p>
                         </div>
                     </div>
 
                     <div class="col-lg-4" data-aos="fade-up" data-aos-delay="400">
                         <div class="info-box">
                             <i class="bi bi-envelope"></i>
-                            <h3>Email Us</h3>
+                            <h3>Correo</h3>
                             <p>contact@example.com<br>support@example.com</p>
                         </div>
                     </div>
@@ -119,41 +117,30 @@
                     <div class="col-lg-6" data-aos="fade-up" data-aos-delay="600">
                         <form action="forms/contact" method="post" class="php-email-form">
                             <div class="row gy-3">
-                                <div class="col-md-6">
-                                    <input type="text" name="name" class="form-control" placeholder="Your Name"
-                                        required="">
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="email" class="form-control" name="email" placeholder="Your Email"
-                                        required="">
-                                </div>
-                                <div class="col-md-12">
-                                    <input type="text" class="form-control" name="subject" placeholder="Subject"
-                                        required="">
-                                </div>
-                                <div class="col-md-12">
-                                    <textarea class="form-control" name="message" rows="10" placeholder="Message"
-                                        required=""></textarea>
-                                </div>
-                                <div class="col-md-12 text-center">
-                                    <div class="loading">Loading</div>
-                                    <div class="error-message"></div>
-                                    <div class="sent-message">Your message has been sent. Thank you!</div>
-                                    <button type="submit">Send Message</button>
-                                </div>
+                               <div class="col-md-6">
+                            <input type="text" name="name" class="form-control" placeholder="Tu Nombre" required>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="email" class="form-control" name="email" placeholder="Tu Correo" required>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="subject" placeholder="Asunto" required>
+                        </div>
+                        <div class="col-md-12">
+                            <textarea class="form-control" name="message" rows="6" placeholder="Escribe tu mensaje" required></textarea>
+                        </div>
+                        <div class="col-md-12 text-center">
+                            <div class="loading">Enviando...</div>
+                            <div class="error-message"></div>
+                            <div class="sent-message">Tu mensaje ha sido enviado. ¡Gracias por contactarnos!</div>
+                            <button type="submit">Enviar Mensaje</button>
+                        </div>
                             </div>
                         </form>
                     </div>
                 </div>
 
-                <div class="social-links text-center mt-5" data-aos="zoom-in" data-aos-delay="700">
-                    <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-                    <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-                    <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-                    <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
-                    <a href="#" class="youtube"><i class="bi bi-youtube"></i></a>
-                </div>
-
+           
             </div>
 
         </section><!-- /Contact Section -->

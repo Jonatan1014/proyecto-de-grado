@@ -9,6 +9,7 @@
     <meta name="keywords" content="">
 
     <!-- Favicons -->
+       <!-- Favicons -->
     <link href="assets/img/favicon.png" rel="icon">
     <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
@@ -36,6 +37,7 @@
 
     <main class="main">
         <!-- Page Title -->
+        <!--
         <div class="page-title">
             <div class="container">
                 <div class="row d-flex justify-content-center text-center">
@@ -45,50 +47,86 @@
                 </div>
             </div>
         </div>
+-->
 
-        <!-- Login Section -->
-        <section id="login-section" class="login-section section py-5">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-6 col-md-8 col-sm-10">
-                        <div class="card border-0 shadow-sm rounded-4">
-                            <div class="card-header bg-white pb-4 pt-4 text-center">
-                                <h3 class="card-title mb-0 fw-semibold text-primary">Bienvenido de vuelta</h3>
-                                <p class="text-muted mt-2 mb-0">Ingresa tus credenciales para acceder</p>
-                            </div>
-                            <div class="card-body p-4">
-                                <form method="POST" action="login">
-                                    <!-- Cambié a /login -->
-                                    <div class="mb-3">
-                                        <label for="email" class="form-label fw-medium">Correo Electrónico</label>
-                                        <input type="email" class="form-control rounded-pill" id="email" name="email"
-                                            placeholder="correo@ejemplo.com" required> <!-- Agregué name="email" -->
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="password" class="form-label fw-medium">Contraseña</label>
-                                        <input type="password" class="form-control rounded-pill" id="password"
-                                            name="password" placeholder="••••••••" required>
-                                        <!-- Agregué name="password" -->
-                                    </div>
-                                    <div class="mb-3 form-check">
-                                        <input type="checkbox" class="form-check-input" id="remember" name="remember">
-                                        <label class="form-check-label" for="remember">Recordarme</label>
-                                    </div>
-                                    <div class="d-grid">
-                                        <button type="submit" class="btn btn-primary rounded-pill fw-semibold">
-                                            Iniciar Sesión
-                                        </button>
-                                    </div>
-                                </form>
-                                <?php if (isset($_GET['error'])): ?>
-                                <p class="text-danger mt-3">Credenciales incorrectas.</p>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+<section class="vh-100" style="background-color: #2ea9b4;">
+  <div class="container py-3 h-3">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-xl-10">
+        <div class="card shadow-lg border-0" style="border-radius: 1rem;">
+          <div class="row g-0">
+            
+            <!-- Imagen lateral -->
+            <div class="col-md-6 col-lg-5 d-none d-md-block">
+              <img src="assets/img/health/login.jpg" 
+                   alt="Login Healthcare" 
+                   class="img-fluid" 
+                   style="border-radius: 1rem 0 0 1rem; height:100%; object-fit:cover;" />
             </div>
-        </section>
+
+            <!-- Formulario -->
+            <div class="col-md-6 col-lg-7 d-flex align-items-center">
+              <div class="card-body p-4 p-lg-5 text-black">
+
+                <!-- Encabezado -->
+                <div class="text-center mb-4">
+                  <h3 class="card-title mb-0 fw-semibold text-primary">Bienvenido</h3>
+                  <p class="text-muted mt-2 mb-0">Ingresa tus credenciales para acceder</p>
+                </div>
+
+                <!-- Form -->
+                <form method="POST" action="login">
+                  
+                  <div class="mb-3">
+                    <label for="email" class="form-label fw-medium">Correo Electrónico</label>
+                    <input type="email" class="form-control rounded-pill" id="email" name="email"
+                      placeholder="correo@ejemplo.com" required>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="password" class="form-label fw-medium">Contraseña</label>
+                    <input type="password" class="form-control rounded-pill" id="password" name="password"
+                      placeholder="••••••••" required>
+                  </div>
+
+                  <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                    <label class="form-check-label" for="remember">Recordarme</label>
+                  </div>
+
+                  <div class="d-grid mb-3">
+                    <button type="submit" class="btn btn-primary rounded-pill fw-semibold">
+                      Iniciar Sesión
+                    </button>
+                  </div>
+
+                  <!-- Links extras -->
+                  <div class="text-center">
+
+                    <a href="#!" class="small text-muted me-2">Términos de uso</a> | 
+                    <a href="#!" class="small text-muted ms-2">Política de privacidad</a>
+                  </div>
+                </form>
+
+                <!-- Error -->
+                <?php if (isset($_GET['error'])): ?>
+                  <p class="text-danger mt-3 text-center">Credenciales incorrectas.</p>
+                <?php endif; ?>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+   
     </main>
 
 
