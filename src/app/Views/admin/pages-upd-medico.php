@@ -1,7 +1,28 @@
 <?php
-$success = isset($_GET['success']);
-$error = isset($_GET['error']);
+require_once __DIR__ . '/../../Services/AuthService.php';
+
+AuthService::requireLogin();
+
+if (!AuthService::isAdminOrRoot()) {
+    header("Location: login");
+    exit;
+}
+
+$doctorId = $_GET['id'] ?? null;
+
+if (!$doctorId) {
+    header("Location: pages-read-medico");
+    exit;
+}
+
+$doctor = Doctor::findById($doctorId);
+
+if (!$doctor) {
+    header("Location:pages-read-medico");
+    exit;
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -55,10 +76,7 @@ $error = isset($_GET['error']);
 
         <div class="content-page">
             <div class="content">
-
-                <!-- Start Content-->
                 <div class="container-fluid">
-
                     <!-- start page title -->
                     <div class="row">
                         <div class="col-12">
@@ -66,10 +84,12 @@ $error = isset($_GET['error']);
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item"><a href="/admin">Home</a></li>
-                                        <li class="breadcrumb-item active">Registrar Médico</li>
+                                        <li class="breadcrumb-item"><a href="/admin/pages-read-medico">Lista de
+                                                Médicos</a></li>
+                                        <li class="breadcrumb-item active">Editar Médico</li>
                                     </ol>
                                 </div>
-                                <h4 class="page-title">Formulario Médico</h4>
+                                <h4 class="page-title">Editar Médico</h4>
                             </div>
                         </div>
                     </div>
@@ -79,79 +99,78 @@ $error = isset($_GET['error']);
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="header-title">Ingresar Información</h4>
+                                    <h4 class="header-title">Actualizar Información</h4>
                                     <p class="text-muted font-14">
-                                        Ingrese a continuación los datos del <code>médico</code> que se quiere
-                                        <code>registrar</code>
+                                        Actualice a continuación los datos del <code>médico</code> seleccionado
                                     </p>
 
-                                    <ul class="nav nav-tabs nav-bordered mb-3">
-
-
-                                    </ul> <!-- end nav-->
                                     <!-- Mensajes de éxito o error -->
                                     <?php
+                                    // Mostrar alerta de éxito si existe
+                                    if (isset($_SESSION['exito'])) {
+                                        echo '<div class="alert alert-success alert-dismissible fade show" role="alert" id="autoCloseAlert">
+                                                    <i class="ri-check-line me-1 align-middle font-16"></i> ' .
+                                                        htmlspecialchars($_SESSION['exito']) . '
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                </div>';
+                                        unset($_SESSION['exito']);
+                                    }
 
-                                // Mostrar alerta de éxito si existe
-                                if (isset($_SESSION['exito'])) {
-                                    echo '<div class="alert alert-success alert-dismissible fade show" role="alert" id="autoCloseAlert">
-                                                <i class="ri-check-line me-1 align-middle font-16"></i> ' .
-                                                                            htmlspecialchars($_SESSION['exito']) . '
-                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                            </div>';
-                                    unset($_SESSION['exito']);
-                                }
-
-                                // Mostrar alerta de error si existe
-                                if (isset($_SESSION['error'])) {
-                                    echo '<div class="alert alert-danger alert-dismissible fade show" role="alert" id="autoCloseAlert">
-                                        <i class="ri-close-line me-1 align-middle font-16"></i> ' .
+                                    // Mostrar alerta de error si existe
+                                    if (isset($_SESSION['error'])) {
+                                        echo '<div class="alert alert-danger alert-dismissible fade show" role="alert" id="autoCloseAlert">
+                                            <i class="ri-close-line me-1 align-middle font-16"></i> ' .
                                                                     htmlspecialchars($_SESSION['error']) . '
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    </div>';
-                                    unset($_SESSION['error']);
-                                }
-                                ?>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>';
+                                        unset($_SESSION['error']);
+                                    }
+                                    ?>
                                     <!-- Controldador de alerta -->
                                     <script>
-                                    // Ocultar automáticamente después de 2 segundos
+                                    // Ocultar automáticamente después de 3 segundos
                                     document.addEventListener('DOMContentLoaded', function() {
-                                        const alert = document.getElementById('autoCloseAlert');
-                                        if (alert) {
+                                        const alerts = document.querySelectorAll('.alert');
+                                        alerts.forEach(function(alert) {
                                             setTimeout(() => {
-                                                const bootstrapAlert = new bootstrap.Alert(alert);
+                                                const bootstrapAlert = new bootstrap.Alert(
+                                                    alert);
                                                 bootstrapAlert.close();
                                             }, 3000);
-                                        }
+                                        });
                                     });
                                     </script>
-
-
 
                                     <div class="tab-content">
                                         <div class="tab-pane show active" id="input-types-preview">
                                             <div class="row">
                                                 <div class="col-lg-12">
-                                                    <form action="add-medico" method="POST">
+                                                    <form action="update-medico" method="POST">
+                                                        <input type="hidden" name="id"
+                                                            value="<?php echo $doctor->id; ?>">
                                                         <div class="row">
                                                             <!-- Primera columna -->
                                                             <div class="col-lg-6">
                                                                 <div class="mb-3">
                                                                     <label for="name" class="form-label">Nombre</label>
                                                                     <input type="text" id="name" name="name"
-                                                                        class="form-control" required>
+                                                                        class="form-control"
+                                                                        value="<?php echo htmlspecialchars($doctor->name); ?>"
+                                                                        required>
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="specialization"
                                                                         class="form-label">Especialización</label>
                                                                     <input type="text" id="specialization"
-                                                                        name="specialization" class="form-control">
+                                                                        name="specialization" class="form-control"
+                                                                        value="<?php echo htmlspecialchars($doctor->specialization); ?>">
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="phone"
                                                                         class="form-label">Teléfono</label>
                                                                     <input type="text" id="phone" name="phone"
-                                                                        class="form-control">
+                                                                        class="form-control"
+                                                                        value="<?php echo htmlspecialchars($doctor->phone); ?>">
                                                                 </div>
                                                             </div>
                                                             <!-- Segunda columna -->
@@ -159,7 +178,9 @@ $error = isset($_GET['error']);
                                                                 <div class="mb-3">
                                                                     <label for="email" class="form-label">Correo</label>
                                                                     <input type="email" id="email" name="email"
-                                                                        class="form-control" required>
+                                                                        class="form-control"
+                                                                        value="<?php echo htmlspecialchars($doctor->email); ?>"
+                                                                        required>
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="license_number"
@@ -167,43 +188,28 @@ $error = isset($_GET['error']);
                                                                         Licencia</label>
                                                                     <input type="text" id="license_number"
                                                                         name="license_number" class="form-control"
+                                                                        value="<?php echo htmlspecialchars($doctor->license_number); ?>"
                                                                         required>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <button type="submit" class="btn btn-success">Registrar
+                                                        <button type="submit" class="btn btn-success">Actualizar
                                                             Médico</button>
                                                     </form>
-                                                    <?php if (isset($_GET['error'])): ?>
-                                                    <p class="text-danger mt-3">Credenciales incorrectas.</p>
-                                                    <?php endif; ?>
                                                 </div>
                                             </div>
-
-                                        </div> <!-- end preview-->
-
-
-                                    </div> <!-- end tab-content-->
-                                </div> <!-- end card-body -->
-                            </div> <!-- end card -->
-                        </div><!-- end col -->
-                    </div><!-- end row -->
-
-
-
-
-
-
-                </div> <!-- container -->
-
-            </div> <!-- content -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <!-- Footer Start -->
             <?php include 'includes/footer.php'; ?>
             <!-- end Footer -->
-            <!-- ============================================================== -->
-            <!-- End Page content -->
-            <!-- ============================================================== -->
 
         </div>
         <!-- END wrapper -->

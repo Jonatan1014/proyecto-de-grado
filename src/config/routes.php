@@ -30,7 +30,17 @@ return [
     '/apps-tasks' => ['controller' => 'AdminController', 'action' => 'appsTasks'],
     '/pages-profile' => ['controller' => 'AdminController', 'action' => 'pagesProfile'],
     '/pages-add-medico' => ['controller' => 'AdminController', 'action' => 'pagesAddMedico'],
-    'admin/add-medico' => ['controller' => 'AdminController', 'action' => 'addMedico'],
+    '/add-medico' => ['controller' => 'AdminController', 'action' => 'addMedico'],
+    '/pages-get-medico' => ['controller' => 'AdminController', 'action' => 'readMedico'],
+
+    '/pages-upd-medico' => ['controller' => 'AdminController', 'action' => 'editMedico'],
+    '/update-medico' => ['controller' => 'AdminController', 'action' => 'updateMedico'],
+
+   
+
+
+
+    
 
 
 
