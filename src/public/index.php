@@ -1,7 +1,7 @@
 <?php
 // src/public/index.php
 
-require_once __DIR__ . '/../config/env.php';
+require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../config/database.php';
 
 $routes = include '../config/routes.php';
