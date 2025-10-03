@@ -9,12 +9,8 @@ RUN a2enmod rewrite
 # Copiar archivos del proyecto completo
 COPY . /var/www/html/
 
-# Cambiar al directorio src/public para que sea la raíz web
-WORKDIR /var/www/html/src/public
-
-# Copiar el contenido de src/public a la raíz web
-RUN cp -r /var/www/html/src/public/* /var/www/html/ && \
-    rm -rf /var/www/html/src
+# Establecer DocumentRoot a src/public
+RUN echo "DocumentRoot /var/www/html/src/public" > /etc/apache2/sites-available/000-default.conf
 
 # Exponer el puerto 80
 EXPOSE 80
