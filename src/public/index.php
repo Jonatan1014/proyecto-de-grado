@@ -1,13 +1,10 @@
 <?php
 // src/public/index.php
 
-// Ajustar rutas para Docker
-$basePath = '/var/www/html/src';
+require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/../config/database.php';
 
-require_once $basePath . '/config/config.php';
-require_once $basePath . '/config/database.php';
-
-$routes = include $basePath . '/config/routes.php';
+$routes = include '../config/routes.php';
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $method = $_SERVER['REQUEST_METHOD'];
@@ -27,7 +24,7 @@ if (array_key_exists($uri, $routes)) {
         $action = $route['action'];
 
         // Incluir el controlador
-        $controllerFile = $basePath . "/app/Controllers/{$controllerName}.php";
+        $controllerFile = __DIR__ . "/../app/Controllers/{$controllerName}.php";
         if (file_exists($controllerFile)) {
             require_once $controllerFile;
 
@@ -36,13 +33,13 @@ if (array_key_exists($uri, $routes)) {
             $controller->$action();
         } else {
             http_response_code(404);
-            include $basePath . '/app/Views/404.php';
+            include '../app/Views/404.php';
         }
     } else {
         // Si es una vista directa
-        include $basePath . $route;
+        include $route;
     }
 } else {
     http_response_code(404);
-    include $basePath . '/app/Views/404.php';
+    include '../app/Views/404.php';
 }

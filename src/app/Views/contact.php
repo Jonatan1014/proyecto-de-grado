@@ -54,7 +54,8 @@
                         <div class="col-lg-8">
                             <h1 class="heading-title">Contacto</h1>
                             <p class="mb-0">
-                                                   Ponte en contacto con la Dra. Yohanna para agendar tu cita, resolver dudas o recibir más información sobre los servicios médicos y estéticos.
+                                Ponte en contacto con la Dra. Yohanna para agendar tu cita, resolver dudas o recibir más
+                                información sobre los servicios médicos y estéticos.
 
                             </p>
                         </div>
@@ -89,7 +90,7 @@
                         <div class="info-box">
                             <i class="bi bi-telephone"></i>
                             <h3>Teléfono / WhatsApps</h3>
-                    <p><a href="https://wa.me/573000000000" target="_blank">+57 300 000 0000</a></p>
+                            <p><a href="https://wa.me/573000000000" target="_blank">+57 300 000 0000</a></p>
                         </div>
                     </div>
 
@@ -106,7 +107,7 @@
                     <div class="col-lg-6" data-aos="fade-up" data-aos-delay="500">
                         <div class="map-container">
                             <iframe
-                                src="https://www.google.com/maps/embed?pb=!4v1727900000000!6m8!1m7!1sePN3YmV6PrpDHGmydjkAJw!2m2!1d7.0627261!2d-73.8520238!3f247.54!4f83.91!5f0.7820865974627469"
+                                src="https://www.google.com/maps/embed?pb=!4v1727900000000!6m8!1m7!1sePN3YmV6PrpDHGmydjkAJw!2m2!1d7.0627261!2d-73.8520238!3f247!4f-5!5f1.2"
                                 width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
                                 referrerpolicy="no-referrer-when-downgrade">
                             </iframe>
@@ -117,30 +118,35 @@
                     <div class="col-lg-6" data-aos="fade-up" data-aos-delay="600">
                         <form action="forms/contact" method="post" class="php-email-form">
                             <div class="row gy-3">
-                               <div class="col-md-6">
-                            <input type="text" name="name" class="form-control" placeholder="Tu Nombre" required>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="email" class="form-control" name="email" placeholder="Tu Correo" required>
-                        </div>
-                        <div class="col-md-12">
-                            <input type="text" class="form-control" name="subject" placeholder="Asunto" required>
-                        </div>
-                        <div class="col-md-12">
-                            <textarea class="form-control" name="message" rows="6" placeholder="Escribe tu mensaje" required></textarea>
-                        </div>
-                        <div class="col-md-12 text-center">
-                            <div class="loading">Enviando...</div>
-                            <div class="error-message"></div>
-                            <div class="sent-message">Tu mensaje ha sido enviado. ¡Gracias por contactarnos!</div>
-                            <button type="submit">Enviar Mensaje</button>
-                        </div>
+                                <div class="col-md-6">
+                                    <input type="text" name="name" class="form-control" placeholder="Tu Nombre"
+                                        required>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="email" class="form-control" name="email" placeholder="Tu Correo"
+                                        required>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" name="subject" placeholder="Asunto"
+                                        required>
+                                </div>
+                                <div class="col-md-12">
+                                    <textarea class="form-control" name="message" rows="6"
+                                        placeholder="Escribe tu mensaje" required></textarea>
+                                </div>
+                                <div class="col-md-12 text-center">
+                                    <div class="loading">Enviando...</div>
+                                    <div class="error-message"></div>
+                                    <div class="sent-message">Tu mensaje ha sido enviado. ¡Gracias por contactarnos!
+                                    </div>
+                                    <button type="submit">Enviar Mensaje</button>
+                                </div>
                             </div>
                         </form>
                     </div>
                 </div>
 
-           
+
             </div>
 
         </section><!-- /Contact Section -->
