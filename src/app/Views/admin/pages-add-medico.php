@@ -90,7 +90,7 @@ $error = isset($_GET['error']);
 
                                     </ul> <!-- end nav-->
                                     <!-- Mensajes de éxito o error -->
-                                    <?php
+                                <?php
 
                                 // Mostrar alerta de éxito si existe
                                 if (isset($_SESSION['exito'])) {

@@ -49,7 +49,7 @@
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarDashboards" aria-expanded="false"
                     aria-controls="sidebarDashboards" class="side-nav-link">
-                    <i class="uil-home-alt"></i>
+                    <i class="uil-medkit"></i>
                     <span class="badge bg-success float-end">5</span>
                     <span> Administrativo </span>
                 </a>
@@ -65,9 +65,6 @@
                             <a href="pages-get-medico">Consulta de Medico</a>
                         </li>
                         <li>
-                            <a href="pages-upd-medico">Actualizacion de Datos</a>
-                        </li>
-                        <li>
                             <a href="pages-add-cita">Agenda Medica</a>
                         </li>
                     </ul>
@@ -78,17 +75,17 @@
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarCrm" aria-expanded="false" aria-controls="sidebarCrm"
                     class="side-nav-link">
-                    <i class="uil uil-tachometer-fast"></i>
+                    <i class="uil-users-alt"></i>
                     <span class="badge bg-danger text-white float-end">New</span>
                     <span> Pacientes </span>
                 </a>
                 <div class="collapse" id="sidebarCrm">
                     <ul class="side-nav-second-level">
                         <li>
-                            <a href="crm-projects.html">Registro de Pacientes</a>
+                            <a href="pages-add-paciente">Registro de Pacientes</a>
                         </li>
                         <li>
-                            <a href="crm-orders-list.html">Consulta de Pacientes</a>
+                            <a href="pages-get-paciente">Consulta de Pacientes</a>
                         </li>
                         <li>
                             <a href="crm-clients.html">Programar Cita</a>
@@ -103,6 +100,7 @@
                     </ul>
                 </div>
             </li>
+            <li class="side-nav-title">Gestion Fechas</li>
 
             <li class="side-nav-item">
                 <a href="apps-calendar" class="side-nav-link">
@@ -140,7 +138,6 @@
 
 
 
-            <li class="side-nav-title">Custom</li>
 
 
             <li class="side-nav-title">Components</li>

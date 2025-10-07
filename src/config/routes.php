@@ -35,6 +35,15 @@ return [
 
     '/pages-upd-medico' => ['controller' => 'AdminController', 'action' => 'editMedico'],
     '/update-medico' => ['controller' => 'AdminController', 'action' => 'updateMedico'],
+    '/delete-medico' => ['controller' => 'AdminController', 'action' => 'deleteMedico'], 
+
+    '/pages-get-paciente' => ['controller' => 'AdminController', 'action' => 'readPaciente'],
+    '/pages-add-paciente' => ['controller' => 'AdminController', 'action' => 'pagesAddPaciente'],
+    'add-paciente' => ['controller' => 'AdminController', 'action' => 'addPaciente'],
+
+
+    
+
 
    
 

@@ -86,19 +86,6 @@ class Doctor {
         }
     }
 
-        public static function delete($id) {
-            $db = Database::getConnection();
-
-            $stmt = $db->prepare("DELETE FROM doctors WHERE id = ?");
-            
-            try {
-                return $stmt->execute([$id]);
-            } catch (Exception $e) {
-                error_log("Error al eliminar médico: " . $e->getMessage());
-                return false;
-            }
-        }
-
     public static function findById($id) {
         $db = Database::getConnection();
 
@@ -112,6 +99,19 @@ class Doctor {
         } catch (Exception $e) {
             error_log("Error al consultar médico por ID: " . $e->getMessage());
             return null;
+        }
+    }
+    public static function delete($id) {
+        $db = Database::getConnection();
+
+        $stmt = $db->prepare("DELETE FROM doctors WHERE id = ?");
+        
+        try {
+            $stmt->execute([$id]);
+            return $stmt->rowCount() > 0;
+        } catch (Exception $e) {
+            error_log("Error al eliminar médico: " . $e->getMessage());
+            return false;
         }
     }
 

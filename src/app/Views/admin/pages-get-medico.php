@@ -13,6 +13,20 @@
 
     <!-- App favicon -->
     <link rel="shortcut icon" href="assets/admin/assets/images/favicon.ico">
+    
+    <!-- Datatables css -->
+    <link href="assets/admin/assets/vendor/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet"
+        type="text/css" />
+    <link href="assets/admin/assets/vendor/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css"
+        rel="stylesheet" type="text/css" />
+    <link href="assets/admin/assets/vendor/datatables.net-fixedcolumns-bs5/css/fixedColumns.bootstrap5.min.css"
+        rel="stylesheet" type="text/css" />
+    <link href="assets/admin/assets/vendor/datatables.net-fixedheader-bs5/css/fixedHeader.bootstrap5.min.css"
+        rel="stylesheet" type="text/css" />
+    <link href="assets/admin/assets/vendor/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css" rel="stylesheet"
+        type="text/css" />
+    <link href="assets/admin/assets/vendor/datatables.net-select-bs5/css/select.bootstrap5.min.css" rel="stylesheet"
+        type="text/css" />
 
     <!-- Theme Config Js -->
     <script src="assets/admin/assets/js/hyper-config.js"></script>
@@ -21,7 +35,7 @@
     <link href="assets/admin/assets/css/vendor.min.css" rel="stylesheet" type="text/css" />
 
     <!-- App css -->
-    <link href="assets/admin/assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style" />
+    <link href="assets/admin/assets/css/app-saas.min.css" rel="stylesheet" type="text/css" id="app-style" />
 
     <!-- Icons css -->
     <link href="assets/admin/assets/css/unicons/css/unicons.css" rel="stylesheet" type="text/css" />
@@ -61,94 +75,116 @@
                                     </ol>
                                 </div>
                                 <h4 class="page-title">Lista de Médicos</h4>
+                                <!-- Mensajes de éxito o error -->
                                 <?php
+                                    // Mostrar alerta de éxito si existe
+                                    if (isset($_SESSION['exito'])) {
+                                        echo '<div class="alert alert-success alert-dismissible fade show" role="alert" id="autoCloseAlert">
+                                                    <i class="ri-check-line me-1 align-middle font-16"></i> ' .
+                                                        htmlspecialchars($_SESSION['exito']) . '
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                </div>';
+                                        unset($_SESSION['exito']);
+                                    }
 
-                // Mostrar alerta de éxito si existe
-                if (isset($_SESSION['exito'])) {
-                    echo '<div class="alert alert-success alert-dismissible fade show" role="alert" id="autoCloseAlert">
-                                <i class="ri-check-line me-1 align-middle font-16"></i> ' .
-                                    htmlspecialchars($_SESSION['exito']) . '
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>';
-                    unset($_SESSION['exito']);
-                }
-
-                // Mostrar alerta de error si existe
-                if (isset($_SESSION['error'])) {
-                    echo '<div class="alert alert-danger alert-dismissible fade show" role="alert" id="autoCloseAlert">
-                        <i class="ri-close-line me-1 align-middle font-16"></i> ' .
-                            htmlspecialchars($_SESSION['error']) . '
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>';
-                    unset($_SESSION['error']);
-                }
-                ?>
+                                    // Mostrar alerta de error si existe
+                                    if (isset($_SESSION['error'])) {
+                                        echo '<div class="alert alert-danger alert-dismissible fade show" role="alert" id="autoCloseAlert">
+                                            <i class="ri-close-line me-1 align-middle font-16"></i> ' .
+                                                                    htmlspecialchars($_SESSION['error']) . '
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>';
+                                        unset($_SESSION['error']);
+                                    }
+                                    ?>
+                                <!-- Controldador de alerta -->
+                                <script>
+                                // Ocultar automáticamente después de 3 segundos
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    const alerts = document.querySelectorAll('.alert');
+                                    alerts.forEach(function(alert) {
+                                        setTimeout(() => {
+                                            const bootstrapAlert = new bootstrap.Alert(
+                                                alert);
+                                            bootstrapAlert.close();
+                                        }, 3000);
+                                    });
+                                });
+                                </script>
                             </div>
                         </div>
                     </div>
                     <!-- end page title -->
 
+
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
+                                    <h4 class="header-title">Basic Data Table</h4>
+                                    <p class="text-muted font-14 mb-4">
+                                        DataTables has most features enabled by default, so all you need to do to use it
+                                        with your own tables is to call the construction
+                                        function:
+                                        <code>$().DataTable();</code>. KeyTable provides Excel like cell navigation on
+                                        any table. Events (focus, blur, action etc) can be assigned to individual
+                                        cells, columns, rows or all cells.
+                                    </p>
 
-                                    <!-- <h4 class="header-title">Scroll - Vertical</h4> -->
+                                    <table id="basic-datatable"
+                                        class="table table-striped dt-responsive nowrap w-100 mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Nombre</th>
+                                                <th>Especialización</th>
+                                                <th>Teléfono</th>
+                                                <th>Correo</th>
+                                                <th>Licencia</th>
+                                                <th>Fecha de Registro</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
 
-                                    <div class="tab-content">
-                                        <div class="tab-pane show active" id="scroll-vertical-preview">
-                                            <table id="scroll-vertical-datatable"
-                                                class="table table-striped dt-responsive nowrap w-100">
-                                                <thead>
-                                                    <tr>
-                                                        <th>ID</th>
-                                                        <th>Nombre</th>
-                                                        <th>Especialización</th>
-                                                        <th>Teléfono</th>
-                                                        <th>Correo</th>
-                                                        <th>Licencia</th>
-                                                        <th>Fecha de Registro</th>
-                                                        <th>Acciones</th>
-                                                    </tr>
-                                                </thead>
+                                        <tbody>
+                                            <?php foreach($doctors as $doctor): ?>
+                                            <!-- Médico -->
+                                            <tr>
+                                                <td><?php echo htmlspecialchars($doctor->id) ?></td>
+                                                <td><?php echo htmlspecialchars($doctor->name) ?></td>
+                                                <td><?php echo htmlspecialchars($doctor->specialization) ?></td>
+                                                <td><?php echo htmlspecialchars($doctor->phone) ?></td>
+                                                <td><?php echo htmlspecialchars($doctor->email) ?></td>
+                                                <td><?php echo htmlspecialchars($doctor->license_number) ?></td>
+                                                <td><?php echo htmlspecialchars($doctor->created_at) ?></td>
+                                                <td>
+                                                    <!-- Formulario para Editar -->
+                                                    <a href="pages-upd-medico?id=<?php echo $doctor->id ?>"
+                                                        class="btn btn-outline-info rounded-pill">
+                                                        <i class="uil-edit"></i>
+                                                    </a>
 
-                                                <tbody>
-                                                    <?php foreach($doctors as $doctor): ?>
-                                                    <!-- Médico -->
-                                                    <tr>
-                                                        <td><?php echo htmlspecialchars($doctor->id) ?></td>
-                                                        <td><?php echo htmlspecialchars($doctor->name) ?></td>
-                                                        <td><?php echo htmlspecialchars($doctor->specialization) ?></td>
-                                                        <td><?php echo htmlspecialchars($doctor->phone) ?></td>
-                                                        <td><?php echo htmlspecialchars($doctor->email) ?></td>
-                                                        <td><?php echo htmlspecialchars($doctor->license_number) ?></td>
-                                                        <td><?php echo htmlspecialchars($doctor->created_at) ?></td>
-                                                        <td>
-                                                            <!-- Formulario para Editar -->
-                                                            <a href="pages-udp-medico?id=<?php echo $doctor->id ?>"
-                                                                class="btn btn-outline-info rounded-pill">
-                                                                <i class="uil-edit"></i> Editar
-                                                            </a>
+                                                    <form action="delete-medico" method="POST"
+                                                        style="display:inline-block;"
+                                                        onsubmit="return confirm('¿Estás seguro de que deseas eliminar este médico?');">
+                                                        <input type="hidden" name="id"
+                                                            value="<?php echo $doctor->id; ?>">
+                                                        <button type="submit"
+                                                            class="btn btn-outline-danger rounded-pill">
+                                                            <i class="uil-trash-alt"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            <?php endforeach; ?>
 
-                                                            <!-- Formulario para Eliminar -->
-                                                            <!-- <form action="/admin/delete-doctor" method="POST"
-                                                style="display:inline-block;">
-                                                <input type="hidden" name="id" value="<?php echo $doctor->id ?>">
-                                                <button type="submit"
-                                                    class="btn btn-outline-danger rounded-pill"><i
-                                                        class="uil-trash"></i> Eliminar</button>
-                                            </form> -->
-                                                        </td>
-                                                    </tr>
-                                                    <?php endforeach; ?>
-                                                </tbody>
-                                            </table>
-                                        </div> <!-- end preview-->
-                                    </div> <!-- end tab-content-->
+                                        </tbody>
+                                    </table>
+
                                 </div> <!-- end card body-->
                             </div> <!-- end card -->
                         </div><!-- end col-->
-                    </div><!-- end row-->
+                    </div> <!-- end row-->
                 </div> <!-- container -->
 
                 <!-- Footer Start -->
@@ -167,12 +203,35 @@
         <!-- Theme Settings -->
         <!-- Theme Settings -->
         <?php include 'includes/theme.php'; ?>
-
         <!-- Vendor js -->
         <script src="assets/admin/assets/js/vendor.min.js"></script>
 
+        <!-- Code Highlight js -->
+        <script src="assets/admin/assets/vendor/highlightjs/highlight.pack.min.js"></script>
+        <script src="assets/admin/assets/vendor/clipboard/clipboard.min.js"></script>
+        <script src="assets/admin/assets/js/hyper-syntax.js"></script>
+
+        <!-- Datatables js -->
+        <script src="assets/admin/assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="assets/admin/assets/vendor/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
+        <script src="assets/admin/assets/vendor/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="assets/admin/assets/vendor/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
+        <script src="assets/admin/assets/vendor/datatables.net-fixedcolumns-bs5/js/fixedColumns.bootstrap5.min.js">
+        </script>
+        <script src="assets/admin/assets/vendor/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+        <script src="assets/admin/assets/vendor/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+        <script src="assets/admin/assets/vendor/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
+        <script src="assets/admin/assets/vendor/datatables.net-buttons/js/buttons.html5.min.js"></script>
+        <script src="assets/admin/assets/vendor/datatables.net-buttons/js/buttons.flash.min.js"></script>
+        <script src="assets/admin/assets/vendor/datatables.net-buttons/js/buttons.print.min.js"></script>
+        <script src="assets/admin/assets/vendor/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+        <script src="assets/admin/assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
+
+        <!-- Datatable Demo Aapp js -->
+        <script src="assets/admin/assets/js/pages/demo.datatable-init.js"></script>
+
         <!-- App js -->
-        <script src="assets/admin/assets/js/app.js"></script>
+        <script src="assets/admin/assets/js/app.min.js"></script>
 
 </body>
 

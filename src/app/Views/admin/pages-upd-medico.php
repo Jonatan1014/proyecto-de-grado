@@ -11,14 +11,14 @@ if (!AuthService::isAdminOrRoot()) {
 $doctorId = $_GET['id'] ?? null;
 
 if (!$doctorId) {
-    header("Location: pages-read-medico");
+    header("Location: pages-get-medico");
     exit;
 }
 
 $doctor = Doctor::findById($doctorId);
 
 if (!$doctor) {
-    header("Location:pages-read-medico");
+    header("Location:pages-get-medico");
     exit;
 }
 ?>
@@ -84,7 +84,7 @@ if (!$doctor) {
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item"><a href="/admin">Home</a></li>
-                                        <li class="breadcrumb-item"><a href="/admin/pages-read-medico">Lista de
+                                        <li class="breadcrumb-item"><a href="/admin/pages-get-medico">Lista de
                                                 Médicos</a></li>
                                         <li class="breadcrumb-item active">Editar Médico</li>
                                     </ol>
