@@ -2,7 +2,6 @@
 <html lang="en">
 
 
-<!-- Mirrored from coderthemes.com/hyper/layouts/pages-starter.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 15 Jul 2025 15:13:40 GMT -->
 
 <head>
     <meta charset="utf-8" />
@@ -169,12 +168,12 @@
                                                 <td><?php echo htmlspecialchars($paciente->created_at) ?></td>
                                                 <td>
                                                     <!-- Formulario para Editar -->
-                                                    <a href="/admin/pages-upd-paciente?id=<?php echo $paciente->id ?>"
+                                                    <a href="pages-upd-paciente?id=<?php echo $paciente->id ?>"
                                                         class="btn btn-outline-info rounded-pill">
                                                         <i class="uil-edit"></i> Editar
                                                     </a>
 
-                                                    <form action="/admin/delete-paciente" method="POST"
+                                                    <form action="delete-paciente" method="POST"
                                                         style="display:inline-block;"
                                                         onsubmit="return confirm('¿Estás seguro de que deseas eliminar este paciente?');">
                                                         <input type="hidden" name="id"
@@ -248,6 +247,5 @@
 </body>
 
 
-<!-- Mirrored from coderthemes.com/hyper/layouts/pages-starter.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 15 Jul 2025 15:13:40 GMT -->
 
 </html>

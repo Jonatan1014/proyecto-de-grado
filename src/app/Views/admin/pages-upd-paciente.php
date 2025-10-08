@@ -8,17 +8,17 @@ if (!AuthService::isAdminOrRoot()) {
     exit;
 }
 
-$doctorId = $_GET['id'] ?? null;
+$pacienteId = $_GET['id'] ?? null;
 
-if (!$doctorId) {
-    header("Location: pages-get-medico");
+if (!$pacienteId) {
+    header("Location: pages-get-paciente");
     exit;
 }
 
-$doctor = Doctor::findById($doctorId);
+$paciente = Paciente::findById($pacienteId);
 
-if (!$doctor) {
-    header("Location:pages-get-medico");
+if (!$paciente) {
+    header("Location:pages-get-paciente");
     exit;
 }
 ?>
@@ -144,9 +144,9 @@ if (!$doctor) {
                                         <div class="tab-pane show active" id="input-types-preview">
                                             <div class="row">
                                                 <div class="col-lg-12">
-                                                    <form action="update-medico" method="POST">
+                                                    <form action="update-paciente" method="POST">
                                                         <input type="hidden" name="id"
-                                                            value="<?php echo $doctor->id; ?>">
+                                                            value="<?php echo $paciente->id; ?>">
                                                         <div class="row">
                                                             <!-- Primera columna -->
                                                             <div class="col-lg-6">
@@ -154,22 +154,39 @@ if (!$doctor) {
                                                                     <label for="name" class="form-label">Nombre</label>
                                                                     <input type="text" id="name" name="name"
                                                                         class="form-control"
-                                                                        value="<?php echo htmlspecialchars($doctor->name); ?>"
+                                                                        value="<?php echo htmlspecialchars($paciente->name); ?>"
                                                                         required>
                                                                 </div>
                                                                 <div class="mb-3">
-                                                                    <label for="specialization"
-                                                                        class="form-label">Especialización</label>
-                                                                    <input type="text" id="specialization"
-                                                                        name="specialization" class="form-control"
-                                                                        value="<?php echo htmlspecialchars($doctor->specialization); ?>">
+                                                                    <label for="birth_date" class="form-label">Fecha de
+                                                                        Nacimiento</label>
+                                                                    <input type="date" id="birth_date" name="birth_date"
+                                                                        class="form-control"
+                                                                        value="<?php echo htmlspecialchars($paciente->birth_date); ?>">
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="phone"
                                                                         class="form-label">Teléfono</label>
                                                                     <input type="text" id="phone" name="phone"
                                                                         class="form-control"
-                                                                        value="<?php echo htmlspecialchars($doctor->phone); ?>">
+                                                                        value="<?php echo htmlspecialchars($paciente->phone); ?>">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="gender"
+                                                                        class="form-label">Género</label>
+                                                                    <select id="gender" name="gender"
+                                                                        class="form-control">
+                                                                        <option value="">Seleccionar</option>
+                                                                        <option value="M"
+                                                                            <?php echo $paciente->gender === 'M' ? 'selected' : ''; ?>>
+                                                                            Masculino</option>
+                                                                        <option value="F"
+                                                                            <?php echo $paciente->gender === 'F' ? 'selected' : ''; ?>>
+                                                                            Femenino</option>
+                                                                        <option value="Otro"
+                                                                            <?php echo $paciente->gender === 'Otro' ? 'selected' : ''; ?>>
+                                                                            Otro</option>
+                                                                    </select>
                                                                 </div>
                                                             </div>
                                                             <!-- Segunda columna -->
@@ -178,22 +195,38 @@ if (!$doctor) {
                                                                     <label for="email" class="form-label">Correo</label>
                                                                     <input type="email" id="email" name="email"
                                                                         class="form-control"
-                                                                        value="<?php echo htmlspecialchars($doctor->email); ?>"
+                                                                        value="<?php echo htmlspecialchars($paciente->email); ?>"
                                                                         required>
                                                                 </div>
                                                                 <div class="mb-3">
-                                                                    <label for="license_number"
-                                                                        class="form-label">Número de
-                                                                        Licencia</label>
-                                                                    <input type="text" id="license_number"
-                                                                        name="license_number" class="form-control"
-                                                                        value="<?php echo htmlspecialchars($doctor->license_number); ?>"
-                                                                        required>
+                                                                    <label for="address"
+                                                                        class="form-label">Dirección</label>
+                                                                    <input type="text" id="address" name="address"
+                                                                        class="form-control"
+                                                                        value="<?php echo htmlspecialchars($paciente->address); ?>">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="emergency_contact_name"
+                                                                        class="form-label">Nombre de Contacto de
+                                                                        Emergencia</label>
+                                                                    <input type="text" id="emergency_contact_name"
+                                                                        name="emergency_contact_name"
+                                                                        class="form-control"
+                                                                        value="<?php echo htmlspecialchars($paciente->emergency_contact_name); ?>">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="emergency_contact_phone"
+                                                                        class="form-label">Teléfono de Contacto de
+                                                                        Emergencia</label>
+                                                                    <input type="text" id="emergency_contact_phone"
+                                                                        name="emergency_contact_phone"
+                                                                        class="form-control"
+                                                                        value="<?php echo htmlspecialchars($paciente->emergency_contact_phone); ?>">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <button type="submit" class="btn btn-success">Actualizar
-                                                            Médico</button>
+                                                            Paciente</button>
                                                     </form>
                                                 </div>
                                             </div>

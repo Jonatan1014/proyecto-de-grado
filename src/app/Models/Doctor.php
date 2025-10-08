@@ -63,6 +63,12 @@ class Doctor {
             return [];
         }
     }
+    public static function getAll() {
+        $db = Database::getConnection();
+        $stmt = $db->prepare("SELECT id, name, specialization FROM doctors ORDER BY name ASC");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public static function update($id, $data) {
         $db = Database::getConnection();

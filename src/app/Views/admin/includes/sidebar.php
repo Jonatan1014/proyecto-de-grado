@@ -56,7 +56,7 @@
                 <div class="collapse" id="sidebarDashboards">
                     <ul class="side-nav-second-level">
                         <li>
-                            <a href="index">Inicio</a>
+                            <a href="index">Dashboard</a>
                         </li>
                         <li>
                             <a href="pages-add-medico">Registrar Medico</a>
@@ -65,7 +65,10 @@
                             <a href="pages-get-medico">Consulta de Medico</a>
                         </li>
                         <li>
-                            <a href="pages-add-cita">Agenda Medica</a>
+                            <a href="pages-add-service">Registrar Servicio</a>
+                        </li>
+                        <li>
+                            <a href="pages-get-service">Consulta de Servicio</a>
                         </li>
                     </ul>
                 </div>
@@ -88,15 +91,13 @@
                             <a href="pages-get-paciente">Consulta de Pacientes</a>
                         </li>
                         <li>
-                            <a href="crm-clients.html">Programar Cita</a>
+                            <a href="pages-add-cita">Programar Cita</a>
                         </li>
-                        <li>
-                            <a href="crm-management.html">Actualizacion de Datos</a>
-                        </li>
+
                         <li>
                             <a href="crm-management.html">Consuslta de Cita</a>
                         </li>
-                        
+
                     </ul>
                 </div>
             </li>

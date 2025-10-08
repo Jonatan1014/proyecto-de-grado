@@ -30,6 +30,24 @@
                 <i class="ri-menu-5-line"></i>
             </button>
 
+            <!-- Sidebar Menu Toggle Button -->
+            <button class="button-toggle-menu" onclick="goBack()">
+                <i class="ri-reply-line"></i>
+            </button>
+
+            <script>
+            function goBack() {
+                // Opción 1: Volver a la página anterior
+                history.back();
+
+                // Opción 2: Alternativamente, puedes usar:
+                // window.history.go(-1);
+
+                // Opción 3: Si quieres ir a una página específica:
+                // window.location.href = '/admin';
+            }
+            </script>
+
             <!-- Horizontal Menu Toggle Button -->
             <button class="navbar-toggle" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
                 <div class="lines">
@@ -40,13 +58,13 @@
             </button>
 
             <!-- Topbar Search Form -->
-           
+
         </div>
 
         <ul class="topbar-menu d-flex align-items-center gap-3">
-          
 
-         
+
+
 
             <li class="dropdown notification-list">
                 <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button"
@@ -194,7 +212,7 @@
                 </div>
             </li>
 
-           
+
 
 
             <li class="d-none d-sm-inline-block">

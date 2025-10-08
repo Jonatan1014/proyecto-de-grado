@@ -18,40 +18,48 @@ return [
     '/terms' => '../app/Views/terms.php',
     '/privacy' => '../app/Views/privacy.php',
     '/404' => '../app/Views/404.php',
-    '/login' => '../app/Views/login.php',
     '/citas' => '../app/Views/citas.php',
     '/pacientes' => '../app/Views/pacientes.php',
     '/historial' => '../app/Views/historial.php',
-    '/404' => '../app/Views/404.php', // Agrega esta línea
+    '/404' => '../app/Views/404.php',
     
-
+    
     // rutas de admin    
     '/apps-calendar' => ['controller' => 'AdminController', 'action' => 'appsCalendar'],
     '/apps-tasks' => ['controller' => 'AdminController', 'action' => 'appsTasks'],
     '/pages-profile' => ['controller' => 'AdminController', 'action' => 'pagesProfile'],
-    '/pages-add-medico' => ['controller' => 'AdminController', 'action' => 'pagesAddMedico'],
-    '/add-medico' => ['controller' => 'AdminController', 'action' => 'addMedico'],
-    '/pages-get-medico' => ['controller' => 'AdminController', 'action' => 'readMedico'],
 
-    '/pages-upd-medico' => ['controller' => 'AdminController', 'action' => 'editMedico'],
-    '/update-medico' => ['controller' => 'AdminController', 'action' => 'updateMedico'],
-    '/delete-medico' => ['controller' => 'AdminController', 'action' => 'deleteMedico'], 
-
-    '/pages-get-paciente' => ['controller' => 'AdminController', 'action' => 'readPaciente'],
-    '/pages-add-paciente' => ['controller' => 'AdminController', 'action' => 'pagesAddPaciente'],
-    'add-paciente' => ['controller' => 'AdminController', 'action' => 'addPaciente'],
-
-
+    // rutas de medico
+    '/pages-add-medico' => ['controller' => 'MedicoController', 'action' => 'pagesAddMedico'],
+    '/add-medico' => ['controller' => 'MedicoController', 'action' => 'addMedico'],
+    '/pages-get-medico' => ['controller' => 'MedicoController', 'action' => 'readMedico'],
+    '/pages-upd-medico' => ['controller' => 'MedicoController', 'action' => 'editMedico'],
+    '/update-medico' => ['controller' => 'MedicoController', 'action' => 'updateMedico'],
+    '/delete-medico' => ['controller' => 'MedicoController', 'action' => 'deleteMedico'], 
     
+    // rutas de servicio
+    '/pages-add-service' => ['controller' => 'ServiceController', 'action' => 'pagesAddService'],
+    '/add-service' => ['controller' => 'ServiceController', 'action' => 'addService'],
+    '/pages-get-service' => ['controller' => 'ServiceController', 'action' => 'readService'],
+    '/pages-upd-service' => ['controller' => 'ServiceController', 'action' => 'editService'],
+    '/update-service' => ['controller' => 'ServiceController', 'action' => 'updateService'],
+    '/delete-service' => ['controller' => 'ServiceController', 'action' => 'deleteService'],
 
-
-   
-
-
-
+    // rutas de paciente
+    '/pages-add-paciente' => ['controller' => 'PacienteController', 'action' => 'pagesAddPaciente'],
+    '/add-paciente' => ['controller' => 'PacienteController', 'action' => 'addPaciente'],
+    '/pages-get-paciente' => ['controller' => 'PacienteController', 'action' => 'readPaciente'],
+    '/pages-upd-paciente' => ['controller' => 'PacienteController', 'action' => 'editPaciente'],
+    '/update-paciente' => ['controller' => 'PacienteController', 'action' => 'updatePaciente'],
+    '/delete-paciente' => ['controller' => 'PacienteController', 'action' => 'deletePaciente'],
     
-
-
+    // rutas de cita
+    '/pages-add-cita' => ['controller' => 'CitaController', 'action' => 'pagesAddCita'],
+    '/add-cita' => ['controller' => 'CitaController', 'action' => 'addCita'],
+    '/pages-get-cita' => ['controller' => 'CitaController', 'action' => 'readCita'],
+    '/pages-upd-cita' => ['controller' => 'CitaController', 'action' => 'editCita'],
+    '/update-cita' => ['controller' => 'CitaController', 'action' => 'updateCita'],
+    '/delete-cita' => ['controller' => 'CitaController', 'action' => 'deleteCita'],
 
 
     // Agrega más rutas aquí según necesites

@@ -7,7 +7,6 @@ $error = isset($_GET['error']);
 <html lang="en">
 
 
-<!-- Mirrored from coderthemes.com/hyper/layouts/pages-starter.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 15 Jul 2025 15:13:40 GMT -->
 
 <head>
     <meta charset="utf-8" />
@@ -221,6 +220,5 @@ $error = isset($_GET['error']);
 </body>
 
 
-<!-- Mirrored from coderthemes.com/hyper/layouts/pages-starter.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 15 Jul 2025 15:13:40 GMT -->
 
 </html>

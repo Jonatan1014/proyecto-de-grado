@@ -2,7 +2,7 @@
 <html lang="en">
 
 
-<!-- Mirrored from coderthemes.com/hyper/layouts/apps-calendar.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 15 Jul 2025 15:13:22 GMT -->
+
 
 <head>
     <meta charset="utf-8" />
@@ -198,24 +198,7 @@
             </div> <!-- content -->
 
             <!-- Footer Start -->
-            <footer class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <script>
-                            document.write(new Date().getFullYear())
-                            </script> © Hyper - Coderthemes.com
-                        </div>
-                        <div class="col-md-6">
-                            <div class="text-md-end footer-links d-none d-md-block">
-                                <a href="javascript: void(0);">About</a>
-                                <a href="javascript: void(0);">Support</a>
-                                <a href="javascript: void(0);">Contact Us</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+            <?php include 'includes/footer.php'; ?>
             <!-- end Footer -->
 
         </div>
@@ -228,7 +211,7 @@
     <!-- END wrapper -->
 
     <!-- Theme Settings -->
-    <?php include 'includes/admin/theme.php'; ?>
+    <?php include 'includes/theme.php'; ?>
 
     <!-- Vendor js -->
     <script src="assets/admin/assets/js/vendor.min.js"></script>
@@ -245,6 +228,6 @@
 </body>
 
 
-<!-- Mirrored from coderthemes.com/hyper/layouts/apps-calendar.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 15 Jul 2025 15:13:22 GMT -->
+
 
 </html>

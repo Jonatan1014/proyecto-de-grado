@@ -50,6 +50,13 @@ class Paciente {
         }
     }
 
+    public static function getAll() {
+        $db = Database::getConnection();
+        $stmt = $db->prepare("SELECT id, name, phone, email, address FROM patients ORDER BY name ASC");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public static function create($data) {
         $db = Database::getConnection();
 
@@ -70,6 +77,60 @@ class Paciente {
             return $db->lastInsertId();
         } catch (Exception $e) {
             error_log("Error al insertar paciente: " . $e->getMessage());
+            return false;
+        }
+    }
+     public static function delete($id) {
+        $db = Database::getConnection();
+
+        $stmt = $db->prepare("DELETE FROM patients WHERE id = ?");
+        
+        try {
+            $stmt->execute([$id]);
+            return $stmt->rowCount() > 0;
+        } catch (Exception $e) {
+            error_log("Error al eliminar paciente: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public static function findById($id) {
+        $db = Database::getConnection();
+
+        $stmt = $db->prepare("SELECT * FROM patients WHERE id = ?");
+        
+        try {
+            $stmt->execute([$id]);
+            $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            return $data ? new Paciente($data) : null;
+        } catch (Exception $e) {
+            error_log("Error al consultar paciente por ID: " . $e->getMessage());
+            return null;
+        }
+    }
+
+    public static function update($id, $data) {
+        $db = Database::getConnection();
+
+        $stmt = $db->prepare("UPDATE patients SET name = ?, birth_date = ?, gender = ?, phone = ?, email = ?, address = ?, emergency_contact_name = ?, emergency_contact_phone = ? WHERE id = ?");
+        
+        try {
+            $stmt->execute([
+                $data['name'],
+                $data['birth_date'],
+                $data['gender'],
+                $data['phone'],
+                $data['email'],
+                $data['address'],
+                $data['emergency_contact_name'],
+                $data['emergency_contact_phone'],
+                $id
+            ]);
+
+            return $stmt->rowCount() > 0;
+        } catch (Exception $e) {
+            error_log("Error al actualizar paciente: " . $e->getMessage());
             return false;
         }
     }

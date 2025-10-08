@@ -2,7 +2,6 @@
 <html lang="en">
 
 
-<!-- Mirrored from coderthemes.com/hyper/layouts/pages-profile-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 15 Jul 2025 15:13:38 GMT -->
 
 <head>
     <meta charset="utf-8" />
@@ -1561,6 +1560,5 @@
 </body>
 
 
-<!-- Mirrored from coderthemes.com/hyper/layouts/pages-profile-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 15 Jul 2025 15:13:38 GMT -->
 
 </html>
