@@ -52,12 +52,12 @@
                 <div class="container">
                     <div class="row d-flex justify-content-center text-center">
                         <div class="col-lg-8">
-                        <h1 class="heading-title">Servicios</h1>
-                        <p class="mb-0">
-                            La Dra. Yohanna ofrece atención médica integral y especializada,
-                            combinando experiencia profesional con un trato cercano y humano.
-                            Cada servicio está diseñado para cuidar tu salud y bienestar.
-                        </p>
+                            <h1 class="heading-title">Servicios</h1>
+                            <p class="mb-0">
+                                La Dra. Yohanna ofrece atención médica integral y especializada,
+                                combinando experiencia profesional con un trato cercano y humano.
+                                Cada servicio está diseñado para cuidar tu salud y bienestar.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -73,100 +73,66 @@
         </div><!-- End Page Title -->
 
         <!-- Services Section -->
+        <!-- Services Section -->
         <section id="services" class="services section">
-
             <div class="container" data-aos="fade-up" data-aos-delay="100">
-
                 <div class="services-grid">
                     <div class="row g-4">
-
+                        <?php foreach($services as $service): ?>
                         <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="200">
-                            <div class="service-card primary-care">
+                            <div
+                                class="service-card <?php echo strtolower($service['category'] ?? 'general'); ?><?php echo $service['is_featured'] ? ' featured' : ''; ?>">
                                 <div class="service-header">
                                     <div class="service-icon">
-                                        <i class="fas fa-heartbeat"></i>
+                                        <i class="<?php echo $service['icon'] ?? 'fas fa-tooth'; ?>"></i>
                                     </div>
-                                <span class="service-category">Atención Médica</span>
+                                    <span
+                                        class="service-category"><?php echo $service['category'] ?? 'General'; ?></span>
+                                    <?php if ($service['is_featured']): ?>
+                                    <div class="featured-badge">Destacado</div>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="service-body">
-                                    <h4>Consulta General</h4>
-                                <p>Evaluaciones médicas completas, diagnóstico y orientación en el cuidado de tu salud.</p>
-                                <div class="service-features">
-                                    <span class="feature-badge">Chequeos Preventivos</span>
-                                    <span class="feature-badge">Control de Enfermedades</span>
-                                    <span class="feature-badge">Seguimiento Médico</span>
-                                </div>
+                                    <h4><?php echo htmlspecialchars($service['name']); ?></h4>
+                                    <p><?php echo htmlspecialchars($service['description']); ?></p>
+                                    <?php if (!empty($service['features'])): ?>
+                                    <div class="service-features">
+                                        <?php foreach($service['features'] as $feature): ?>
+                                        <span class="feature-badge"><?php echo htmlspecialchars($feature); ?></span>
+                                        <?php endforeach; ?>
+                                    </div>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="service-footer">
-                                    <a href="service-details" class="service-btn">
-                                    Agendar Cita
+                                    <a href="/service-details?id=<?php echo $service['id']; ?>" class="service-btn">
+                                        Solicitar Cita
                                         <i class="fas fa-arrow-right"></i>
                                     </a>
                                 </div>
                             </div>
                         </div>
-
-<div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="200">
-                            <div class="service-card primary-care">
-                                <div class="service-header">
-                                    <div class="service-icon">
-                                        <i class="fas fa-heartbeat"></i>
-                                    </div>
-                                <span class="service-category">Atención Médica</span>
-                                </div>
-                                <div class="service-body">
-                                    <h4>Consulta General</h4>
-                                <p>Evaluaciones médicas completas, diagnóstico y orientación en el cuidado de tu salud.</p>
-                                <div class="service-features">
-                                    <span class="feature-badge">Chequeos Preventivos</span>
-                                    <span class="feature-badge">Control de Enfermedades</span>
-                                    <span class="feature-badge">Seguimiento Médico</span>
-                                </div>
-                                </div>
-                                <div class="service-footer">
-                                    <a href="service-details" class="service-btn">
-                                    Agendar Cita
-                                        <i class="fas fa-arrow-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="200">
-                            <div class="service-card primary-care">
-                                <div class="service-header">
-                                    <div class="service-icon">
-                                        <i class="fas fa-heartbeat"></i>
-                                    </div>
-                                <span class="service-category">Atención Médica</span>
-                                </div>
-                                <div class="service-body">
-                                    <h4>Consulta General</h4>
-                                <p>Evaluaciones médicas completas, diagnóstico y orientación en el cuidado de tu salud.</p>
-                                <div class="service-features">
-                                    <span class="feature-badge">Chequeos Preventivos</span>
-                                    <span class="feature-badge">Control de Enfermedades</span>
-                                    <span class="feature-badge">Seguimiento Médico</span>
-                                </div>
-                                </div>
-                                <div class="service-footer">
-                                    <a href="service-details" class="service-btn">
-                                    Agendar Cita
-                                        <i class="fas fa-arrow-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-
-
+                        <?php endforeach; ?>
                     </div>
                 </div>
-
-          
+                <div class="appointment-banner" data-aos="fade-up" data-aos-delay="900">
+                    <div class="banner-content">
+                        <div class="banner-text">
+                            <h3>Need Medical Attention?</h3>
+                            <p>Book your appointment with our qualified healthcare professionals and get the care you
+                                deserve.</p>
+                        </div>
+                        <div class="banner-actions">
+                            <a href="appointment.html" class="btn-primary">Book Appointment</a>
+                            <a href="tel:+15551234567" class="btn-secondary">
+                                <i class="fas fa-phone"></i>
+                                Call Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </section>
 
-        </section><!-- /Services Section -->
 
     </main>
 

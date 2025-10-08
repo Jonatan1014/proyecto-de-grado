@@ -17,7 +17,12 @@ class ServiceController {
                 'name' => $_POST['name'] ?? '',
                 'description' => $_POST['description'] ?? null,
                 'duration_minutes' => $_POST['duration_minutes'] ?? null,
-                'price' => $_POST['price'] ?? null
+                'price' => $_POST['price'] ?? null,
+                'category' => $_POST['category'] ?? null,
+                'icon' => $_POST['icon'] ?? 'fas fa-tooth', // Icono por defecto
+                'features' => $_POST['features'] ?? null, // Este campo puede ser una cadena separada por comas
+                'is_featured' => isset($_POST['is_featured']) ? 1 : 0, // Convertir checkbox a 0 o 1
+                'status' => 'active' // Por defecto, el servicio está activo
             ];
 
             // Validar que el nombre no esté vacío
@@ -161,4 +166,28 @@ class ServiceController {
 
         include __DIR__ . '/../Views/admin/pages-edit-service.php';
     }
+    public function showServices() {
+        $services = Service::getActiveServices(); // Usa el método que acabamos de crear
+        include __DIR__ . '/../Views/services.php';
+    }
+    
+    public function showServiceDetails() {
+        $serviceId = $_GET['id'] ?? null;
+        
+        if (!$serviceId) {
+            header("Location: services");
+            exit;
+        }
+        
+        $service = Service::findById($serviceId);
+        
+        if (!$service || $service->status !== 'active') {
+            header("Location: services");
+            exit;
+        }
+        
+        include __DIR__ . '/../Views/service-details.php';
+    }
+
+    
 }

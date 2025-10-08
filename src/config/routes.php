@@ -44,6 +44,8 @@ return [
     '/pages-upd-service' => ['controller' => 'ServiceController', 'action' => 'editService'],
     '/update-service' => ['controller' => 'ServiceController', 'action' => 'updateService'],
     '/delete-service' => ['controller' => 'ServiceController', 'action' => 'deleteService'],
+    '/services' => ['controller' => 'ServiceController', 'action' => 'showServices'],
+
 
     // rutas de paciente
     '/pages-add-paciente' => ['controller' => 'PacienteController', 'action' => 'pagesAddPaciente'],

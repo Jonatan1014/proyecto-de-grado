@@ -50,14 +50,20 @@ CREATE TABLE users (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Tabla: services
+-- Tabla: services (actualizada)
 CREATE TABLE services (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT,
     duration_minutes INT,
     price DECIMAL(10, 2),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    category VARCHAR(100), -- Para categorizar servicios (ej: 'Primary Care', 'Specialty', 'Diagnostics', etc.)
+    icon VARCHAR(100), -- Clase de icono (ej: 'fas fa-heartbeat', 'fas fa-heart', etc.)
+    features JSON, -- Características del servicio (almacenadas como JSON)
+    is_featured BOOLEAN DEFAULT FALSE, -- Para marcar servicios destacados
+    status ENUM('active', 'inactive') DEFAULT 'active', -- Estado del servicio
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 -- Tabla: appointments
@@ -119,17 +125,76 @@ INSERT INTO patients (name, birth_date, gender, phone, email, address) VALUES
 
 -- Insertar usuario con rol 'root'
 INSERT INTO users (username, email, password, role, is_active) 
-VALUES ('root_user', 'jonatan@gmail.com', '$2y$10$oXi2hIoeMvISY7qYKM/WFeEc86LeZQAZXDHHthf8r/.0gJUlqPpvW', 'root', TRUE);
+VALUES ('root_user', 'iadevelopment404@gmail.com', '$2y$10$oXi2hIoeMvISY7qYKM/WFeEc86LeZQAZXDHHthf8r/.0gJUlqPpvW', 'root', TRUE);
 
 -- Insertar usuario con rol 'admin'
 INSERT INTO users (username, email, password, role, is_active) 
 VALUES ('admin_user', 'admin@gmail.com', '$2y$10$oXi2hIoeMvISY7qYKM/WFeEc86LeZQAZXDHHthf8r/.0gJUlqPpvW', 'admin', TRUE);
 
 -- Insertar datos en services
-INSERT INTO services (name, description, duration_minutes, price) VALUES
-('Limpieza Dental', 'Limpieza profunda de dientes', 60, 50.00),
-('Extracción', 'Extracción de muela del juicio', 45, 120.00),
-('Ortodoncia', 'Colocación de brackets', 90, 300.00);
+INSERT INTO services (
+    name, 
+    description, 
+    duration_minutes, 
+    price, 
+    category, 
+    icon, 
+    features, 
+    is_featured, 
+    status
+) VALUES (
+    'Limpieza Dental Profunda',
+    'Procedimiento de limpieza completa que elimina la placa y el sarro acumulados en los dientes y encías.',
+    60,
+    80.00,
+    'Dental',
+    'fas fa-tooth',
+    '["Limpieza Profunda", "Eliminación de Sarro", "Pulido Dental", "Prevención de Caries"]',
+    TRUE,
+    'active'
+);
+INSERT INTO services (
+    name, 
+    description, 
+    duration_minutes, 
+    price, 
+    category, 
+    icon, 
+    features, 
+    is_featured, 
+    status
+) VALUES (
+    'Extracción de Muela del Juicio',
+    'Procedimiento quirúrgico para remover muelas del juicio que están impactadas o causan problemas.',
+    90,
+    350.00,
+    'Surgery',
+    'fas fa-syringe',
+    '["Anestesia Local", "Extracción Quirúrgica", "Cirugía Oral", "Recuperación Post-Operativa"]',
+    FALSE,
+    'active'
+);
+INSERT INTO services (
+    name, 
+    description, 
+    duration_minutes, 
+    price, 
+    category, 
+    icon, 
+    features, 
+    is_featured, 
+    status
+) VALUES (
+    'Ortodoncia con Brackets',
+    'Tratamiento ortodóncico para corregir la alineación de los dientes y mejorar la mordida.',
+    45,
+    2500.00,
+    'Dental',
+    'fas fa-smile',
+    '["Brackets Metálicos", "Ajustes Mensuales", "Control de Progreso", "Resultados Garantizados"]',
+    TRUE,
+    'active'
+);
 
 -- Insertar datos en appointments
 INSERT INTO appointments (patient_id, doctor_id, service_id, appointment_date, status, notes) VALUES

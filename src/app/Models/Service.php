@@ -52,19 +52,64 @@ class Service {
     public static function create($data) {
         $db = Database::getConnection();
 
-        $stmt = $db->prepare("INSERT INTO services (name, description, duration_minutes, price) VALUES (?, ?, ?, ?)");
+        // Convertir features a JSON
+        $features = $data['features'] ?? null;
+        if ($features && is_string($features)) {
+            $features = array_map('trim', explode(',', $features));
+            $features = json_encode($features);
+        }
+
+        $stmt = $db->prepare("INSERT INTO services (name, description, duration_minutes, price, category, icon, features, is_featured, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         
         try {
             $stmt->execute([
                 $data['name'],
                 $data['description'] ?? null,
                 $data['duration_minutes'] ?? null,
-                $data['price'] ?? null
+                $data['price'] ?? null,
+                $data['category'] ?? null,
+                $data['icon'] ?? 'fas fa-tooth',
+                $features,
+                $data['is_featured'] ?? 0,
+                'active'
             ]);
 
             return $db->lastInsertId();
         } catch (Exception $e) {
             error_log("Error al insertar servicio: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public static function update($id, $data) {
+        $db = Database::getConnection();
+
+        // Convertir features a JSON
+        $features = $data['features'] ?? null;
+        if ($features && is_string($features)) {
+            $features = array_map('trim', explode(',', $features));
+            $features = json_encode($features);
+        }
+
+        $stmt = $db->prepare("UPDATE services SET name = ?, description = ?, duration_minutes = ?, price = ?, category = ?, icon = ?, features = ?, is_featured = ?, status = ? WHERE id = ?");
+        
+        try {
+            $stmt->execute([
+                $data['name'],
+                $data['description'] ?? null,
+                $data['duration_minutes'] ?? null,
+                $data['price'] ?? null,
+                $data['category'] ?? null,
+                $data['icon'] ?? 'fas fa-tooth',
+                $features,
+                $data['is_featured'] ?? 0,
+                $data['status'] ?? 'active',
+                $id
+            ]);
+
+            return $stmt->rowCount() > 0;
+        } catch (Exception $e) {
+            error_log("Error al actualizar servicio: " . $e->getMessage());
             return false;
         }
     }
@@ -99,24 +144,36 @@ class Service {
         }
     }
 
-    public static function update($id, $data) {
-        $db = Database::getConnection();
+   
 
-        $stmt = $db->prepare("UPDATE services SET name = ?, description = ?, duration_minutes = ?, price = ? WHERE id = ?");
+    public static function getActiveServices() {
+        $db = Database::getConnection();
+        
+        $stmt = $db->prepare("
+            SELECT id, name, description, duration_minutes, price, category, icon, features, is_featured, created_at 
+            FROM services 
+            WHERE status = 'active' 
+            ORDER BY is_featured DESC, name ASC
+        ");
         
         try {
-            $stmt->execute([
-                $data['name'],
-                $data['description'] ?? null,
-                $data['duration_minutes'] ?? null,
-                $data['price'] ?? null,
-                $id
-            ]);
-
-            return $stmt->rowCount() > 0;
+            $stmt->execute();
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            // Convertir features JSON a array si existen
+            foreach ($results as &$service) {
+                if ($service['features']) {
+                    $service['features'] = json_decode($service['features'], true);
+                } else {
+                    $service['features'] = [];
+                }
+            }
+            
+            return $results;
         } catch (Exception $e) {
-            error_log("Error al actualizar servicio: " . $e->getMessage());
-            return false;
+            error_log("Error al consultar servicios activos: " . $e->getMessage());
+            return [];
         }
     }
+
 }

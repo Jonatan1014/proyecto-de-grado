@@ -39,16 +39,16 @@ class PacienteController {
             exit;
         }
 
-        $doctorId = $_GET['id'] ?? null;
+        $pacienteId = $_GET['id'] ?? null;
 
-        if (!$doctorId) {
+        if (!$pacienteId) {
             header("Location: pages-get-paciente");
             exit;
         }
 
-        $doctor = Doctor::findById($doctorId);
+        $paciente = Paciente::findById($pacienteId);
 
-        if (!$doctor) {
+        if (!$paciente) {
             header("Location: pages-upd-paciente");
             exit;
         }
@@ -92,46 +92,46 @@ class PacienteController {
         }
     }
 
-public function updatePaciente() {
-    AuthService::requireLogin();
+    public function updatePaciente() {
+        AuthService::requireLogin();
 
-    if (!AuthService::isAdminOrRoot()) {
-        header("Location: /login");
-        exit;
-    }
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $id = $_POST['id'] ?? null;
-        $data = [
-            'name' => $_POST['name'] ?? '',
-            'birth_date' => $_POST['birth_date'] ?? null,
-            'gender' => $_POST['gender'] ?? null,
-            'phone' => $_POST['phone'] ?? '',
-            'email' => $_POST['email'] ?? '',
-            'address' => $_POST['address'] ?? '',
-            'emergency_contact_name' => $_POST['emergency_contact_name'] ?? '',
-            'emergency_contact_phone' => $_POST['emergency_contact_phone'] ?? ''
-        ];
-
-        if (!$id) {
-            $_SESSION['error'] = 'ID de paciente no válido.';
-            header("Location: pages-upd-paciente?id=" . $id);
+        if (!AuthService::isAdminOrRoot()) {
+            header("Location: /login");
             exit;
         }
 
-        $success = Paciente::update($id, $data);
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'] ?? null;
+            $data = [
+                'name' => $_POST['name'] ?? '',
+                'birth_date' => $_POST['birth_date'] ?? null,
+                'gender' => $_POST['gender'] ?? null,
+                'phone' => $_POST['phone'] ?? '',
+                'email' => $_POST['email'] ?? '',
+                'address' => $_POST['address'] ?? '',
+                'emergency_contact_name' => $_POST['emergency_contact_name'] ?? '',
+                'emergency_contact_phone' => $_POST['emergency_contact_phone'] ?? ''
+            ];
 
-        if ($success) {
-            $_SESSION['exito'] = 'Paciente actualizado correctamente.';
-            header("Location: pages-get-paciente");
-            exit;
-        } else {
-            $_SESSION['error'] = 'No se pudo actualizar el paciente. Intente nuevamente.';
-            header("Location: pages-upd-paciente?id=" . $id);
-            exit;
+            if (!$id) {
+                $_SESSION['error'] = 'ID de paciente no válido.';
+                header("Location: pages-upd-paciente?id=" . $id);
+                exit;
+            }
+
+            $success = Paciente::update($id, $data);
+
+            if ($success) {
+                $_SESSION['exito'] = 'Paciente actualizado correctamente.';
+                header("Location: pages-get-paciente");
+                exit;
+            } else {
+                $_SESSION['error'] = 'No se pudo actualizar el paciente. Intente nuevamente.';
+                header("Location: pages-upd-paciente?id=" . $id);
+                exit;
+            }
         }
     }
-}
 
     public function deletePaciente() {
     AuthService::requireLogin();
