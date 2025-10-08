@@ -4,6 +4,18 @@ require_once __DIR__ . '/../Models/Service.php';
 
 class ServiceController {
 
+
+    public function readService() {
+        AuthService::requireLogin();
+
+        if (!AuthService::isAdminOrRoot()) {
+            header("Location: login");
+            exit;
+        }
+
+        $services = Service::read(); // Obtiene todos los servicios
+        include __DIR__ . '/../Views/admin/pages-get-service.php';
+    }
     public function addService() {
         AuthService::requireLogin();
 
@@ -101,7 +113,7 @@ class ServiceController {
 
             if (!$id) {
                 $_SESSION['error'] = 'ID de servicio no válido.';
-                header("Location: pages-get-services");
+                header("Location: pages-get-service");
                 exit;
             }
 
@@ -113,7 +125,7 @@ class ServiceController {
                 $_SESSION['error'] = 'No se pudo eliminar el servicio. Intente nuevamente.';
             }
 
-            header("Location: pages-get-services");
+            header("Location: pages-get-service");
             exit;
         }
     }

@@ -103,38 +103,36 @@
                                             <tr>
                                                 <th>ID</th>
                                                 <th>Nombre</th>
-                                                <th>Especialización</th>
-                                                <th>Teléfono</th>
-                                                <th>Correo</th>
-                                                <th>Licencia</th>
-                                                <th>Fecha de Registro</th>
+                                                <th>Duracion</th>
+                                                <th>Precio</th>
+                                                <th>Categoria</th>
+                                                <th>Estado</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
 
                                         <tbody>
-                                            <?php foreach($doctors as $doctor): ?>
+                                            <?php foreach($services as $service): ?>
                                             <!-- Médico -->
                                             <tr>
-                                                <td><?php echo htmlspecialchars($doctor->id) ?></td>
-                                                <td><?php echo htmlspecialchars($doctor->name) ?></td>
-                                                <td><?php echo htmlspecialchars($doctor->specialization) ?></td>
-                                                <td><?php echo htmlspecialchars($doctor->phone) ?></td>
-                                                <td><?php echo htmlspecialchars($doctor->email) ?></td>
-                                                <td><?php echo htmlspecialchars($doctor->license_number) ?></td>
-                                                <td><?php echo htmlspecialchars($doctor->created_at) ?></td>
+                                                <td><?php echo htmlspecialchars($service->id) ?></td>
+                                                <td><?php echo htmlspecialchars($service->name) ?></td>
+                                                <td><?php echo htmlspecialchars($service->duration_minutes) ?></td>
+                                                <td><?php echo htmlspecialchars($service->price) ?></td>
+                                                <td><?php echo htmlspecialchars($service->category) ?></td>
+                                                <td><?php echo htmlspecialchars($service->status) ?></td>
                                                 <td>
                                                     <!-- Formulario para Editar -->
-                                                    <a href="pages-upd-medico?id=<?php echo $doctor->id ?>"
+                                                    <a href="pages-upd-service?id=<?php echo $service->id ?>"
                                                         class="btn btn-outline-info rounded-pill">
                                                         <i class="uil-edit"></i>
                                                     </a>
 
-                                                    <form action="delete-medico" method="POST"
+                                                    <form action="delete-service" method="POST"
                                                         style="display:inline-block;"
                                                         onsubmit="return confirm('¿Estás seguro de que deseas eliminar este médico?');">
                                                         <input type="hidden" name="id"
-                                                            value="<?php echo $doctor->id; ?>">
+                                                            value="<?php echo $service->id; ?>">
                                                         <button type="submit"
                                                             class="btn btn-outline-danger rounded-pill">
                                                             <i class="uil-trash-alt"></i>

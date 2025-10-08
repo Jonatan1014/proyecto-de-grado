@@ -9,6 +9,11 @@ class Service {
     public $description;
     public $duration_minutes;
     public $price;
+    public $category;        
+    public $icon;           
+    public $features;      
+    public $is_featured;    
+    public $status;         
     public $created_at;
 
     public function __construct($data) {
@@ -17,6 +22,11 @@ class Service {
         $this->description = $data['description'] ?? null;
         $this->duration_minutes = $data['duration_minutes'] ?? null;
         $this->price = $data['price'] ?? null;
+        $this->category = $data['category'] ?? null;        
+        $this->icon = $data['icon'] ?? 'fas fa-tooth';      
+        $this->features = $data['features'] ?? null;        
+        $this->is_featured = $data['is_featured'] ?? 0;     
+        $this->status = $data['status'] ?? 'active';        
         $this->created_at = $data['created_at'] ?? null;
     }
 
