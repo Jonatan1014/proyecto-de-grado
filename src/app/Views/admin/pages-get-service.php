@@ -119,7 +119,7 @@
                                                 <td><?php echo htmlspecialchars($service->name) ?></td>
                                                 <td><?php echo htmlspecialchars($service->duration_minutes) ?></td>
                                                 <td><?php echo htmlspecialchars($service->price) ?></td>
-                                                <td><?php echo htmlspecialchars($service->category) ?></td>
+                                                <td><?php echo htmlspecialchars($service->category_name) ?></td>
                                                 <td><?php echo htmlspecialchars($service->status) ?></td>
                                                 <td>
                                                     <!-- Formulario para Editar -->

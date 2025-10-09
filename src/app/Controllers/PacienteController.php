@@ -66,6 +66,8 @@ class PacienteController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = [
                 'name' => $_POST['name'] ?? '',
+                'lastname' => $_POST['lastname'] ?? '',
+                'idnumber' => $_POST['idnumber'] ?? '',
                 'birth_date' => $_POST['birth_date'] ?? null,
                 'gender' => $_POST['gender'] ?? null,
                 'phone' => $_POST['phone'] ?? '',

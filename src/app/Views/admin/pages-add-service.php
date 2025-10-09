@@ -112,23 +112,20 @@
                                                                         oninput="updatePreview()"></textarea>
                                                                 </div>
                                                                 <div class="mb-3">
-                                                                    <label for="category"
+                                                                    <label for="category_id"
                                                                         class="form-label">Categoría</label>
-                                                                    <select id="category" name="category"
-                                                                        class="form-control" onchange="updatePreview()">
+                                                                    <select id="category_id" name="category_id"
+                                                                        class="form-control" onchange="updatePreview()"
+                                                                        required>
                                                                         <option value="">Seleccionar categoría</option>
-                                                                        <option value="primary-care">Atención Primaria
+                                                                        <?php foreach ($categories as $category): ?>
+                                                                        <option
+                                                                            value="<?php echo htmlspecialchars($category['id']); ?>">
+                                                                            <?php echo htmlspecialchars($category['name']); ?>
                                                                         </option>
-                                                                        <option value="specialty-care">Especialidad
-                                                                        </option>
-                                                                        <option value="diagnostics">Diagnósticos
-                                                                        </option>
-                                                                        <option value="emergency">Emergencia</option>
-                                                                        <option value="maternal">Salud Maternal</option>
-                                                                        <option value="vaccination">Prevención</option>
-                                                                        <option value="dental">Odontología</option>
-                                                                        <option value="surgery">Cirugía</option>
+                                                                        <?php endforeach; ?>
                                                                     </select>
+                                                                    <!-- Cambié el 'name' a 'category_id' para que coincida con el controlador actualizado -->
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="icon" class="form-label">Selecciona un
@@ -405,7 +402,7 @@
                                                             'Nombre del Servicio';
                                                         const description = document.getElementById('description')
                                                             .value || 'Descripción del servicio...';
-                                                        const category = document.getElementById('category').value ||
+                                                        const category = document.getElementById('category_id').value ||
                                                             'General';
                                                         const features = document.getElementById('features').value;
                                                         const isFeatured = document.getElementById('is_featured')
@@ -429,8 +426,8 @@
 
                                                         // Actualizar texto de categoría
                                                         document.getElementById('preview-category').textContent =
-                                                            document.getElementById('category').options[document
-                                                                .getElementById('category').selectedIndex].text;
+                                                            document.getElementById('category_id').options[document
+                                                                .getElementById('category_id').selectedIndex].text;
 
                                                         // Actualizar nombre
                                                         document.getElementById('preview-name').textContent = name;

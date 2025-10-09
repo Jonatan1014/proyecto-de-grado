@@ -20,7 +20,7 @@ class Database {
             } else {
                 // Configuración de desarrollo/local
                 $host = $_ENV['DB_HOST_LOCAL'] ?? 'localhost';
-                $db_name = $_ENV['DB_NAME_LOCAL'] ?? 'clinic_db_dev';
+                $db_name = $_ENV['DB_NAME_LOCAL'] ?? 'clinic_db';
                 $username = $_ENV['DB_USER_LOCAL'] ?? 'root';
                 $password = $_ENV['DB_PASS_LOCAL'] ?? '';
             }

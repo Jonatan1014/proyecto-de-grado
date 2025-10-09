@@ -16,18 +16,22 @@ CREATE TABLE clinics (
 -- Tabla: doctors
 CREATE TABLE doctors (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    idnumber VARCHAR(50) UNIQUE,
     name VARCHAR(255) NOT NULL,
     specialization VARCHAR(255),
     phone VARCHAR(20),
     email VARCHAR(255),
     license_number VARCHAR(100),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 -- Tabla: patients
 CREATE TABLE patients (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
+    lastname VARCHAR(255) NOT NULL,
+    idnumber VARCHAR(50) UNIQUE,
     birth_date DATE,
     gender ENUM('M', 'F', 'Otro'),
     phone VARCHAR(20),
@@ -35,7 +39,8 @@ CREATE TABLE patients (
     address TEXT,
     emergency_contact_name VARCHAR(255),
     emergency_contact_phone VARCHAR(20),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 -- Agregar tabla users
@@ -49,6 +54,13 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+-- Agregar tabla services-categories
+CREATE TABLE service_categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 
 -- Tabla: services (actualizada)
 CREATE TABLE services (
@@ -57,13 +69,14 @@ CREATE TABLE services (
     description TEXT,
     duration_minutes INT,
     price DECIMAL(10, 2),
-    category VARCHAR(100), -- Para categorizar servicios (ej: 'Primary Care', 'Specialty', 'Diagnostics', etc.)
-    icon VARCHAR(100), -- Clase de icono (ej: 'fas fa-heartbeat', 'fas fa-heart', etc.)
-    features JSON, -- Características del servicio (almacenadas como JSON)
-    is_featured BOOLEAN DEFAULT FALSE, -- Para marcar servicios destacados
-    status ENUM('active', 'inactive') DEFAULT 'active', -- Estado del servicio
+    category_id INT,
+    icon VARCHAR(100),
+    features JSON,
+    is_featured BOOLEAN DEFAULT FALSE,
+    status ENUM('active', 'inactive') DEFAULT 'active',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (category_id) REFERENCES service_categories(id)
 );
 
 -- Tabla: appointments
@@ -75,10 +88,12 @@ CREATE TABLE appointments (
     appointment_date DATETIME NOT NULL,
     status ENUM('scheduled', 'completed', 'cancelled') DEFAULT 'scheduled',
     notes TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (patient_id) REFERENCES patients(id),
     FOREIGN KEY (doctor_id) REFERENCES doctors(id),
-    FOREIGN KEY (service_id) REFERENCES services(id)
+    FOREIGN KEY (service_id) REFERENCES services(id),
+    UNIQUE (patient_id, doctor_id, appointment_date), -- Evita citas duplicadas para el mismo paciente y doctor en la misma fecha y hora
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 -- Tabla: clinical_records
@@ -94,7 +109,8 @@ CREATE TABLE clinical_records (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (patient_id) REFERENCES patients(id),
     FOREIGN KEY (doctor_id) REFERENCES doctors(id),
-    FOREIGN KEY (appointment_id) REFERENCES appointments(id)
+    FOREIGN KEY (appointment_id) REFERENCES appointments(id),
+    UNIQUE (patient_id, date) -- Evita registros clínicos duplicados para el mismo paciente en la misma fecha
 );
 
 -- Tabla: medical_records_details
@@ -104,7 +120,8 @@ CREATE TABLE medical_records_details (
     detail_type VARCHAR(255),
     detail_value TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (clinical_record_id) REFERENCES clinical_records(id)
+    FOREIGN KEY (clinical_record_id) REFERENCES clinical_records(id),
+    UNIQUE (clinical_record_id, detail_type) -- Evita detalles duplicados del mismo tipo para un registro clínico
 );
 
 
@@ -114,14 +131,14 @@ INSERT INTO clinics (name, address, phone, email, schedule) VALUES
 ('Clínica Dental Sonrisa Perfecta', 'Av. Siempre Viva 123, Ciudad', '555-1234', 'info@sonrisaperfecta.com', 'Lunes a Viernes 8:00 - 18:00');
 
 -- Insertar datos en doctors
-INSERT INTO doctors (name, specialization, phone, email, license_number) VALUES
-('Dr. Juan Pérez', 'Odontología General', '555-5678', 'juan@clinic.com', 'MED123456'),
-('Dra. María López', 'Ortodoncia', '555-9012', 'maria@clinic.com', 'MED789012');
+INSERT INTO doctors (idnumber, name, specialization, phone, email, license_number) VALUES
+('101010','Dr. Juan Pérez', 'Odontología General', '555-5678', 'juan@clinic.com', 'MED123456'),
+('202020','Dra. María López', 'Ortodoncia', '555-9012', 'maria@clinic.com', 'MED789012');
 
 -- Insertar datos en patients
-INSERT INTO patients (name, birth_date, gender, phone, email, address) VALUES
-('Carlos Rodríguez', '1990-05-15', 'M', '555-3456', 'carlos@paciente.com', 'Calle Falsa 123'),
-('Ana Martínez', '1985-11-23', 'F', '555-7890', 'ana@paciente.com', 'Av. Central 456');
+INSERT INTO patients (idnumber, name, lastname, birth_date, gender, phone, email, address) VALUES
+('303030','Carlos manuel', 'Rodriguez', '1990-05-15', 'M', '555-3456', 'carlos@paciente.com', 'Calle Falsa 123'),
+('404040','Ana', 'Martinez', '1985-11-23', 'F', '555-7890', 'ana@paciente.com', 'Av. Central 456');
 
 -- Insertar usuario con rol 'root'
 INSERT INTO users (username, email, password, role, is_active) 
@@ -131,13 +148,20 @@ VALUES ('root_user', 'iadevelopment404@gmail.com', '$2y$10$oXi2hIoeMvISY7qYKM/WF
 INSERT INTO users (username, email, password, role, is_active) 
 VALUES ('admin_user', 'admin@gmail.com', '$2y$10$oXi2hIoeMvISY7qYKM/WFeEc86LeZQAZXDHHthf8r/.0gJUlqPpvW', 'admin', TRUE);
 
+-- Insertar datos en service_categories
+INSERT INTO service_categories (name) VALUES
+('Dental'),
+('Surgery'),
+('Pediatrics'),
+('Cardiology');
+
 -- Insertar datos en services
 INSERT INTO services (
     name, 
     description, 
     duration_minutes, 
     price, 
-    category, 
+    category_id, 
     icon, 
     features, 
     is_featured, 
@@ -147,7 +171,7 @@ INSERT INTO services (
     'Procedimiento de limpieza completa que elimina la placa y el sarro acumulados en los dientes y encías.',
     60,
     80.00,
-    'Dental',
+    1,
     'fas fa-tooth',
     '["Limpieza Profunda", "Eliminación de Sarro", "Pulido Dental", "Prevención de Caries"]',
     TRUE,
@@ -158,7 +182,7 @@ INSERT INTO services (
     description, 
     duration_minutes, 
     price, 
-    category, 
+    category_id, 
     icon, 
     features, 
     is_featured, 
@@ -168,7 +192,7 @@ INSERT INTO services (
     'Procedimiento quirúrgico para remover muelas del juicio que están impactadas o causan problemas.',
     90,
     350.00,
-    'Surgery',
+    2,
     'fas fa-syringe',
     '["Anestesia Local", "Extracción Quirúrgica", "Cirugía Oral", "Recuperación Post-Operativa"]',
     FALSE,
@@ -179,7 +203,7 @@ INSERT INTO services (
     description, 
     duration_minutes, 
     price, 
-    category, 
+    category_id, 
     icon, 
     features, 
     is_featured, 
@@ -189,7 +213,7 @@ INSERT INTO services (
     'Tratamiento ortodóncico para corregir la alineación de los dientes y mejorar la mordida.',
     45,
     2500.00,
-    'Dental',
+    3,
     'fas fa-smile',
     '["Brackets Metálicos", "Ajustes Mensuales", "Control de Progreso", "Resultados Garantizados"]',
     TRUE,

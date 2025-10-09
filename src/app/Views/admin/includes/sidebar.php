@@ -64,11 +64,28 @@
                         <li>
                             <a href="pages-get-medico">Consulta de Medico</a>
                         </li>
-                        <li>
-                            <a href="pages-add-service">Registrar Servicio</a>
-                        </li>
-                        <li>
-                            <a href="pages-get-service">Consulta de Servicio</a>
+                        <li class="side-nav-item">
+                            <a data-bs-toggle="collapse" href="#sidebarSecondLevel" aria-expanded="false"
+                                aria-controls="sidebarSecondLevel">
+                                <span> Servicios </span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <div class="collapse" id="sidebarSecondLevel">
+                                <ul class="side-nav-third-level">
+                                    <li>
+                                        <a href="pages-add-service">Registrar Servicio</a>
+                                    </li>
+                                    <li>
+                                        <a href="pages-get-service">Consulta de Servicio</a>
+                                    </li>
+                                    <li>
+                                        <a href="pages-add-service-category">Registrar Categoria</a>
+                                    </li>
+                                    <li>
+                                        <a href="pages-get-service-category">Consulta de Categoria</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                     </ul>
                 </div>

@@ -6,7 +6,7 @@ return [
     '/home' => '../app/Views/home.php',
     '/about' => '../app/Views/about.php',
     '/departments' => '../app/Views/departments.php',
-    '/services' => '../app/Views/services.php',
+    '/services' => ['controller' => 'ServiceController', 'action' => 'showServices'],
     '/doctors' => '../app/Views/doctors.php',
     '/contact' => '../app/Views/contact.php',
     '/appointment' => '../app/Views/appointment.php',
@@ -44,7 +44,14 @@ return [
     '/pages-upd-service' => ['controller' => 'ServiceController', 'action' => 'editService'],
     '/update-service' => ['controller' => 'ServiceController', 'action' => 'updateService'],
     '/delete-service' => ['controller' => 'ServiceController', 'action' => 'deleteService'],
-    '/services' => ['controller' => 'ServiceController', 'action' => 'showServices'],
+
+    // rutas de servicio catgoría
+    '/pages-add-service-category' => ['controller' => 'ServiceCategoryController', 'action' => 'pagesAddServiceCategory'],
+    '/add-service-category' => ['controller' => 'ServiceCategoryController', 'action' => 'addServiceCategory'],
+    '/pages-get-service-category' => ['controller' => 'ServiceCategoryController', 'action' => 'readServiceCategory'],
+    '/pages-upd-service-category' => ['controller' => 'ServiceCategoryController', 'action' => 'editServiceCategory'],
+    '/update-service-category' => ['controller' => 'ServiceCategoryController', 'action' => 'updateServiceCategory'],
+    '/delete-service-category' => ['controller' => 'ServiceCategoryController', 'action' => 'deleteServiceCategory'],
 
 
     // rutas de paciente

@@ -116,19 +116,42 @@ if (!$paciente) {
                                                         <div class="row">
                                                             <!-- Primera columna -->
                                                             <div class="col-lg-6">
-                                                                <div class="mb-3">
-                                                                    <label for="name" class="form-label">Nombre</label>
-                                                                    <input type="text" id="name" name="name"
-                                                                        class="form-control"
+                                                                <div class="row">
+                                                                    <!-- Campo Nombre y Apellido en la misma fila -->
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="name"
+                                                                            class="form-label">Nombre</label>
+                                                                        <input type="text" id="name" name="name"
                                                                         value="<?php echo htmlspecialchars($paciente->name); ?>"
-                                                                        required>
+                                                                            class="form-control" required>
+                                                                    </div>
+
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="lastname"
+                                                                            class="form-label">Apellido</label>
+                                                                        <input type="text" id="lastname" name="lastname"
+                                                                        value="<?php echo htmlspecialchars($paciente->lastname); ?>"
+                                                                            class="form-control" required>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="mb-3">
-                                                                    <label for="birth_date" class="form-label">Fecha de
-                                                                        Nacimiento</label>
-                                                                    <input type="date" id="birth_date" name="birth_date"
-                                                                        class="form-control"
-                                                                        value="<?php echo htmlspecialchars($paciente->birth_date); ?>">
+                                                                <div class="row">
+
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="birth_date" class="form-label">Fecha
+                                                                            de
+                                                                            Nacimiento</label>
+                                                                        <input type="date" id="birth_date"
+                                                                        value="<?php echo $paciente->birth_date; ?>"
+                                                                            name="birth_date" class="form-control">
+                                                                    </div>
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="idnumber"
+                                                                            class="form-label">Documento de
+                                                                            identidad</label>
+                                                                        <input type="number" id="idnumber"
+                                                                        value="<?php echo htmlspecialchars($paciente->idnumber); ?>"
+                                                                            name="idnumber" class="form-control">
+                                                                    </div>
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="phone"

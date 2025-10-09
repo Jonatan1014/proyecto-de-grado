@@ -1,9 +1,9 @@
 <?php
 require_once __DIR__ . '/../Services/AuthService.php';
 require_once __DIR__ . '/../Models/Service.php';
+require_once __DIR__ . '/../Models/ServiceCategory.php'; // ✅ Añadido
 
 class ServiceController {
-
 
     public function readService() {
         AuthService::requireLogin();
@@ -13,9 +13,10 @@ class ServiceController {
             exit;
         }
 
-        $services = Service::read(); // Obtiene todos los servicios
+        $services = Service::read();
         include __DIR__ . '/../Views/admin/pages-get-service.php';
     }
+
     public function addService() {
         AuthService::requireLogin();
 
@@ -25,21 +26,30 @@ class ServiceController {
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // ✅ Obtener category_id desde el formulario
+            $categoryId = $_POST['category_id'] ?? null;
+
             $data = [
                 'name' => $_POST['name'] ?? '',
                 'description' => $_POST['description'] ?? null,
                 'duration_minutes' => $_POST['duration_minutes'] ?? null,
                 'price' => $_POST['price'] ?? null,
-                'category' => $_POST['category'] ?? null,
-                'icon' => $_POST['icon'] ?? 'fas fa-tooth', // Icono por defecto
-                'features' => $_POST['features'] ?? null, // Este campo puede ser una cadena separada por comas
-                'is_featured' => isset($_POST['is_featured']) ? 1 : 0, // Convertir checkbox a 0 o 1
-                'status' => 'active' // Por defecto, el servicio está activo
+                'category_id' => $categoryId, // ✅ Usar category_id
+                'icon' => $_POST['icon'] ?? 'fas fa-tooth',
+                'features' => $_POST['features'] ?? null,
+                'is_featured' => isset($_POST['is_featured']) ? 1 : 0,
+                'status' => 'active'
             ];
 
-            // Validar que el nombre no esté vacío
             if (empty($data['name'])) {
                 $_SESSION['error'] = 'El nombre del servicio es obligatorio.';
+                header("Location: pages-add-service");
+                exit;
+            }
+
+            // ✅ Validar que se haya seleccionado una categoría
+            if (empty($data['category_id'])) {
+                $_SESSION['error'] = 'Debe seleccionar una categoría.';
                 header("Location: pages-add-service");
                 exit;
             }
@@ -62,28 +72,44 @@ class ServiceController {
         AuthService::requireLogin();
 
         if (!AuthService::isAdminOrRoot()) {
-            header("Location: /login");
+            header("Location: login");
             exit;
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'] ?? null;
+            
+            // ✅ Obtener category_id desde el formulario
+            $categoryId = $_POST['category_id'] ?? null;
+
             $data = [
                 'name' => $_POST['name'] ?? '',
                 'description' => $_POST['description'] ?? null,
                 'duration_minutes' => $_POST['duration_minutes'] ?? null,
-                'price' => $_POST['price'] ?? null
+                'price' => $_POST['price'] ?? null,
+                'category_id' => $categoryId, // ✅ Usar category_id
+                'icon' => $_POST['icon'] ?? 'fas fa-tooth',
+                'features' => $_POST['features'] ?? null,
+                'is_featured' => isset($_POST['is_featured']) ? 1 : 0,
+                'status' => $_POST['status'] ?? 'active'
             ];
 
             if (!$id) {
                 $_SESSION['error'] = 'ID de servicio no válido.';
-                header("Location: pages-get-services");
+                header("Location: pages-get-service");
                 exit;
             }
 
             if (empty($data['name'])) {
                 $_SESSION['error'] = 'El nombre del servicio es obligatorio.';
-                header("Location: pages-edit-service?id=" . $id);
+                header("Location: pages-upd-service?id=" . $id);
+                exit;
+            }
+
+            // ✅ Validar que se haya seleccionado una categoría
+            if (empty($data['category_id'])) {
+                $_SESSION['error'] = 'Debe seleccionar una categoría.';
+                header("Location: pages-upd-service?id=" . $id);
                 exit;
             }
 
@@ -91,11 +117,11 @@ class ServiceController {
 
             if ($success) {
                 $_SESSION['exito'] = 'Servicio actualizado correctamente.';
+                header("Location: pages-get-service");
             } else {
                 $_SESSION['error'] = 'No se pudo actualizar el servicio. Intente nuevamente.';
+                header("Location: pages-upd-service?id=" . $id);
             }
-
-            header("Location: pages-get-services");
             exit;
         }
     }
@@ -138,6 +164,8 @@ class ServiceController {
             exit;
         }
 
+        // ✅ Obtener categorías para el formulario
+        $categories = ServiceCategory::getAllAsArray();
         include __DIR__ . '/../Views/admin/pages-add-service.php';
     }
 
@@ -149,7 +177,7 @@ class ServiceController {
             exit;
         }
 
-        $services = Service::read(); // Obtiene todos los servicios
+        $services = Service::read();
         include __DIR__ . '/../Views/admin/pages-get-services.php';
     }
 
@@ -164,7 +192,7 @@ class ServiceController {
         $serviceId = $_GET['id'] ?? null;
 
         if (!$serviceId) {
-            header("Location: pages-get-services");
+            header("Location: pages-get-service");
             exit;
         }
 
@@ -172,14 +200,17 @@ class ServiceController {
 
         if (!$service) {
             $_SESSION['error'] = 'Servicio no encontrado.';
-            header("Location: pages-get-services");
+            header("Location: pages-get-service");
             exit;
         }
 
-        include __DIR__ . '/../Views/admin/pages-edit-service.php';
+        // ✅ Obtener categorías para el formulario
+        $categories = ServiceCategory::getAll();
+        include __DIR__ . '/../Views/admin/pages-upd-service.php';
     }
+
     public function showServices() {
-        $services = Service::getActiveServices(); // Usa el método que acabamos de crear
+        $services = Service::getActiveServices();
         include __DIR__ . '/../Views/services.php';
     }
     
@@ -201,5 +232,29 @@ class ServiceController {
         include __DIR__ . '/../Views/service-details.php';
     }
 
-    
+    public function editService() {
+        AuthService::requireLogin();
+
+        if (!AuthService::isAdminOrRoot()) {
+            header("Location: login");
+            exit;
+        }
+
+        $serviceId = $_GET['id'] ?? null;
+
+        if (!$serviceId) {
+            header("Location: pages-get-service");
+            exit;
+        }
+
+        $service = Service::findById($serviceId);
+        $categories = ServiceCategory::getAllAsArray();
+
+        if (!$service) {
+            header("Location: pages-upd-service");
+            exit;
+        }
+
+        include __DIR__ . '/../Views/admin/pages-upd-service.php';
+    }
 }

@@ -6,6 +6,8 @@ require_once __DIR__ . '/../../config/database.php';
 class Paciente {
     public $id;
     public $name;
+    public $lastname;
+    public $idnumber;
     public $birth_date;
     public $gender;
     public $phone;
@@ -18,6 +20,8 @@ class Paciente {
     public function __construct($data) {
         $this->id = $data['id'] ?? null;
         $this->name = $data['name'];
+        $this->lastname = $data['lastname'];
+        $this->idnumber = $data['idnumber'];
         $this->birth_date = $data['birth_date'] ?? null;
         $this->gender = $data['gender'] ?? null;
         $this->phone = $data['phone'] ?? null;
@@ -52,7 +56,7 @@ class Paciente {
 
     public static function getAll() {
         $db = Database::getConnection();
-        $stmt = $db->prepare("SELECT id, name, phone, email, address FROM patients ORDER BY name ASC");
+        $stmt = $db->prepare("SELECT id, idnumber, name, lastname, phone, email, address FROM patients ORDER BY name ASC");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -60,11 +64,13 @@ class Paciente {
     public static function create($data) {
         $db = Database::getConnection();
 
-        $stmt = $db->prepare("INSERT INTO patients (name, birth_date, gender, phone, email, address, emergency_contact_name, emergency_contact_phone) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $db->prepare("INSERT INTO patients (name, lastname, idnumber, birth_date, gender, phone, email, address, emergency_contact_name, emergency_contact_phone) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         
         try {
             $stmt->execute([
                 $data['name'],
+                $data['lastname'],
+                $data['idnumber'],
                 $data['birth_date'],
                 $data['gender'],
                 $data['phone'],

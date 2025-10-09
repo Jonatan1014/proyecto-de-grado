@@ -87,7 +87,7 @@
                                         <i class="<?php echo $service['icon'] ?? 'fas fa-tooth'; ?>"></i>
                                     </div>
                                     <span
-                                        class="service-category"><?php echo $service['category'] ?? 'General'; ?></span>
+                                        class="service-category"><?php echo $service['category_name'] ?? 'General'; ?></span>
                                     <?php if ($service['is_featured']): ?>
                                     <div class="featured-badge">Destacado</div>
                                     <?php endif; ?>

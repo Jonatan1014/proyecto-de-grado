@@ -124,7 +124,7 @@ if (!AuthService::isAdminOrRoot()) {
                                                                             data-phone="<?php echo htmlspecialchars($paciente['phone']); ?>"
                                                                             data-email="<?php echo htmlspecialchars($paciente['email']); ?>"
                                                                             data-address="<?php echo htmlspecialchars($paciente['address']); ?>">
-                                                                            <?php echo htmlspecialchars($paciente['id'] . ' - ' . $paciente['name']); ?>
+                                                                            <?php echo htmlspecialchars($paciente['idnumber'] . ' - ' . $paciente['name']); ?>
                                                                         </option>
                                                                         <?php endforeach; ?>
                                                                     </select>

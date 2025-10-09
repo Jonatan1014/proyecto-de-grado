@@ -5,7 +5,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>List Books</title>
+    <title>Starter Page | Hyper - Responsive Bootstrap 5 Admin Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
     <meta content="Coderthemes" name="author" />
@@ -29,6 +29,9 @@
 
     <!-- Theme Config Js -->
     <script src="assets/admin/assets/js/hyper-config.js"></script>
+
+    <!-- Vendor css -->
+    <link href="assets/admin/assets/css/vendor.min.css" rel="stylesheet" type="text/css" />
 
     <!-- App css -->
     <link href="assets/admin/assets/css/app-saas.min.css" rel="stylesheet" type="text/css" id="app-style" />
@@ -74,10 +77,12 @@
                                 <!-- Mensajes de éxito o error -->
                                 <?php include 'includes/alertEvent.php'; ?>
 
+
                             </div>
                         </div>
                     </div>
                     <!-- end page title -->
+
 
                     <div class="row">
                         <div class="col-12">
@@ -99,54 +104,30 @@
                                             <tr>
                                                 <th>ID</th>
                                                 <th>Nombre</th>
-                                                <th># Identidad</th>
-                                                <th>Nacimiento</th>
-                                                <th>Género</th>
-                                                <th>Teléfono</th>
-                                                <th>Correo</th>
-                                                <th>Dirección</th>
-                                                <th>Contacto Emergencia</th>
-                                                <th>Fecha Registro</th>
+                                                <th>Fecha de Creación</th>
+                                                <th>Última Actualización</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
 
                                         <tbody>
-                                            <?php foreach($pacientes as $paciente): ?>
+                                            <?php foreach($categories as $category): ?>
                                             <tr>
-
-                                                <td><?php echo htmlspecialchars($paciente->id) ?></td>
-                                                <td><?php echo htmlspecialchars($paciente->name. ' '.$paciente->lastname) ?></td>
-                                                <td><?php echo htmlspecialchars($paciente->idnumber) ?></td>
-                                                <td><?php echo htmlspecialchars($paciente->birth_date) ?></td>
-                                                <td><?php echo htmlspecialchars($paciente->gender) ?></td>
-                                                <td><?php echo htmlspecialchars($paciente->phone) ?></td>
-                                                <td><?php echo htmlspecialchars($paciente->email) ?></td>
-                                                <td><?php echo htmlspecialchars($paciente->address) ?></td>
-                                                <!-- Contacto de Emergencia -->
+                                                <td><?php echo htmlspecialchars($category->id); ?></td>
+                                                <td><?php echo htmlspecialchars($category->name); ?></td>
+                                                <td><?php echo htmlspecialchars($category->created_at); ?></td>
+                                                <td><?php echo htmlspecialchars($category->updated_at); ?></td>
                                                 <td>
-                                                    <?php if (!empty($paciente->emergency_contact_name)): ?>
-                                                    <strong>Nombre:</strong>
-                                                    <?php echo htmlspecialchars($paciente->emergency_contact_name) ?><br>
-                                                    <strong>Teléfono:</strong>
-                                                    <?php echo htmlspecialchars($paciente->emergency_contact_phone) ?>
-                                                    <?php else: ?>
-                                                    N/A
-                                                    <?php endif; ?>
-                                                </td>
-                                                <td><?php echo htmlspecialchars($paciente->created_at) ?></td>
-                                                <td>
-                                                    <!-- Formulario para Editar -->
-                                                    <a href="pages-upd-paciente?id=<?php echo $paciente->id ?>"
+                                                    <a href="pages-upd-service-category?id=<?php echo $category->id; ?>"
                                                         class="btn btn-outline-info rounded-pill">
                                                         <i class="uil-edit"></i> Editar
                                                     </a>
 
-                                                    <form action="delete-paciente" method="POST"
+                                                    <form action="delete-service-category" method="POST"
                                                         style="display:inline-block;"
-                                                        onsubmit="return confirm('¿Estás seguro de que deseas eliminar este paciente?');">
+                                                        onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta categoría?');">
                                                         <input type="hidden" name="id"
-                                                            value="<?php echo $paciente->id; ?>">
+                                                            value="<?php echo $category->id; ?>">
                                                         <button type="submit"
                                                             class="btn btn-outline-danger rounded-pill">
                                                             <i class="uil-trash-alt"></i> Eliminar
@@ -154,9 +135,7 @@
                                                     </form>
                                                 </td>
                                             </tr>
-
                                             <?php endforeach; ?>
-
                                         </tbody>
                                     </table>
 
@@ -182,7 +161,6 @@
         <!-- Theme Settings -->
         <!-- Theme Settings -->
         <?php include 'includes/theme.php'; ?>
-
         <!-- Vendor js -->
         <script src="assets/admin/assets/js/vendor.min.js"></script>
 
