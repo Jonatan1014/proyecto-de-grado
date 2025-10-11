@@ -110,16 +110,25 @@ class CalendarController {
             'patient_id' => $input['patient_id'] ?? null,
             'doctor_id' => $input['doctor_id'] ?? null,
             'reminder_datetime' => $input['reminder_datetime'] ?? null,
+            'created_at' => date('Y-m-d H:i:s')
         ];
 
         $result = $this->eventModel->create($data);
 
         if ($result) {
-            // Enviar webhook
+            // ✅ Obtener información del usuario
+            $user = [
+                'id' => $_SESSION['user']['id'],
+                'username' => $_SESSION['user']['username'],
+                'email' => $_SESSION['user']['email'],
+                'role' => $_SESSION['user']['role']
+            ];
+
+            // ✅ Enviar webhook con datos completos y usuario
             $this->webhookService->send([
                 'action' => 'create_event',
-                'data' => $data
-            ]);
+                'event_data' => $data
+            ], $user);
 
             http_response_code(201);
             echo json_encode(['status' => 'success']);
@@ -129,7 +138,6 @@ class CalendarController {
         }
     }
 
-    // API para actualizar evento
     public function updateEvent() {
         AuthService::requireLogin();
 
@@ -149,6 +157,7 @@ class CalendarController {
         $input = json_decode(file_get_contents('php://input'), true);
 
         $data = [
+            'id' => $id,
             'title' => $input['title'],
             'description' => $input['description'] ?? null,
             'start_datetime' => $input['start'],
@@ -158,16 +167,25 @@ class CalendarController {
             'patient_id' => $input['patient_id'] ?? null,
             'doctor_id' => $input['doctor_id'] ?? null,
             'reminder_datetime' => $input['reminder_datetime'] ?? null,
+            'updated_at' => date('Y-m-d H:i:s')
         ];
 
         $result = $this->eventModel->update($id, $data);
 
         if ($result) {
-            // Enviar webhook
+            // ✅ Obtener información del usuario
+            $user = [
+                'id' => $_SESSION['user']['id'],
+                'username' => $_SESSION['user']['username'],
+                'email' => $_SESSION['user']['email'],
+                'role' => $_SESSION['user']['role']
+            ];
+
+            // ✅ Enviar webhook con datos completos y usuario
             $this->webhookService->send([
                 'action' => 'update_event',
-                'data' => $data
-            ]);
+                'event_data' => $data
+            ], $user);
 
             http_response_code(200);
             echo json_encode(['status' => 'success']);
@@ -177,7 +195,6 @@ class CalendarController {
         }
     }
 
-    // API para eliminar evento
     public function deleteEvent() {
         AuthService::requireLogin();
 
@@ -197,11 +214,20 @@ class CalendarController {
         $result = $this->eventModel->delete($id);
 
         if ($result) {
-            // Enviar webhook
+            // ✅ Obtener información del usuario
+            $user = [
+                'id' => $_SESSION['user']['id'],
+                'username' => $_SESSION['user']['username'],
+                'email' => $_SESSION['user']['email'],
+                'role' => $_SESSION['user']['role']
+            ];
+
+            // ✅ Enviar webhook con ID del evento eliminado y usuario
             $this->webhookService->send([
                 'action' => 'delete_event',
-                'id' => $id
-            ]);
+                'event_id' => $id,
+                'deleted_at' => date('Y-m-d H:i:s')
+            ], $user);
 
             http_response_code(200);
             echo json_encode(['status' => 'success']);

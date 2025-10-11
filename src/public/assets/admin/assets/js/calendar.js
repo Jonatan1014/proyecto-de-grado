@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Funciones para abrir modales
     function openNewEventModal(date) {
         document.getElementById('form-event').reset();
-        document.getElementById('modal-title').innerText = 'Add Event';
+        document.getElementById('modal-title').innerText = 'Agregar Evento';
         document.getElementById('btn-delete-event').style.display = 'none';
         document.getElementById('event-start').value = date;
         document.getElementById('event-end').value = date;
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        document.getElementById('modal-title').innerText = 'Edit Event';
+        document.getElementById('modal-title').innerText = 'Editar Evento';
         document.getElementById('btn-delete-event').style.display = 'block';
         document.getElementById('btn-delete-event').onclick = function() {
             deleteEvent(event.id);
@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 const select = document.getElementById('event-patient');
-                select.innerHTML = '<option value="">Select Patient</option>';
+                select.innerHTML = '<option value="">Seleccionar Paciente</option>';
                 data.forEach(patient => {
                     const option = document.createElement('option');
                     option.value = patient.id;
@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 const select = document.getElementById('event-doctor');
-                select.innerHTML = '<option value="">Select Doctor</option>';
+                select.innerHTML = '<option value="">Seleccionar Doctor</option>';
                 data.forEach(doctor => {
                     const option = document.createElement('option');
                     option.value = doctor.id;
@@ -208,9 +208,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const doctorId = document.getElementById('event-doctor').value;
         const start = document.getElementById('event-start').value;
         const end = document.getElementById('event-end').value;
+        // ✅ Eliminamos appointmentId porque no lo usamos
 
         if (!title) {
-            alert('Event name is required');
+            alert('El nombre del evento es obligatorio');
             return;
         }
 
@@ -227,8 +228,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 patient_id: patientId || null,
                 doctor_id: doctorId || null,
                 start: start,
-                end: end,
-                appointment_id: appointmentId || null
+                end: end
+                // ❌ Eliminamos appointment_id
             })
         })
         .then(response => response.json())
@@ -237,7 +238,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 calendar.refetchEvents();
                 bootstrap.Modal.getInstance(document.getElementById('event-modal')).hide();
             } else {
-                alert('Error saving event');
+                alert('Error al guardar el evento');
             }
         });
     }
@@ -251,9 +252,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const doctorId = document.getElementById('event-doctor').value;
         const start = document.getElementById('event-start').value;
         const end = document.getElementById('event-end').value;
+        // ✅ Eliminamos appointmentId porque no lo usamos
 
         if (!title) {
-            alert('Event name is required');
+            alert('El nombre del evento es obligatorio');
             return;
         }
 
@@ -270,8 +272,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 patient_id: patientId || null,
                 doctor_id: doctorId || null,
                 start: start,
-                end: end,
-                appointment_id: appointmentId || null
+                end: end
+                // ❌ Eliminamos appointment_id
             })
         })
         .then(response => response.json())
@@ -280,7 +282,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 calendar.refetchEvents();
                 bootstrap.Modal.getInstance(document.getElementById('event-modal')).hide();
             } else {
-                alert('Error updating event');
+                alert('Error al actualizar el evento');
             }
         });
     }
@@ -303,13 +305,13 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if (data.status !== 'success') {
-                alert('Error updating event position');
+                alert('Error al actualizar la posición del evento');
             }
         });
     }
 
     function deleteEvent(id) {
-        if (confirm('Are you sure you want to delete this event?')) {
+        if (confirm('¿Estás seguro de que quieres eliminar este evento?')) {
             fetch(`delete-event?id=${id}`, {
                 method: 'DELETE'
             })
@@ -319,7 +321,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     calendar.refetchEvents();
                     bootstrap.Modal.getInstance(document.getElementById('event-modal')).hide();
                 } else {
-                    alert('Error deleting event');
+                    alert('Error al eliminar el evento');
                 }
             });
         }
@@ -328,5 +330,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Botón para crear nuevo evento
     document.getElementById('btn-new-event').addEventListener('click', function() {
         openNewEventModal(new Date().toISOString().slice(0, 16));
+    });
+
+    // ✅ Prevenir el submit tradicional del formulario
+    document.getElementById('form-event').addEventListener('submit', function(e) {
+        e.preventDefault(); // ✅ Prevenir el envío tradicional
     });
 });
