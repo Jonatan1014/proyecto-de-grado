@@ -165,6 +165,20 @@ class PacienteController {
     }
     }
 
+    public function getAll() {
+        AuthService::requireLogin();
+
+        if (!AuthService::isAdminOrRoot()) {
+            http_response_code(403);
+            echo json_encode(['error' => 'Acceso denegado']);
+            exit;
+        }
+
+        $patients = Paciente::getAll(); // Asegúrate de tener este método en tu modelo
+        header('Content-Type: application/json');
+        echo json_encode($patients);
+    }
+
 
 }
 

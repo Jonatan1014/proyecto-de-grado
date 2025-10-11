@@ -27,6 +27,17 @@
     <link href="assets/admin/assets/css/unicons/css/unicons.css" rel="stylesheet" type="text/css" />
     <link href="assets/admin/assets/css/remixicon/remixicon.css" rel="stylesheet" type="text/css" />
     <link href="assets/admin/assets/css/mdi/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth'
+        });
+        calendar.render();
+    });
+    </script>
 </head>
 
 <body>
@@ -57,12 +68,12 @@
                             <div class="page-title-box">
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
+                                        <li class="breadcrumb-item"><a href="index">Home</a></li>
                                         <li class="breadcrumb-item"><a href="javascript: void(0);">Apps</a></li>
-                                        <li class="breadcrumb-item active">Calendar</li>
+                                        <li class="breadcrumb-item active">Calendario</li>
                                     </ol>
                                 </div>
-                                <h4 class="page-title">Calendar</h4>
+                                <h4 class="page-title">Calendario</h4>
                             </div>
                         </div>
                     </div>
@@ -77,49 +88,32 @@
                                         <div class="col-lg-3">
                                             <div class="d-grid">
                                                 <button class="btn btn-lg font-16 btn-danger" id="btn-new-event">
-                                                    <i class="mdi mdi-plus-circle-outline"></i> Create New Event
+                                                    <i class="mdi mdi-plus-circle-outline"></i> Crear nuevo Evento
                                                 </button>
                                             </div>
                                             <div id="external-events" class="mt-3">
-                                                <p class="text-muted">Drag and drop your event or click in the calendar
+                                                <p class="text-muted">Arrastre y suelte su evento o haga clic en el
+                                                    calendario
                                                 </p>
                                                 <div class="external-event bg-success-lighten text-success"
                                                     data-class="bg-success"><i
-                                                        class="mdi mdi-checkbox-blank-circle me-2 vertical-middle"></i>New
-                                                    Theme Release</div>
+                                                        class="mdi mdi-checkbox-blank-circle me-2 vertical-middle"></i>Cita Pendiente</div>
+
                                                 <div class="external-event bg-info-lighten text-info"
                                                     data-class="bg-info"><i
-                                                        class="mdi mdi-checkbox-blank-circle me-2 vertical-middle"></i>My
-                                                    Event</div>
+                                                        class="mdi mdi-checkbox-blank-circle me-2 vertical-middle"></i>Recordatorio</div>
+
                                                 <div class="external-event bg-warning-lighten text-warning"
                                                     data-class="bg-warning"><i
-                                                        class="mdi mdi-checkbox-blank-circle me-2 vertical-middle"></i>Meet
-                                                    manager</div>
+                                                        class="mdi mdi-checkbox-blank-circle me-2 vertical-middle"></i>Otro</div>
+
                                                 <div class="external-event bg-danger-lighten text-danger"
                                                     data-class="bg-danger"><i
-                                                        class="mdi mdi-checkbox-blank-circle me-2 vertical-middle"></i>Create
-                                                    New theme</div>
+                                                        class="mdi mdi-checkbox-blank-circle me-2 vertical-middle"></i>Cita Cancelada</div>
+
                                             </div>
 
-                                            <div class="mt-5 d-none d-xl-block">
-                                                <h5 class="text-center">How It Works ?</h5>
-
-                                                <ul class="ps-3">
-                                                    <li class="text-muted mb-3">
-                                                        It has survived not only five centuries, but also the leap into
-                                                        electronic typesetting, remaining essentially unchanged.
-                                                    </li>
-                                                    <li class="text-muted mb-3">
-                                                        Richard McClintock, a Latin professor at Hampden-Sydney College
-                                                        in Virginia, looked up one of the more obscure Latin words,
-                                                        consectetur, from a Lorem Ipsum passage.
-                                                    </li>
-                                                    <li class="text-muted mb-3">
-                                                        It has survived not only five centuries, but also the leap into
-                                                        electronic typesetting, remaining essentially unchanged.
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                          
 
                                         </div> <!-- end col-->
 
@@ -147,7 +141,7 @@
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <div class="mb-3">
-                                                            <label class="control-label form-label">Event Name</label>
+                                                            <label class="control-label form-label">Nombre Evento</label>
                                                             <input class="form-control" placeholder="Insert Event Name"
                                                                 type="text" name="title" id="event-title" required />
                                                             <div class="invalid-feedback">Please provide a valid event
@@ -156,10 +150,10 @@
                                                     </div>
                                                     <div class="col-12">
                                                         <div class="mb-3">
-                                                            <label class="control-label form-label">Category</label>
+                                                            <label class="control-label form-label">Categoria</label>
                                                             <select class="form-select" name="category"
                                                                 id="event-category" required>
-                                                                <option value="bg-danger" selected>Danger</option>
+                                                                <option value="bg-danger">Danger</option>
                                                                 <option value="bg-success">Success</option>
                                                                 <option value="bg-primary">Primary</option>
                                                                 <option value="bg-info">Info</option>
@@ -170,17 +164,76 @@
                                                                 category</div>
                                                         </div>
                                                     </div>
+                                                    <div class="col-12">
+                                                        <div class="mb-3">
+                                                            <label class="control-label form-label">Descripcion</label>
+                                                            <textarea class="form-control"
+                                                                placeholder="Insert Description" name="description"
+                                                                id="event-description"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="mb-3">
+                                                            <label class="control-label form-label">Tipo Eveto</label>
+                                                            <select class="form-select" name="type" id="event-type"
+                                                                required>
+                                                                <option value="appointment">Cita Medica</option>
+                                                                <option value="reminder">Recordatorio</option>
+                                                                <option value="other">Otro</option>
+                                                            </select>
+                                                            <div class="invalid-feedback">Please select a valid event
+                                                                type</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="mb-3">
+                                                            <label class="control-label form-label">Paciente</label>
+                                                            <select class="form-select" name="patient_id"
+                                                                id="event-patient">
+                                                                <option value="">Seleccione Paciente</option>
+                                                                <!-- Se llenará dinámicamente -->
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="mb-3">
+                                                            <label class="control-label form-label">Doctor</label>
+                                                            <select class="form-select" name="doctor_id"
+                                                                id="event-doctor">
+                                                                <option value="">Seleccione Doctor</option>
+                                                                <!-- Se llenará dinámicamente -->
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="mb-3">
+                                                            <label class="control-label form-label">Inicio Evento</label>
+                                                            <input class="form-control" type="datetime-local"
+                                                                name="start" id="event-start" required />
+                                                            <div class="invalid-feedback">Please provide a valid start
+                                                                date/time</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="mb-3">
+                                                            <label class="control-label form-label">Finalizacion Evento</label>
+                                                            <input class="form-control" type="datetime-local" name="end"
+                                                                id="event-end" required />
+                                                            <div class="invalid-feedback">Please provide a valid end
+                                                                date/time</div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-6">
                                                         <button type="button" class="btn btn-danger"
-                                                            id="btn-delete-event">Delete</button>
+                                                            id="btn-delete-event">Eliminar</button>
                                                     </div>
                                                     <div class="col-6 text-end">
                                                         <button type="button" class="btn btn-light me-1"
-                                                            data-bs-dismiss="modal">Close</button>
+                                                            data-bs-dismiss="modal">Cancelar</button>
                                                         <button type="submit" class="btn btn-success"
-                                                            id="btn-save-event">Save</button>
+                                                            id="btn-save-event">Guardar</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -188,6 +241,7 @@
                                     </div> <!-- end modal-content-->
                                 </div> <!-- end modal dialog-->
                             </div>
+                            <!-- end modal-->
                             <!-- end modal-->
                         </div>
                         <!-- end col-12 -->
@@ -220,10 +274,7 @@
     <script src="assets/admin/assets/js/app.js"></script>
 
     <!-- Fullcalendar js -->
-    <script src="assets/admin/assets/vendor/fullcalendar/index.global.min.js"></script>
-
-    <!-- Calendar App Demo js -->
-    <script src="assets/admin/assets/js/pages/demo.calendar.js"></script>
+    <script src="assets/admin/assets/js/calendar.js"></script>
 
 </body>
 

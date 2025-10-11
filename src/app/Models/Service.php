@@ -71,7 +71,7 @@ class Service {
     public static function getAll() {
         $db = Database::getConnection();
         // ✅ Actualizado para incluir category_id
-        $stmt = $db->prepare("SELECT id, name, duration_minutes, category_id FROM services ORDER BY name ASC");
+        $stmt = $db->prepare("SELECT id, name, price, duration_minutes, category_id FROM services ORDER BY name ASC");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

@@ -6,8 +6,13 @@ require_once __DIR__ . '/../../config/database.php';
 class Cita {
     public $id;
     public $patient_id;
+    public $idnumber;
+    public $patient_name;
+    public $patient_lastname;
     public $doctor_id;
+    public $doctor_name;
     public $service_id;
+    public $service_name;
     public $appointment_date;
     public $status;
     public $notes;
@@ -16,8 +21,13 @@ class Cita {
     public function __construct($data) {
         $this->id = $data['id'] ?? null;
         $this->patient_id = $data['patient_id'];
+        $this->idnumber = $data['idnumber'];
+        $this->patient_name = $data['patient_name'];
+        $this->patient_lastname = $data['patient_lastname'];
         $this->doctor_id = $data['doctor_id'];
+        $this->doctor_name = $data['doctor_name'];
         $this->service_id = $data['service_id'];
+        $this->service_name = $data['service_name'];
         $this->appointment_date = $data['appointment_date'];
         $this->status = $data['status'] ?? 'scheduled';
         $this->notes = $data['notes'] ?? null;
@@ -30,6 +40,8 @@ class Cita {
         $stmt = $db->prepare("
             SELECT a.*, 
                    p.name as patient_name, 
+                   p.idnumber ,
+                   p.lastname as patient_lastname,
                    d.name as doctor_name, 
                    s.name as service_name 
             FROM appointments a
@@ -89,6 +101,8 @@ class Cita {
         $stmt = $db->prepare("
             SELECT a.*, 
                    p.name as patient_name, 
+                   p.idnumber ,
+                   p.lastname as patient_lastname,
                    d.name as doctor_name, 
                    s.name as service_name 
             FROM appointments a
@@ -168,17 +182,22 @@ class Cita {
         }
     }
 
-    public static function getForCalendar() {
+    public static function getForCalendar() {   
         $db = Database::getConnection();
 
         $stmt = $db->prepare("
             SELECT a.id, 
-                   a.appointment_date as start, 
-                   a.status,
-                   p.name as patient_name, 
-                   d.name as doctor_name, 
-                   s.name as service_name,
-                   a.notes
+                a.appointment_date as start, 
+                a.status,
+                a.patient_id,
+                a.doctor_id,
+                a.service_id,
+                a.notes,
+                p.name as patient_name, 
+                p.idnumber,
+                p.lastname as patient_lastname,
+                d.name as doctor_name, 
+                s.name as service_name
             FROM appointments a
             LEFT JOIN patients p ON a.patient_id = p.id
             LEFT JOIN doctors d ON a.doctor_id = d.id
@@ -194,15 +213,18 @@ class Cita {
             foreach ($results as $data) {
                 $events[] = [
                     'id' => $data['id'],
-                    'title' => $data['patient_name'] . ' - ' . $data['service_name'],
+                    'title' => $data['patient_name'] . ' ' . ($data['patient_lastname'] ?? '') . ' - ' . $data['service_name'],
                     'start' => $data['start'],
+                    'backgroundColor' => $data['status'] === 'completed' ? '#28a745' : '#ffc107',
+                    'borderColor' => $data['status'] === 'completed' ? '#28a745' : '#ffc107',
                     'extendedProps' => [
                         'doctor' => $data['doctor_name'],
                         'status' => $data['status'],
                         'notes' => $data['notes'],
                         'patient_id' => $data['patient_id'],
                         'doctor_id' => $data['doctor_id'],
-                        'service_id' => $data['service_id']
+                        'service_id' => $data['service_id'],
+                        'idnumber' => $data['idnumber']
                     ]
                 ];
             }

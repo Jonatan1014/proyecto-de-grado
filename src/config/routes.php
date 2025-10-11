@@ -25,7 +25,7 @@ return [
     
     
     // rutas de admin    
-    '/apps-calendar' => ['controller' => 'AdminController', 'action' => 'appsCalendar'],
+    '/apps-calendar' => ['controller' => 'CalendarController', 'action' => 'appsCalendar'],
     '/apps-tasks' => ['controller' => 'AdminController', 'action' => 'appsTasks'],
     '/pages-profile' => ['controller' => 'AdminController', 'action' => 'pagesProfile'],
 
@@ -69,6 +69,18 @@ return [
     '/pages-upd-cita' => ['controller' => 'CitaController', 'action' => 'editCita'],
     '/update-cita' => ['controller' => 'CitaController', 'action' => 'updateCita'],
     '/delete-cita' => ['controller' => 'CitaController', 'action' => 'deleteCita'],
+
+    // Rutas del calendario
+    '/calendar' => ['controller' => 'CalendarController', 'action' => 'appsCalendar'],
+    '/events' => ['controller' => 'CalendarController', 'action' => 'getEvents'],
+    '/add-event' => ['controller' => 'CalendarController', 'action' => 'addEvent'],
+    '/update-event' => ['controller' => 'CalendarController', 'action' => 'updateEvent'],
+    '/delete-event' => ['controller' => 'CalendarController', 'action' => 'deleteEvent'],
+    // Rutas para cargar pacientes y doctores
+    '/patients-list' => ['controller' => 'PacienteController', 'action' => 'getAll'],
+    '/doctors-list' => ['controller' => 'MedicoController', 'action' => 'getAll'],
+
+
 
 
     // Agrega más rutas aquí según necesites

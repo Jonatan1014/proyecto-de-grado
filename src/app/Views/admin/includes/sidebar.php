@@ -110,9 +110,8 @@
                         <li>
                             <a href="pages-add-cita">Programar Cita</a>
                         </li>
-
                         <li>
-                            <a href="crm-management.html">Consuslta de Cita</a>
+                            <a href="pages-get-cita">Consuslta de Cita</a>
                         </li>
 
                     </ul>

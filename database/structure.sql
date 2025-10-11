@@ -96,6 +96,26 @@ CREATE TABLE appointments (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+CREATE TABLE events_calendar (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    start_datetime DATETIME NOT NULL,
+    end_datetime DATETIME NOT NULL,
+    event_type ENUM('appointment', 'reminder', 'other', 'cancelled') DEFAULT 'other',
+    appointment_id INT NULL, -- Relación con la tabla appointments
+    patient_id INT NULL,     -- Relación directa con paciente si no es una cita
+    doctor_id INT NULL,      -- Relación directa con médico si aplica
+    is_reminder_sent BOOLEAN DEFAULT FALSE,
+    reminder_datetime DATETIME NULL, -- Cuándo se debe enviar el recordatorio
+    webhook_sent BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (appointment_id) REFERENCES appointments(id) ON DELETE CASCADE,
+    FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE SET NULL,
+    FOREIGN KEY (doctor_id) REFERENCES doctors(id) ON DELETE SET NULL
+);
+
 -- Tabla: clinical_records
 CREATE TABLE clinical_records (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -124,114 +144,3 @@ CREATE TABLE medical_records_details (
     UNIQUE (clinical_record_id, detail_type) -- Evita detalles duplicados del mismo tipo para un registro clínico
 );
 
-
-
--- Insertar datos en clinics
-INSERT INTO clinics (name, address, phone, email, schedule) VALUES
-('Clínica Dental Sonrisa Perfecta', 'Av. Siempre Viva 123, Ciudad', '555-1234', 'info@sonrisaperfecta.com', 'Lunes a Viernes 8:00 - 18:00');
-
--- Insertar datos en doctors
-INSERT INTO doctors (idnumber, name, specialization, phone, email, license_number) VALUES
-('101010','Dr. Juan Pérez', 'Odontología General', '555-5678', 'juan@clinic.com', 'MED123456'),
-('202020','Dra. María López', 'Ortodoncia', '555-9012', 'maria@clinic.com', 'MED789012');
-
--- Insertar datos en patients
-INSERT INTO patients (idnumber, name, lastname, birth_date, gender, phone, email, address) VALUES
-('303030','Carlos manuel', 'Rodriguez', '1990-05-15', 'M', '555-3456', 'carlos@paciente.com', 'Calle Falsa 123'),
-('404040','Ana', 'Martinez', '1985-11-23', 'F', '555-7890', 'ana@paciente.com', 'Av. Central 456');
-
--- Insertar usuario con rol 'root'
-INSERT INTO users (username, email, password, role, is_active) 
-VALUES ('root_user', 'iadevelopment404@gmail.com', '$2y$10$oXi2hIoeMvISY7qYKM/WFeEc86LeZQAZXDHHthf8r/.0gJUlqPpvW', 'root', TRUE);
-
--- Insertar usuario con rol 'admin'
-INSERT INTO users (username, email, password, role, is_active) 
-VALUES ('admin_user', 'admin@gmail.com', '$2y$10$oXi2hIoeMvISY7qYKM/WFeEc86LeZQAZXDHHthf8r/.0gJUlqPpvW', 'admin', TRUE);
-
--- Insertar datos en service_categories
-INSERT INTO service_categories (name) VALUES
-('Dental'),
-('Surgery'),
-('Pediatrics'),
-('Cardiology');
-
--- Insertar datos en services
-INSERT INTO services (
-    name, 
-    description, 
-    duration_minutes, 
-    price, 
-    category_id, 
-    icon, 
-    features, 
-    is_featured, 
-    status
-) VALUES (
-    'Limpieza Dental Profunda',
-    'Procedimiento de limpieza completa que elimina la placa y el sarro acumulados en los dientes y encías.',
-    60,
-    80.00,
-    1,
-    'fas fa-tooth',
-    '["Limpieza Profunda", "Eliminación de Sarro", "Pulido Dental", "Prevención de Caries"]',
-    TRUE,
-    'active'
-);
-INSERT INTO services (
-    name, 
-    description, 
-    duration_minutes, 
-    price, 
-    category_id, 
-    icon, 
-    features, 
-    is_featured, 
-    status
-) VALUES (
-    'Extracción de Muela del Juicio',
-    'Procedimiento quirúrgico para remover muelas del juicio que están impactadas o causan problemas.',
-    90,
-    350.00,
-    2,
-    'fas fa-syringe',
-    '["Anestesia Local", "Extracción Quirúrgica", "Cirugía Oral", "Recuperación Post-Operativa"]',
-    FALSE,
-    'active'
-);
-INSERT INTO services (
-    name, 
-    description, 
-    duration_minutes, 
-    price, 
-    category_id, 
-    icon, 
-    features, 
-    is_featured, 
-    status
-) VALUES (
-    'Ortodoncia con Brackets',
-    'Tratamiento ortodóncico para corregir la alineación de los dientes y mejorar la mordida.',
-    45,
-    2500.00,
-    3,
-    'fas fa-smile',
-    '["Brackets Metálicos", "Ajustes Mensuales", "Control de Progreso", "Resultados Garantizados"]',
-    TRUE,
-    'active'
-);
-
--- Insertar datos en appointments
-INSERT INTO appointments (patient_id, doctor_id, service_id, appointment_date, status, notes) VALUES
-(1, 1, 1, '2025-04-20 10:00:00', 'scheduled', 'Primera cita'),
-(2, 2, 3, '2025-04-21 11:00:00', 'completed', 'Revisión');
-
--- Insertar datos en clinical_records
-INSERT INTO clinical_records (patient_id, doctor_id, appointment_id, date, diagnosis, treatment) VALUES
-(1, 1, 1, '2025-04-20', 'Sarro leve', 'Limpieza profunda'),
-(2, 2, 2, '2025-04-21', 'Desalineación dental', 'Colocación de brackets');
-
--- Insertar datos en medical_records_details
-INSERT INTO medical_records_details (clinical_record_id, detail_type, detail_value) VALUES
-(1, 'Síntomas', 'Sensibilidad dental'),
-(1, 'Tratamiento Aplicado', 'Fluorización'),
-(2, 'Plan de Tratamiento', 'Revisiones mensuales');

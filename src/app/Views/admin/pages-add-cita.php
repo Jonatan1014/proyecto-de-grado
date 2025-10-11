@@ -1,21 +1,3 @@
-<?php
-// Asegúrate de que la sesión esté iniciada
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-require_once __DIR__ . '/../../Services/AuthService.php';
-require_once __DIR__ . '/../../Models/Paciente.php';
-require_once __DIR__ . '/../../Models/Doctor.php';
-require_once __DIR__ . '/../../Models/Service.php';
-
-AuthService::requireLogin();
-
-if (!AuthService::isAdminOrRoot()) {
-    header("Location: /login");
-    exit;
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -116,7 +98,6 @@ if (!AuthService::isAdminOrRoot()) {
                                                                         data-toggle="select2">
                                                                         <option value="">Seleccionar paciente</option>
                                                                         <?php
-                                                                        $pacientes = Paciente::getAll();
                                                                         foreach ($pacientes as $paciente):
                                                                         ?>
                                                                         <option value="<?php echo $paciente['id']; ?>"
@@ -155,7 +136,6 @@ if (!AuthService::isAdminOrRoot()) {
                                                                         class="form-control" required>
                                                                         <option value="">Seleccionar servicio</option>
                                                                         <?php
-                                                                        $servicios = Service::getAll();
                                                                         foreach ($servicios as $servicio):
                                                                         ?>
                                                                         <option value="<?php echo $servicio['id']; ?>"
@@ -172,7 +152,6 @@ if (!AuthService::isAdminOrRoot()) {
                                                                         class="form-control" required>
                                                                         <option value="">Seleccionar doctor</option>
                                                                         <?php
-                                                                        $doctores = Doctor::getAll();
                                                                         foreach ($doctores as $doctor):
                                                                         ?>
                                                                         <option value="<?php echo $doctor['id']; ?>">

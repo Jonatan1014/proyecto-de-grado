@@ -16,16 +16,16 @@ class AdminController {
 
         include __DIR__ . '/../Views/admin/dashboard.php';
     }
-    public function appsCalendar() {
-        AuthService::requireLogin();
+    // public function appsCalendar() {
+    //     AuthService::requireLogin();
 
-        if (!AuthService::isAdminOrRoot()) {
-            header("Location: login");
-            exit;
-        }
+    //     if (!AuthService::isAdminOrRoot()) {
+    //         header("Location: login");
+    //         exit;
+    //     }
 
-        include __DIR__ . '/../Views/admin/apps-calendar.php';
-    }
+    //     include __DIR__ . '/../Views/admin/apps-calendar.php';
+    // }
 
     public function appsTasks() {
         AuthService::requireLogin();
