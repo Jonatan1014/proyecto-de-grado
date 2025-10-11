@@ -638,7 +638,7 @@
     <!-- END wrapper -->
 
     <!-- Theme Settings -->
-    <?php include 'includes/admin/theme.php'; ?>
+    <?php include 'includes/theme.php'; ?>
 
 
     <!-- Vendor js -->

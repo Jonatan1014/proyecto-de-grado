@@ -50,7 +50,7 @@ class CalendarController {
                 if ($event['type'] === 'scheduled') {
                     $className = 'bg-success'; // Cita programada
                 } elseif ($event['type'] === 'completed') {
-                    $className = 'bg-info'; // Cita completada
+                    $className = 'bg-secondary'; // Cita completada
                 } elseif ($event['type'] === 'cancelled') {
                     $className = 'bg-danger'; // Cita cancelada
                 }

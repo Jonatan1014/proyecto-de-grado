@@ -101,7 +101,7 @@
                                                                         foreach ($pacientes as $paciente):
                                                                         ?>
                                                                         <option value="<?php echo $paciente['id']; ?>"
-                                                                            data-name="<?php echo htmlspecialchars($paciente['name']); ?>"
+                                                                            data-name="<?php echo htmlspecialchars($paciente['name']. ' '. $paciente['lastname']); ?>"
                                                                             data-phone="<?php echo htmlspecialchars($paciente['phone']); ?>"
                                                                             data-email="<?php echo htmlspecialchars($paciente['email']); ?>"
                                                                             data-address="<?php echo htmlspecialchars($paciente['address']); ?>">

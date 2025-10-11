@@ -44,45 +44,115 @@
         <!--- Sidemenu -->
         <ul class="side-nav">
 
-            <li class="side-nav-title">Gestion Administrativa</li>
+            <li class="side-nav-title">Inicio</li>
 
             <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarDashboards" aria-expanded="false"
-                    aria-controls="sidebarDashboards" class="side-nav-link">
-                    <i class="uil-medkit"></i>
-                    <span class="badge bg-success float-end">5</span>
-                    <span> Administrativo </span>
+                <a href="index" class="side-nav-link">
+                    <i class="uil-home-alt"></i>
+                    <span> Dashboard </span>
                 </a>
-                <div class="collapse" id="sidebarDashboards">
+            </li>
+
+            <li class="side-nav-title">Gestión de Citas</li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarCitas" aria-expanded="false"
+                    aria-controls="sidebarCitas" class="side-nav-link">
+                    <i class="uil-calender"></i>
+                    <span> Citas Médicas </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarCitas">
                     <ul class="side-nav-second-level">
                         <li>
-                            <a href="index">Dashboard</a>
+                            <a href="apps-calendar">Calendario de Citas</a>
                         </li>
                         <li>
-                            <a href="pages-add-medico">Registrar Medico</a>
+                            <a href="pages-add-cita">Programar Nueva Cita</a>
                         </li>
                         <li>
-                            <a href="pages-get-medico">Consulta de Medico</a>
+                            <a href="pages-get-cita">Ver Citas Programadas</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="side-nav-title">Gestión de Pacientes</li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarPacientes" aria-expanded="false" aria-controls="sidebarPacientes"
+                    class="side-nav-link">
+                    <i class="uil-users-alt"></i>
+                    <span> Pacientes </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarPacientes">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="pages-add-paciente">Registrar Nuevo Paciente</a>
+                        </li>
+                        <li>
+                            <a href="pages-get-paciente">Buscar Paciente</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="side-nav-title">Gestión de Historiales Clínicos</li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarHistoriales" aria-expanded="false" aria-controls="sidebarHistoriales"
+                    class="side-nav-link">
+                    <i class="uil-file-medical"></i>
+                    <span> Historiales Clínicos </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarHistoriales">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="pages-get-paciente">Ver Historial de Paciente</a>
+                        </li>
+                        <!-- Aquí puedes agregar más opciones como "Agregar nuevo registro clínico" -->
+                    </ul>
+                </div>
+            </li>
+
+            <li class="side-nav-title">Gestión de Médicos y Servicios</li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarAdmin" aria-expanded="false"
+                    aria-controls="sidebarAdmin" class="side-nav-link">
+                    <i class="uil-medkit"></i>
+                    <span> Médicos y Servicios </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarAdmin">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="pages-add-medico">Registrar Médico</a>
+                        </li>
+                        <li>
+                            <a href="pages-get-medico">Buscar Médico</a>
                         </li>
                         <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarSecondLevel" aria-expanded="false"
-                                aria-controls="sidebarSecondLevel">
+                            <a data-bs-toggle="collapse" href="#sidebarServicios" aria-expanded="false"
+                                aria-controls="sidebarServicios">
                                 <span> Servicios </span>
                                 <span class="menu-arrow"></span>
                             </a>
-                            <div class="collapse" id="sidebarSecondLevel">
+                            <div class="collapse" id="sidebarServicios">
                                 <ul class="side-nav-third-level">
                                     <li>
                                         <a href="pages-add-service">Registrar Servicio</a>
                                     </li>
                                     <li>
-                                        <a href="pages-get-service">Consulta de Servicio</a>
+                                        <a href="pages-get-service">Buscar Servicio</a>
                                     </li>
                                     <li>
-                                        <a href="pages-add-service-category">Registrar Categoria</a>
+                                        <a href="pages-add-service-category">Registrar Categoría</a>
                                     </li>
                                     <li>
-                                        <a href="pages-get-service-category">Consulta de Categoria</a>
+                                        <a href="pages-get-service-category">Buscar Categoría</a>
                                     </li>
                                 </ul>
                             </div>
@@ -91,81 +161,30 @@
                 </div>
             </li>
 
-            <li class="side-nav-title">Gestion Pacientes</li>
-            <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarCrm" aria-expanded="false" aria-controls="sidebarCrm"
-                    class="side-nav-link">
-                    <i class="uil-users-alt"></i>
-                    <span class="badge bg-danger text-white float-end">New</span>
-                    <span> Pacientes </span>
-                </a>
-                <div class="collapse" id="sidebarCrm">
-                    <ul class="side-nav-second-level">
-                        <li>
-                            <a href="pages-add-paciente">Registro de Pacientes</a>
-                        </li>
-                        <li>
-                            <a href="pages-get-paciente">Consulta de Pacientes</a>
-                        </li>
-                        <li>
-                            <a href="pages-add-cita">Programar Cita</a>
-                        </li>
-                        <li>
-                            <a href="pages-get-cita">Consuslta de Cita</a>
-                        </li>
-
-                    </ul>
-                </div>
-            </li>
-            <li class="side-nav-title">Gestion Fechas</li>
-
-            <li class="side-nav-item">
-                <a href="apps-calendar" class="side-nav-link">
-                    <i class="uil-calender"></i>
-                    <span> Calendar </span>
-                </a>
-            </li>
-
-
-
-
-
+            <!-- Opcional: Mantener otras secciones como Tasks -->
+            <li class="side-nav-title">Otras Herramientas</li>
 
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarTasks" aria-expanded="false" aria-controls="sidebarTasks"
                     class="side-nav-link">
                     <i class="uil-clipboard-alt"></i>
-                    <span> Tasks </span>
+                    <span> Tareas </span>
                     <span class="menu-arrow"></span>
                 </a>
                 <div class="collapse" id="sidebarTasks">
                     <ul class="side-nav-second-level">
                         <li>
-                            <a href="apps-tasks">List</a>
+                            <a href="apps-tasks">Lista de Tareas</a>
                         </li>
                         <li>
-                            <a href="apps-tasks-details">Details</a>
+                            <a href="apps-tasks-details">Detalles de Tarea</a>
                         </li>
                         <li>
-                            <a href="apps-kanban">Kanban Board</a>
+                            <a href="apps-kanban">Tablero Kanban</a>
                         </li>
                     </ul>
                 </div>
             </li>
-
-
-
-
-
-            <li class="side-nav-title">Components</li>
-
-
-
-
-            <!-- Help Box -->
-
-            <!-- end Help Box -->
-
 
         </ul>
         <!--- End Sidemenu -->

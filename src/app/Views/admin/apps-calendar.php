@@ -98,6 +98,9 @@
                                                 <div class="external-event bg-success-lighten text-success"
                                                     data-class="bg-success"><i
                                                         class="mdi mdi-checkbox-blank-circle me-2 vertical-middle"></i>Cita Pendiente</div>
+                                                <div class="external-event badge-secondary-lighten text-secundary"
+                                                    data-class="bg-secondary"><i
+                                                        class="mdi mdi-checkbox-blank-circle me-2 vertical-middle"></i>Cita Realizada</div>
 
                                                 <div class="external-event bg-info-lighten text-info"
                                                     data-class="bg-info"><i
