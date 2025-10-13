@@ -1,0 +1,194 @@
+# File Tree: proyecto-de-grado
+
+Generated on: 13/10/2025, 0:56:30
+Root path: `c:\xampp\htdocs\proyecto-de-grado`
+
+```
+├── 📁 .git/ 🚫 (auto-hidden)
+├── 📁 database/
+│   ├── 📁 migrations/
+│   ├── 📁 seeds/
+│   ├── 🗄️ dump.sql
+│   ├── 🗄️ example.sql
+│   └── 🗄️ structure.sql
+├── 📁 docs/
+│   └── 📖 README.md
+├── 📁 logs/
+│   └── 📋 app.log 🚫 (auto-hidden)
+├── 📁 src/
+│   ├── 📁 app/
+│   │   ├── 📁 Controllers/
+│   │   │   ├── 🐘 AdminController.php
+│   │   │   ├── 🐘 AuthController.php
+│   │   │   ├── 🐘 CalendarController.php
+│   │   │   ├── 🐘 CitaController.php
+│   │   │   ├── 🐘 HistorialClinicoController.php
+│   │   │   ├── 🐘 HistorialController.php
+│   │   │   ├── 🐘 MedicoController.php
+│   │   │   ├── 🐘 PacienteController.php
+│   │   │   ├── 🐘 ServiceCategoryController.php
+│   │   │   └── 🐘 ServiceController.php
+│   │   ├── 📁 Models/
+│   │   │   ├── 🐘 Cita.php
+│   │   │   ├── 🐘 Doctor.php
+│   │   │   ├── 🐘 EventCalendar.php
+│   │   │   ├── 🐘 HistorialClinico.php
+│   │   │   ├── 🐘 Paciente.php
+│   │   │   ├── 🐘 Service.php
+│   │   │   ├── 🐘 ServiceCategory.php
+│   │   │   └── 🐘 User.php
+│   │   ├── 📁 Services/
+│   │   │   ├── 🐘 AuthService.php
+│   │   │   ├── 🐘 CitaService.php
+│   │   │   ├── 🐘 HistorialService.php
+│   │   │   └── 🐘 WebhookService.php
+│   │   ├── 📁 Utils/
+│   │   │   ├── 🐘 Conexion.php
+│   │   │   └── 🐘 Validador.php
+│   │   └── 📁 Views/
+│   │       ├── 📁 admin/
+│   │       │   ├── 📁 includes/
+│   │       │   │   ├── 🐘 alertEvent.php
+│   │       │   │   ├── 🐘 footer.php
+│   │       │   │   ├── 🐘 navbar.php
+│   │       │   │   ├── 🐘 sidebar.php
+│   │       │   │   └── 🐘 theme.php
+│   │       │   ├── 🐘 apps-calendar.php
+│   │       │   ├── 🌐 apps-tasks-details.html
+│   │       │   ├── 🐘 apps-tasks.php
+│   │       │   ├── 🐘 dashboard.php
+│   │       │   ├── 🐘 pages-add-cita.php
+│   │       │   ├── 🐘 pages-add-historial-clinico.php
+│   │       │   ├── 🐘 pages-add-medico.php
+│   │       │   ├── 🐘 pages-add-paciente.php
+│   │       │   ├── 🐘 pages-add-service-category.php
+│   │       │   ├── 🐘 pages-add-service.php
+│   │       │   ├── 🐘 pages-get-cita.php
+│   │       │   ├── 🐘 pages-get-historial-clinico.php
+│   │       │   ├── 🐘 pages-get-medico.php
+│   │       │   ├── 🐘 pages-get-paciente.php
+│   │       │   ├── 🐘 pages-get-service-category.php
+│   │       │   ├── 🐘 pages-get-service.php
+│   │       │   ├── 🐘 pages-profile.php
+│   │       │   ├── 🐘 pages-upd-cita.php
+│   │       │   ├── 🐘 pages-upd-historial-clinico.php
+│   │       │   ├── 🐘 pages-upd-medico.php
+│   │       │   ├── 🐘 pages-upd-paciente.php
+│   │       │   ├── 🐘 pages-upd-service-category.php
+│   │       │   └── 🐘 pages-upd-service.php
+│   │       ├── 📁 includes/
+│   │       │   ├── 🐘 footer.php
+│   │       │   └── 🐘 header.php
+│   │       ├── 🐘 404.php
+│   │       ├── 🐘 about.php
+│   │       ├── 🐘 appointment.php
+│   │       ├── 🐘 citas.php
+│   │       ├── 🐘 contact.php
+│   │       ├── 🐘 department-details.php
+│   │       ├── 🐘 departments.php
+│   │       ├── 🐘 doctors.php
+│   │       ├── 🐘 faq.php
+│   │       ├── 🐘 gallery.php
+│   │       ├── 🐘 historial.php
+│   │       ├── 🐘 home.php
+│   │       ├── 🐘 homecopy.php
+│   │       ├── 🐘 login copy.php
+│   │       ├── 🐘 login.php
+│   │       ├── 🐘 login2.php
+│   │       ├── 🐘 pacientes.php
+│   │       ├── 🐘 pages-profile.php
+│   │       ├── 🐘 privacy.php
+│   │       ├── 🐘 service-details.php
+│   │       ├── 🐘 services.php
+│   │       ├── 🐘 starter-page.php
+│   │       ├── 🐘 terms.php
+│   │       └── 🐘 testimonials.php
+│   ├── 📁 config/
+│   │   ├── 🐘 config.php
+│   │   ├── 🐘 database.php
+│   │   └── 🐘 routes.php
+│   ├── 📁 public/
+│   │   ├── 📁 assets/
+│   │   │   ├── 📁 admin/
+│   │   │   │   └── 📁 assets/
+│   │   │   │       ├── 📁 css/
+│   │   │   │       │   ├── 📄 app.min.js 🚫 (auto-hidden)
+│   │   │   │       │   ├── 📄 calendar.js
+│   │   │   │       │   ├── 📄 hyper-config.js
+│   │   │   │       │   ├── 📄 hyper-syntax.js
+│   │   │   │       │   └── 📄 vendor.min.js 🚫 (auto-hidden)
+│   │   │   │       ├── 📁 vendor/
+│   │   │   │       │   ├── 📁 apexcharts/
+│   │   │   │       │   │   └── 📄 apexcharts.min.js 🚫 (auto-hidden)
+│   │   │   │       │   ├── 📁 bootstrap-datepicker/
+│   │   │   │       │   │   ├── 📁 css/
+│   │   │   │       │   │   │   └── 🎨 bootstrap-datepicker.min.css 🚫 (auto-hidden)
+│   │   │   │       │   │   └── 📁 js/
+│   │   │   │       │   │       └── 📄 bootstrap-datepicker.min.js 🚫 (auto-hidden)
+│   │   │   ├── 📁 css/
+│   │   │   │   └── 🎨 main.css
+│   │   │   ├── 📁 img/
+│   │   │   ├── 📁 js/
+│   │   │   │   └── 📄 main.js
+│   │   │   ├── 📁 scss/
+│   │   │   │   └── 📖 Readme.txt
+│   │   │   └── 📁 vendor/
+│   │   │       ├── 📁 aos/
+│   │   │       │   ├── 📄 aos.cjs.js
+│   │   │       │   ├── 🎨 aos.css
+│   │   │       │   ├── 📄 aos.esm.js
+│   │   │       │   ├── 📄 aos.js
+│   │   │       │   └── 📄 aos.js.map 🚫 (auto-hidden)
+│   │   │       ├── 📁 bootstrap/
+│   │   ├── 📄 .htaccess
+│   │   └── 🐘 index.php
+│   ├── 📁 tests/
+│   │   ├── 🐘 CitaTest.php
+│   │   └── 🐘 HistorialTest.php
+│   └── 🐘 bootstrap.php
+├── 📄 .dockerignore
+├── 🔒 .env 🚫 (auto-hidden)
+├── 🚫 .gitignore
+├── 🐳 Dockerfile
+├── 📖 README.md
+├── 📄 composer.json
+├── 🔒 composer.lock 🚫 (auto-hidden)
+├── ⚙️ docker-compose.yml
+├── 📄 structure.txt
+└── 🐘 x.php
+📁 vendor/
+├── 📁 composer/
+│   ├── 🐘 ClassLoader.php
+│   ├── 🐘 InstalledVersions.php
+│   ├── 📜 LICENSE
+│   ├── 🐘 autoload_classmap.php
+│   ├── 🐘 autoload_namespaces.php
+│   ├── 🐘 autoload_psr4.php
+│   ├── 🐘 autoload_real.php
+│   ├── 🐘 autoload_static.php
+│   ├── 📄 installed.json
+│   ├── 🐘 installed.php
+│   └── 🐘 platform_check.php
+├── 📁 tecnickcom/
+│   └── 📁 tcpdf/
+│       ├── 📁 config/
+│       │   └── 🐘 tcpdf_config.php
+│       ├── 📁 fonts/
+│       ├── 📁 tools/
+│       │   ├── 📄 .htaccess
+│       │   ├── 📄 convert_fonts_examples.txt
+│       │   └── 🐘 tcpdf_addfont.php
+│       ├── 📝 CHANGELOG.TXT
+│       ├── 📜 LICENSE.TXT
+│       ├── 📖 README.md
+│       ├── 📄 VERSION
+│       ├── 📄 composer.json
+│       ├── 🐘 tcpdf.php
+│       ├── 🐘 tcpdf_autoconfig.php
+│       ├── 🐘 tcpdf_barcodes_1d.php
+│       └── 🐘 tcpdf_barcodes_2d.php
+└── 🐘 autoload.php
+```
+
+---
+*Generated by FileTree Pro Extension*

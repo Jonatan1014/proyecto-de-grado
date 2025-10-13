@@ -43,7 +43,7 @@ CREATE TABLE patients (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Agregar tabla users
+-- Tabla: users
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(100) UNIQUE NOT NULL,
@@ -54,7 +54,8 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
--- Agregar tabla services-categories
+
+-- Tabla: service_categories
 CREATE TABLE service_categories (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) UNIQUE NOT NULL,
@@ -62,7 +63,7 @@ CREATE TABLE service_categories (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Tabla: services (actualizada)
+-- Tabla: services
 CREATE TABLE services (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -91,11 +92,12 @@ CREATE TABLE appointments (
     FOREIGN KEY (patient_id) REFERENCES patients(id),
     FOREIGN KEY (doctor_id) REFERENCES doctors(id),
     FOREIGN KEY (service_id) REFERENCES services(id),
-    UNIQUE (patient_id, doctor_id, appointment_date), -- Evita citas duplicadas para el mismo paciente y doctor en la misma fecha y hora
+    UNIQUE (patient_id, doctor_id, appointment_date),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+-- Tabla: events_calendar
 CREATE TABLE events_calendar (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
@@ -103,11 +105,11 @@ CREATE TABLE events_calendar (
     start_datetime DATETIME NOT NULL,
     end_datetime DATETIME NOT NULL,
     event_type ENUM('appointment', 'reminder', 'other', 'cancelled') DEFAULT 'other',
-    appointment_id INT NULL, -- Relación con la tabla appointments
-    patient_id INT NULL,     -- Relación directa con paciente si no es una cita
-    doctor_id INT NULL,      -- Relación directa con médico si aplica
+    appointment_id INT NULL,
+    patient_id INT NULL,
+    doctor_id INT NULL,
     is_reminder_sent BOOLEAN DEFAULT FALSE,
-    reminder_datetime DATETIME NULL, -- Cuándo se debe enviar el recordatorio
+    reminder_datetime DATETIME NULL,
     webhook_sent BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -116,7 +118,33 @@ CREATE TABLE events_calendar (
     FOREIGN KEY (doctor_id) REFERENCES doctors(id) ON DELETE SET NULL
 );
 
--- Tabla: clinical_records
+-- ✅ NUEVA Tabla: dental_clinical_records (Historia clínica odontológica)
+CREATE TABLE dental_clinical_records (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    patient_id INT NOT NULL,
+    doctor_id INT NOT NULL,
+    appointment_id INT NULL,
+    history_number VARCHAR(50) UNIQUE, -- Número de historia clínica
+    registration_date DATE NOT NULL,
+    reason_consultation TEXT, -- Motivo de consulta
+    current_illness TEXT, -- Enfermedad actual
+    medical_history TEXT, -- Antecedentes médicos
+    family_history TEXT, -- Antecedentes familiares
+    general_exam TEXT, -- Examen general
+    local_exam TEXT, -- Examen local
+    odontogram JSON, -- Datos del odontograma (dientes seleccionados)
+    main_diagnosis TEXT, -- Diagnóstico principal
+    secondary_diagnosis TEXT, -- Diagnóstico secundario
+    treatment_plan JSON, -- Plan de tratamiento (tratamientos, costos, fechas)
+    final_observations TEXT, -- Observaciones finales
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (patient_id) REFERENCES patients(id),
+    FOREIGN KEY (doctor_id) REFERENCES doctors(id),
+    FOREIGN KEY (appointment_id) REFERENCES appointments(id)
+);
+
+-- Tabla: clinical_records (para otros tipos de historias clínicas)
 CREATE TABLE clinical_records (
     id INT AUTO_INCREMENT PRIMARY KEY,
     patient_id INT NOT NULL,
@@ -130,7 +158,7 @@ CREATE TABLE clinical_records (
     FOREIGN KEY (patient_id) REFERENCES patients(id),
     FOREIGN KEY (doctor_id) REFERENCES doctors(id),
     FOREIGN KEY (appointment_id) REFERENCES appointments(id),
-    UNIQUE (patient_id, date) -- Evita registros clínicos duplicados para el mismo paciente en la misma fecha
+    UNIQUE (patient_id, date)
 );
 
 -- Tabla: medical_records_details
@@ -141,6 +169,5 @@ CREATE TABLE medical_records_details (
     detail_value TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (clinical_record_id) REFERENCES clinical_records(id),
-    UNIQUE (clinical_record_id, detail_type) -- Evita detalles duplicados del mismo tipo para un registro clínico
+    UNIQUE (clinical_record_id, detail_type)
 );
-

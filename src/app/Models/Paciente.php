@@ -54,6 +54,12 @@ class Paciente {
         }
     }
 
+    public static function getAllPaciente() {
+        $db = Database::getConnection();
+        $stmt = $db->prepare("SELECT * FROM patients ORDER BY name ASC");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     public static function getAll() {
         $db = Database::getConnection();
         $stmt = $db->prepare("SELECT id, idnumber, name, lastname, phone, email, address FROM patients ORDER BY name ASC");

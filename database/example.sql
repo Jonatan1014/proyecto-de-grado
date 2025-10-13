@@ -1,140 +1,125 @@
--- ====================================
--- DATOS DE PRUEBA PARA CLINIC_DB
--- ====================================
-
 USE clinic_db;
 
+-- ==========================================
 -- 1. INSERTAR CLÍNICAS
+-- ==========================================
 INSERT INTO clinics (name, address, phone, email, schedule) VALUES
-('Clínica Salud Total', 'Calle 45 #23-67, Bogotá', '601-3456789', 'contacto@saludtotal.com', 'Lunes a Viernes: 7:00 AM - 7:00 PM, Sábados: 8:00 AM - 2:00 PM'),
-('Centro Médico El Bosque', 'Carrera 15 #89-45, Bogotá', '601-7654321', 'info@elbosque.com', 'Lunes a Viernes: 6:00 AM - 8:00 PM, Sábados: 7:00 AM - 4:00 PM'),
-('Clínica San Rafael', 'Avenida 68 #34-12, Bogotá', '601-2345678', 'admin@sanrafael.com', 'Lunes a Domingo: 24 horas');
+('Clínica Dental Sonrisa', 'Calle 123 #45-67, Bogotá', '601-2345678', 'info@clinicasonrisa.com', 'Lun-Vie: 8:00-18:00, Sáb: 9:00-13:00'),
+('Centro Médico Salud Total', 'Carrera 15 #80-25, Bogotá', '601-8765432', 'contacto@saludtotal.com', 'Lun-Vie: 7:00-19:00');
 
--- 2. INSERTAR USUARIOS
+-- ==========================================
+-- 2. INSERTAR DOCTORES
+-- ==========================================
+INSERT INTO doctors (idnumber, name, specialization, phone, email, license_number) VALUES
+('1234567890', 'Dr. Juan Pérez', 'Odontología General', '310-1234567', 'juan.perez@clinica.com', 'ODO-12345'),
+('0987654321', 'Dra. María González', 'Ortodoncia', '320-9876543', 'maria.gonzalez@clinica.com', 'ODO-54321'),
+('1122334455', 'Dr. Carlos Ramírez', 'Endodoncia', '315-1122334', 'carlos.ramirez@clinica.com', 'ODO-67890');
+
+-- ==========================================
+-- 3. INSERTAR PACIENTES
+-- ==========================================
+INSERT INTO patients (name, lastname, idnumber, birth_date, gender, phone, email, address, emergency_contact_name, emergency_contact_phone) VALUES
+('Ana', 'Martínez', '1001234567', '1990-05-15', 'F', '300-1111111', 'ana.martinez@email.com', 'Calle 50 #20-30, Bogotá', 'Pedro Martínez', '300-2222222'),
+('Luis', 'Hernández', '1002345678', '1985-08-22', 'M', '310-3333333', 'luis.hernandez@email.com', 'Carrera 70 #40-50, Bogotá', 'Carmen Hernández', '310-4444444'),
+('Sofia', 'Torres', '1003456789', '1995-12-10', 'F', '320-5555555', 'sofia.torres@email.com', 'Avenida 68 #30-15, Bogotá', 'Miguel Torres', '320-6666666'),
+('Jorge', 'Díaz', '1004567890', '1988-03-25', 'M', '315-7777777', 'jorge.diaz@email.com', 'Calle 100 #15-20, Bogotá', 'Laura Díaz', '315-8888888');
+
+-- ==========================================
+-- 4. INSERTAR USUARIOS
+-- ==========================================
 INSERT INTO users (username, email, password, role, is_active) VALUES
 ('admin_root', 'iadevelopment404@gmail.com.com', '$2y$10$oXi2hIoeMvISY7qYKM/WFeEc86LeZQAZXDHHthf8r/.0gJUlqPpvW', 'root', TRUE),
 ('admin_principal', 'jonatan@clinica.com', '$2y$10$oXi2hIoeMvISY7qYKM/WFeEc86LeZQAZXDHHthf8r/.0gJUlqPpvW', 'admin', TRUE),
 ('admin_recepcion', 'laura@clinica.com', '$2y$10$oXi2hIoeMvISY7qYKM/WFeEc86LeZQAZXDHHthf8r/.0gJUlqPpvW', 'admin', TRUE);
 
--- 3. INSERTAR CATEGORÍAS DE SERVICIOS
+-- ==========================================
+-- 5. INSERTAR CATEGORÍAS DE SERVICIOS
+-- ==========================================
 INSERT INTO service_categories (name) VALUES
-('Consulta General'),
-('Especialidades'),
-('Diagnóstico'),
-('Procedimientos'),
-('Laboratorio'),
-('Terapias');
+('Odontología General'),
+('Ortodoncia'),
+('Endodoncia'),
+('Cirugía Oral'),
+('Estética Dental');
 
--- 4. INSERTAR SERVICIOS
+-- ==========================================
+-- 6. INSERTAR SERVICIOS
+-- ==========================================
 INSERT INTO services (name, description, duration_minutes, price, category_id, icon, features, is_featured, status) VALUES
-('Consulta Médica General', 'Consulta con médico general para diagnóstico y tratamiento de enfermedades comunes', 30, 50000.00, 1, 'stethoscope', '["Examen físico", "Diagnóstico inicial", "Receta médica"]', TRUE, 'active'),
-('Consulta Cardiología', 'Evaluación y tratamiento de enfermedades cardiovasculares', 45, 120000.00, 2, 'heart', '["Electrocardiograma", "Evaluación cardiovascular", "Plan de tratamiento"]', TRUE, 'active'),
-('Consulta Pediatría', 'Atención médica especializada para niños', 40, 80000.00, 2, 'baby', '["Control de crecimiento", "Vacunación", "Diagnóstico pediátrico"]', TRUE, 'active'),
-('Radiografía', 'Estudio de imágenes para diagnóstico', 20, 60000.00, 3, 'camera', '["Rayos X", "Informe radiológico"]', FALSE, 'active'),
-('Examen de Sangre Completo', 'Análisis completo de sangre', 15, 45000.00, 5, 'droplet', '["Hemograma", "Perfil lipídico", "Glicemia"]', FALSE, 'active'),
-('Ecografía', 'Estudio de diagnóstico por ultrasonido', 30, 90000.00, 3, 'scan', '["Imágenes en tiempo real", "Informe médico"]', TRUE, 'active'),
-('Fisioterapia', 'Sesión de terapia física y rehabilitación', 60, 70000.00, 6, 'activity', '["Evaluación física", "Ejercicios terapéuticos", "Masajes"]', FALSE, 'active');
+('Limpieza Dental', 'Profilaxis dental completa con eliminación de sarro y placa bacteriana', 45, 80000.00, 1, 'tooth-clean', '["Limpieza profunda", "Pulido dental", "Fluorización"]', TRUE, 'active'),
+('Ortodoncia Brackets', 'Tratamiento de ortodoncia con brackets metálicos', 60, 2500000.00, 2, 'braces', '["Consulta inicial", "Brackets metálicos", "Controles mensuales"]', TRUE, 'active'),
+('Endodoncia', 'Tratamiento de conductos radiculares', 90, 350000.00, 3, 'tooth-root', '["Anestesia local", "Limpieza de conductos", "Obturación"]', FALSE, 'active'),
+('Extracción Simple', 'Extracción de diente sin complicaciones', 30, 120000.00, 4, 'tooth-extract', '["Anestesia local", "Extracción", "Medicación"]', FALSE, 'active'),
+('Blanqueamiento Dental', 'Blanqueamiento dental profesional', 60, 450000.00, 5, 'tooth-white', '["Limpieza previa", "Aplicación de gel", "Lámpara LED"]', TRUE, 'active');
 
--- 5. INSERTAR DOCTORES
-INSERT INTO doctors (idnumber, name, specialization, phone, email, license_number) VALUES
-('1234567890', 'Dr. Carlos Méndez Ruiz', 'Medicina General', '3101234567', 'carlos.mendez@clinica.com', 'MG-2015-001234'),
-('2345678901', 'Dra. Ana María López', 'Cardiología', '3109876543', 'ana.lopez@clinica.com', 'CA-2012-005678'),
-('3456789012', 'Dr. Roberto Sánchez', 'Pediatría', '3205551234', 'roberto.sanchez@clinica.com', 'PE-2018-009876'),
-('4567890123', 'Dra. Laura Fernández', 'Radiología', '3156667890', 'laura.fernandez@clinica.com', 'RA-2016-003456'),
-('5678901234', 'Dr. Miguel Ángel Torres', 'Medicina General', '3187778901', 'miguel.torres@clinica.com', 'MG-2019-007890'),
-('6789012345', 'Dra. Patricia Gómez', 'Fisioterapia', '3208889012', 'patricia.gomez@clinica.com', 'FT-2017-002345');
-
--- 6. INSERTAR PACIENTES
-INSERT INTO patients (name, lastname, idnumber, birth_date, gender, phone, email, address, emergency_contact_name, emergency_contact_phone) VALUES
-('Juan', 'Pérez García', '1001234567', '1985-03-15', 'M', '3001234567', 'juan.perez@email.com', 'Calle 100 #15-23, Bogotá', 'María Pérez', '3009876543'),
-('María', 'González López', '1002345678', '1990-07-22', 'F', '3112345678', 'maria.gonzalez@email.com', 'Carrera 7 #45-67, Bogotá', 'Pedro González', '3118765432'),
-('Carlos', 'Rodríguez Martínez', '1003456789', '1978-11-05', 'M', '3203456789', 'carlos.rodriguez@email.com', 'Avenida 19 #123-45, Bogotá', 'Laura Rodríguez', '3207654321'),
-('Ana', 'Martínez Silva', '1004567890', '1995-02-18', 'F', '3154567890', 'ana.martinez@email.com', 'Calle 72 #8-90, Bogotá', 'José Martínez', '3156543210'),
-('Luis', 'Hernández Castro', '1005678901', '1982-09-30', 'M', '3185678901', 'luis.hernandez@email.com', 'Carrera 30 #50-12, Bogotá', 'Sandra Hernández', '3189876543'),
-('Sofia', 'Ramírez Ortiz', '1006789012', '2015-05-12', 'F', '3016789012', 'sofia.ramirez@email.com', 'Calle 53 #25-34, Bogotá', 'Carmen Ortiz', '3018765432'),
-('Diego', 'Torres Vargas', '1007890123', '1988-12-08', 'M', '3207890123', 'diego.torres@email.com', 'Avenida 68 #78-90, Bogotá', 'Adriana Vargas', '3209876543');
-
+-- ==========================================
 -- 7. INSERTAR CITAS
+-- ==========================================
 INSERT INTO appointments (patient_id, doctor_id, service_id, appointment_date, status, notes) VALUES
-(1, 1, 1, '2025-10-15 09:00:00', 'scheduled', 'Control de presión arterial'),
-(2, 2, 2, '2025-10-15 10:30:00', 'scheduled', 'Revisión cardiológica anual'),
-(3, 1, 1, '2025-10-16 14:00:00', 'scheduled', 'Dolor de cabeza persistente'),
-(4, 3, 3, '2025-10-17 11:00:00', 'scheduled', 'Control de crecimiento'),
-(5, 4, 4, '2025-10-18 08:30:00', 'scheduled', 'Radiografía de tórax'),
-(6, 3, 3, '2025-10-19 16:00:00', 'scheduled', 'Vacunación'),
-(7, 6, 7, '2025-10-20 15:00:00', 'scheduled', 'Rehabilitación de rodilla'),
-(1, 1, 1, '2025-10-05 09:00:00', 'completed', 'Consulta por gripe - Tratamiento recetado'),
-(2, 2, 2, '2025-09-20 10:00:00', 'completed', 'Evaluación cardiovascular - Todo normal'),
-(3, 5, 5, '2025-10-03 07:30:00', 'cancelled', 'Paciente canceló por motivos personales');
+(1, 1, 1, '2025-10-15 10:00:00', 'scheduled', 'Primera consulta - Limpieza general'),
+(2, 2, 2, '2025-10-16 14:00:00', 'scheduled', 'Instalación de brackets'),
+(3, 3, 3, '2025-10-17 09:00:00', 'scheduled', 'Tratamiento de conducto molar inferior'),
+(1, 1, 5, '2025-10-20 11:00:00', 'completed', 'Blanqueamiento completado exitosamente'),
+(4, 1, 4, '2025-10-18 15:00:00', 'cancelled', 'Paciente canceló por motivos personales');
 
+-- ==========================================
 -- 8. INSERTAR EVENTOS DEL CALENDARIO
-INSERT INTO events_calendar (title, description, start_datetime, end_datetime, event_type, appointment_id, patient_id, doctor_id, reminder_datetime) VALUES
-('Cita: Juan Pérez - Dr. Méndez', 'Consulta médica general', '2025-10-15 09:00:00', '2025-10-15 09:30:00', 'appointment', 1, 1, 1, '2025-10-14 18:00:00'),
-('Cita: María González - Dra. López', 'Consulta cardiología', '2025-10-15 10:30:00', '2025-10-15 11:15:00', 'appointment', 2, 2, 2, '2025-10-14 18:00:00'),
-('Recordatorio Vacunación', 'Vacuna anual para Sofia Ramírez', '2025-10-25 10:00:00', '2025-10-25 10:30:00', 'reminder', NULL, 6, 3, '2025-10-24 09:00:00'),
-('Mantenimiento Equipos', 'Revisión de equipos médicos', '2025-10-22 07:00:00', '2025-10-22 12:00:00', 'other', NULL, NULL, NULL, NULL);
+-- ==========================================
+INSERT INTO events_calendar (title, description, start_datetime, end_datetime, event_type, appointment_id, patient_id, doctor_id, is_reminder_sent, reminder_datetime) VALUES
+('Cita: Limpieza Dental - Ana Martínez', 'Limpieza dental programada', '2025-10-15 10:00:00', '2025-10-15 10:45:00', 'appointment', 1, 1, 1, FALSE, '2025-10-14 10:00:00'),
+('Cita: Ortodoncia - Luis Hernández', 'Instalación de brackets', '2025-10-16 14:00:00', '2025-10-16 15:00:00', 'appointment', 2, 2, 2, FALSE, '2025-10-15 14:00:00'),
+('Recordatorio: Revisión pacientes', 'Revisar historias clínicas pendientes', '2025-10-19 08:00:00', '2025-10-19 09:00:00', 'reminder', NULL, NULL, 1, FALSE, NULL);
 
--- 9. INSERTAR REGISTROS CLÍNICOS
+-- ==========================================
+-- 9. INSERTAR HISTORIAS CLÍNICAS DENTALES
+-- ==========================================
+INSERT INTO dental_clinical_records (
+    patient_id, doctor_id, appointment_id, history_number, registration_date,
+    reason_consultation, current_illness, medical_history, family_history,
+    general_exam, local_exam, odontogram, main_diagnosis, secondary_diagnosis,
+    treatment_plan, final_observations
+) VALUES
+(1, 1, 1, 'HC-2025-001', '2025-10-15',
+    'Dolor en molar superior derecho',
+    'Paciente refiere dolor intermitente de 3 días de evolución',
+    'Hipertensión controlada con medicamento',
+    'Madre con diabetes tipo 2',
+    'Paciente en buen estado general, signos vitales normales',
+    'Caries profunda en pieza 16, encías levemente inflamadas',
+    '{"teeth": [{"number": 16, "condition": "caries", "severity": "profunda"}]}',
+    'Caries dental profunda pieza 16',
+    'Gingivitis leve',
+    '[{"treatment": "Endodoncia", "tooth": 16, "cost": 350000, "sessions": 2, "date": "2025-10-22"}]',
+    'Se programa endodoncia. Se recomienda mejorar higiene oral.'
+),
+(2, 2, 2, 'HC-2025-002', '2025-10-16',
+    'Consulta para ortodoncia',
+    'Paciente desea mejorar alineación dental',
+    'Sin antecedentes médicos relevantes',
+    'Sin antecedentes familiares relevantes',
+    'Paciente sano, sin complicaciones',
+    'Apiñamiento dental anterior, mordida cruzada leve',
+    '{"teeth": [{"number": 11, "condition": "apiñamiento"}, {"number": 12, "condition": "apiñamiento"}]}',
+    'Maloclusión Clase II',
+    'Apiñamiento dental anterior',
+    '[{"treatment": "Ortodoncia con brackets", "cost": 2500000, "duration_months": 18, "start_date": "2025-10-16"}]',
+    'Tratamiento estimado de 18 meses con controles mensuales.'
+);
+
+-- ==========================================
+-- 10. INSERTAR HISTORIAS CLÍNICAS GENERALES
+-- ==========================================
 INSERT INTO clinical_records (patient_id, doctor_id, appointment_id, date, diagnosis, treatment, observations) VALUES
-(1, 1, 8, '2025-10-05', 'Resfriado común (J00)', 'Acetaminofén 500mg cada 8 horas por 5 días, hidratación abundante y reposo', 'Paciente presenta síntomas leves. Control en 7 días si persisten síntomas.'),
-(2, 2, 9, '2025-09-20', 'Control cardiológico preventivo', 'Continuar con dieta baja en sodio y ejercicio regular', 'Presión arterial: 120/80 mmHg. Frecuencia cardíaca: 72 lpm. Electrocardiograma normal.');
+(3, 3, 3, '2025-10-17', 'Pulpitis aguda', 'Endodoncia programada para molar 36', 'Paciente con dolor severo, se prescribe analgésico'),
+(4, 1, 5, '2025-10-18', 'Pericoronaritis', 'Extracción de cordal cancelada', 'Paciente canceló cita, reprogramar');
 
--- 10. INSERTAR DETALLES DE REGISTROS MÉDICOS
+-- ==========================================
+-- 11. INSERTAR DETALLES DE HISTORIAS CLÍNICAS
+-- ==========================================
 INSERT INTO medical_records_details (clinical_record_id, detail_type, detail_value) VALUES
-(1, 'Temperatura', '37.8°C'),
-(1, 'Presión Arterial', '130/85 mmHg'),
-(1, 'Peso', '75 kg'),
-(1, 'Medicamentos Recetados', 'Acetaminofén 500mg, Loratadina 10mg'),
-(2, 'Presión Arterial', '120/80 mmHg'),
-(2, 'Frecuencia Cardíaca', '72 lpm'),
-(2, 'Colesterol Total', '180 mg/dL'),
-(2, 'Electrocardiograma', 'Normal - Sin alteraciones');
+(1, 'Presión Arterial', '120/80 mmHg'),
+(1, 'Medicación Actual', 'Losartán 50mg/día'),
+(1, 'Alergias', 'Penicilina'),
+(2, 'Signos Vitales', 'Normales'),
+(2, 'Observaciones Radiográficas', 'Cordal inferior izquierdo parcialmente erupcionado');
 
--- ====================================
--- CONSULTAS DE VERIFICACIÓN
--- ====================================
-
--- Verificar clínicas insertadas
-SELECT * FROM clinics;
-
--- Verificar doctores
-SELECT * FROM doctors;
-
--- Verificar pacientes
-SELECT * FROM patients;
-
--- Verificar servicios con sus categorías
-SELECT s.name AS servicio, sc.name AS categoria, s.price, s.status
-FROM services s
-JOIN service_categories sc ON s.category_id = sc.id;
-
--- Verificar citas programadas
-SELECT 
-    a.id,
-    CONCAT(p.name, ' ', p.lastname) AS paciente,
-    d.name AS doctor,
-    s.name AS servicio,
-    a.appointment_date,
-    a.status
-FROM appointments a
-JOIN patients p ON a.patient_id = p.id
-JOIN doctors d ON a.doctor_id = d.id
-JOIN services s ON a.service_id = s.id
-ORDER BY a.appointment_date;
-
--- Verificar registros clínicos con detalles
-SELECT 
-    cr.id,
-    CONCAT(p.name, ' ', p.lastname) AS paciente,
-    d.name AS doctor,
-    cr.date,
-    cr.diagnosis,
-    GROUP_CONCAT(CONCAT(mrd.detail_type, ': ', mrd.detail_value) SEPARATOR ' | ') AS detalles
-FROM clinical_records cr
-JOIN patients p ON cr.patient_id = p.id
-JOIN doctors d ON cr.doctor_id = d.id
-LEFT JOIN medical_records_details mrd ON cr.id = mrd.clinical_record_id
-GROUP BY cr.id;
-
--- Verificar eventos del calendario
-SELECT * FROM events_calendar ORDER BY start_datetime;

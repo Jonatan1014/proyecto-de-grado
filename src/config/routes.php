@@ -61,6 +61,16 @@ return [
     '/pages-upd-paciente' => ['controller' => 'PacienteController', 'action' => 'editPaciente'],
     '/update-paciente' => ['controller' => 'PacienteController', 'action' => 'updatePaciente'],
     '/delete-paciente' => ['controller' => 'PacienteController', 'action' => 'deletePaciente'],
+
+    // rutas de historial médico
+    '/pages-add-historial-clinico' => ['controller' => 'HistorialClinicoController', 'action' => 'pagesAddHistorial'],
+    '/add-historial-clinico' => ['controller' => 'HistorialClinicoController', 'action' => 'addHistorial'],
+    '/pages-get-historial-clinico' => ['controller' => 'HistorialClinicoController', 'action' => 'readHistorial'],
+    '/pages-upd-historial-clinico' => ['controller' => 'HistorialClinicoController', 'action' => 'editHistorial'],
+    '/update-historial-clinico' => ['controller' => 'HistorialClinicoController', 'action' => 'updateHistorial'],
+    '/delete-historial-clinico' => ['controller' => 'HistorialClinicoController', 'action' => 'deleteHistorial'],
+    // Ruta para descargar historial clínico en PDF
+    '/download-historial-pdf' => ['controller' => 'HistorialClinicoController', 'action' => 'downloadPdf'],
     
     // rutas de cita
     '/pages-add-cita' => ['controller' => 'CitaController', 'action' => 'pagesAddCita'],
@@ -76,6 +86,7 @@ return [
     '/add-event' => ['controller' => 'CalendarController', 'action' => 'addEvent'],
     '/update-event' => ['controller' => 'CalendarController', 'action' => 'updateEvent'],
     '/delete-event' => ['controller' => 'CalendarController', 'action' => 'deleteEvent'],
+
     // Rutas para cargar pacientes y doctores
     '/patients-list' => ['controller' => 'PacienteController', 'action' => 'getAll'],
     '/doctors-list' => ['controller' => 'MedicoController', 'action' => 'getAll'],

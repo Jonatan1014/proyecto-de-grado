@@ -1,8 +1,14 @@
 FROM php:8.1-apache
 
-# Instalar extensiones necesarias
-RUN docker-php-ext-install mysqli pdo pdo_mysql
-
+# Instalar extensiones necesarias para Dompdf y PHP
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd \
+    && docker-php-ext-install pdo pdo_mysql mysqli
+    
 # Habilitar mod_rewrite para el enrutamiento
 RUN a2enmod rewrite
 

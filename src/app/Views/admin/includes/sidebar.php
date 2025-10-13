@@ -110,7 +110,10 @@
                 <div class="collapse" id="sidebarHistoriales">
                     <ul class="side-nav-second-level">
                         <li>
-                            <a href="pages-get-paciente">Ver Historial de Paciente</a>
+                            <a href="pages-get-historial-clinico">Ver Historial de Paciente</a>
+                        </li>
+                        <li>
+                            <a href="pages-add-historial-clinico">Crear Registro Clinico</a>
                         </li>
                         <!-- Aquí puedes agregar más opciones como "Agregar nuevo registro clínico" -->
                     </ul>
@@ -164,7 +167,7 @@
             <!-- Opcional: Mantener otras secciones como Tasks -->
             <li class="side-nav-title">Otras Herramientas</li>
 
-            <li class="side-nav-item">
+            <!-- <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarTasks" aria-expanded="false" aria-controls="sidebarTasks"
                     class="side-nav-link">
                     <i class="uil-clipboard-alt"></i>
@@ -184,7 +187,7 @@
                         </li>
                     </ul>
                 </div>
-            </li>
+            </li> -->
 
         </ul>
         <!--- End Sidemenu -->
