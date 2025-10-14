@@ -28,7 +28,7 @@ INSERT INTO patients (name, lastname, idnumber, birth_date, gender, phone, email
 -- 4. INSERTAR USUARIOS
 -- ==========================================
 INSERT INTO users (username, email, password, role, is_active) VALUES
-('admin_root', 'iadevelopment404@gmail.com.com', '$2y$10$oXi2hIoeMvISY7qYKM/WFeEc86LeZQAZXDHHthf8r/.0gJUlqPpvW', 'root', TRUE),
+('admin_root', 'iadevelopment404@gmail.com', '$2y$10$oXi2hIoeMvISY7qYKM/WFeEc86LeZQAZXDHHthf8r/.0gJUlqPpvW', 'root', TRUE),
 ('admin_principal', 'jonatan@clinica.com', '$2y$10$oXi2hIoeMvISY7qYKM/WFeEc86LeZQAZXDHHthf8r/.0gJUlqPpvW', 'admin', TRUE),
 ('admin_recepcion', 'laura@clinica.com', '$2y$10$oXi2hIoeMvISY7qYKM/WFeEc86LeZQAZXDHHthf8r/.0gJUlqPpvW', 'admin', TRUE);
 
