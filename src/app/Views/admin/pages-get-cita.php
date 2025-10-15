@@ -5,7 +5,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Starter Page | Hyper - Responsive Bootstrap 5 Admin Dashboard</title>
+    <title>Datatables | Hyper - Responsive Bootstrap 5 Admin Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
     <meta content="Coderthemes" name="author" />
@@ -14,18 +14,14 @@
     <link rel="shortcut icon" href="assets/admin/assets/images/favicon.ico">
 
     <!-- Datatables css -->
-    <link href="assets/admin/assets/vendor/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet"
-        type="text/css" />
-    <link href="assets/admin/assets/vendor/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css"
-        rel="stylesheet" type="text/css" />
-    <link href="assets/admin/assets/vendor/datatables.net-fixedcolumns-bs5/css/fixedColumns.bootstrap5.min.css"
-        rel="stylesheet" type="text/css" />
-    <link href="assets/admin/assets/vendor/datatables.net-fixedheader-bs5/css/fixedHeader.bootstrap5.min.css"
-        rel="stylesheet" type="text/css" />
-    <link href="assets/admin/assets/vendor/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css" rel="stylesheet"
-        type="text/css" />
-    <link href="assets/admin/assets/vendor/datatables.net-select-bs5/css/select.bootstrap5.min.css" rel="stylesheet"
-        type="text/css" />
+    <link href="assets/admin/assets/vendor/datatables/responsive.bootstrap5.min.css" rel="stylesheet" type="text/css">
+    <!-- For checkbox Select-->
+    <link href="assets/admin/assets/vendor/datatables/select.bootstrap5.min.css" rel="stylesheet" type="text/css">
+    <!-- For Buttons -->
+    <link href="assets/admin/assets/vendor/datatables/buttons.bootstrap5.min.css" rel="stylesheet" type="text/css">
+    <!-- Fixe header-->
+    <link href="assets/admin/assets/vendor/datatables/fixedHeader.bootstrap5.min.css" rel="stylesheet" type="text/css">
+
 
     <!-- Theme Config Js -->
     <script src="assets/admin/assets/js/hyper-config.js"></script>
@@ -34,7 +30,7 @@
     <link href="assets/admin/assets/css/vendor.min.css" rel="stylesheet" type="text/css" />
 
     <!-- App css -->
-    <link href="assets/admin/assets/css/app-saas.min.css" rel="stylesheet" type="text/css" id="app-style" />
+    <link href="assets/admin/assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style" />
 
     <!-- Icons css -->
     <link href="assets/admin/assets/css/unicons/css/unicons.css" rel="stylesheet" type="text/css" />
@@ -119,7 +115,8 @@
                                             <!-- Cita -->
                                             <tr>
                                                 <td><?php echo htmlspecialchars($appointment->idnumber) ?></td>
-                                                <td><?php echo htmlspecialchars($appointment->patient_name.' '.$appointment->patient_lastname) ?></td>
+                                                <td><?php echo htmlspecialchars($appointment->patient_name.' '.$appointment->patient_lastname) ?>
+                                                </td>
                                                 <td><?php echo htmlspecialchars($appointment->doctor_name) ?></td>
                                                 <td><?php echo htmlspecialchars($appointment->service_name) ?></td>
                                                 <td><?php echo htmlspecialchars($appointment->appointment_date) ?></td>
@@ -199,32 +196,35 @@
         <!-- Vendor js -->
         <script src="assets/admin/assets/js/vendor.min.js"></script>
 
+        <!-- App js -->
+        <script src="assets/admin/assets/js/app.js"></script>
+
         <!-- Code Highlight js -->
-        <script src="assets/admin/assets/vendor/highlightjs/highlight.pack.min.js"></script>
+        <script src="assets/admin/assets/vendor/prismjs/prism.js"></script>
+        <script src="assets/admin/assets/vendor/prismjs/prism-normalize-whitespace.min.js"></script>
         <script src="assets/admin/assets/vendor/clipboard/clipboard.min.js"></script>
         <script src="assets/admin/assets/js/hyper-syntax.js"></script>
 
         <!-- Datatables js -->
-        <script src="assets/admin/assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
-        <script src="assets/admin/assets/vendor/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
-        <script src="assets/admin/assets/vendor/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-        <script src="assets/admin/assets/vendor/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
-        <script src="assets/admin/assets/vendor/datatables.net-fixedcolumns-bs5/js/fixedColumns.bootstrap5.min.js">
-        </script>
-        <script src="assets/admin/assets/vendor/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-        <script src="assets/admin/assets/vendor/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-        <script src="assets/admin/assets/vendor/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
-        <script src="assets/admin/assets/vendor/datatables.net-buttons/js/buttons.html5.min.js"></script>
-        <script src="assets/admin/assets/vendor/datatables.net-buttons/js/buttons.flash.min.js"></script>
-        <script src="assets/admin/assets/vendor/datatables.net-buttons/js/buttons.print.min.js"></script>
-        <script src="assets/admin/assets/vendor/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-        <script src="assets/admin/assets/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
+        <script src="assets/admin/assets/vendor/datatables/dataTables.min.js"></script>
+        <script src="assets/admin/assets/vendor/datatables/dataTables.bootstrap5.min.js"></script>
+        <script src="assets/admin/assets/vendor/datatables/dataTables.responsive.min.js"></script>
+        <script src="assets/admin/assets/vendor/datatables/responsive.bootstrap5.min.js"></script>
+        <!-- Buttons -->
+        <script src="assets/admin/assets/vendor/datatables/dataTables.buttons.min.js"></script>
+        <script src="assets/admin/assets/vendor/datatables/buttons.bootstrap5.min.js"></script>
+        <script src="assets/admin/assets/vendor/datatables/buttons.html5.min.js"></script>
+        <script src="assets/admin/assets/vendor/datatables/buttons.print.min.js"></script>
+        <script src="assets/admin/assets/vendor/datatables/jszip.min.js"></script>
+        <script src="assets/admin/assets/vendor/datatables/pdfmake.min.js"></script>
+        <script src="assets/admin/assets/vendor/datatables/vfs_fonts.js"></script>
+        <!-- Select-->
+        <script src="assets/admin/assets/vendor/datatables/dataTables.select.min.js"></script>
+        <!-- Fixed Header-->
+        <script src="assets/admin/assets/vendor/datatables/dataTables.fixedHeader.min.js"></script>
 
-        <!-- Datatable Demo Aapp js -->
+        <!-- Datatable Custom js -->
         <script src="assets/admin/assets/js/pages/demo.datatable-init.js"></script>
-
-        <!-- App js -->
-        <script src="assets/admin/assets/js/app.min.js"></script>
 
 </body>
 
