@@ -113,10 +113,13 @@
                             </iframe>
                         </div>
                     </div>
+                    <!-- Mensajes de éxito o error -->
+                    <?php include 'includes/alertEvent.php'; ?>
+
 
 
                     <div class="col-lg-6" data-aos="fade-up" data-aos-delay="600">
-                        <form action="forms/contact" method="post" class="php-email-form">
+                        <form action="add-contact-frontend" method="post" class="php-email-form">
                             <div class="row gy-3">
                                 <div class="col-md-6">
                                     <input type="text" name="name" class="form-control" placeholder="Tu Nombre"

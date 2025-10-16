@@ -4,8 +4,16 @@ require_once __DIR__ . '/../Models/Cita.php';
 require_once __DIR__ . '/../Models/Paciente.php';
 require_once __DIR__ . '/../Models/Doctor.php';
 require_once __DIR__ . '/../Models/Service.php';
+require_once __DIR__ . '/../Services/WebhookService.php';
+
 
 class CitaController {
+    private $webhookService;
+
+    
+    public function __construct() {
+        $this->webhookService = new WebhookService($_ENV['WEBHOOK_URL'] ?? null);
+    }
 
     public function addCita() {
         AuthService::requireLogin();
@@ -44,6 +52,111 @@ class CitaController {
                 exit;
             }
         }
+    }
+
+    public function addContactFrontend() {
+        // REMOVIDO: AuthService::requireLogin(); y verificación de rol
+        // porque este formulario es público
+
+        // ✅ Asegurarse de que sea una solicitud POST
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405); // Method Not Allowed
+            echo "Method Not Allowed";
+            exit;
+        }
+
+        $data = [
+            'name' => $_POST['name'] ?? null,
+            'email' => $_POST['email'] ?? null,
+            'subject' => $_POST['subject'] ?? null,
+            'message' => $_POST['message'] ?? null,
+            // Añade aquí otros campos si los tienes en el formulario, como 'phone'
+            // 'phone' => $_POST['phone'] ?? null,
+        ];
+
+        // ✅ Validar campos requeridos del formulario de contacto
+        if (empty($data['name']) || empty($data['email']) || empty($data['subject']) || empty($data['message'])) {
+            // ✅ Devolver mensaje de error directamente
+            echo "Todos los campos son obligatorios.";
+            exit; // Detener la ejecución aquí
+        }
+
+        // ✅ Opcional: Validar formato de email
+        if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+            echo "Por favor, ingrese un correo electrónico válido.";
+            exit;
+        }
+
+        // ✅ Enviar webhook con los datos del formulario de contacto
+        $user_info = null; // No hay usuario logueado en este formulario
+        $webhook_response = $this->webhookService->send([
+            'action' => 'contact_frontend', // Cambia la acción para identificarla
+            'contact_data' => $data, // Envía los datos del formulario
+            'submitted_at' => date('Y-m-d H:i:s')
+        ], $user_info);
+
+        // Puedes verificar la respuesta del webhook si es necesario
+        // if ($webhook_response === false) {
+        //     echo "Error al procesar su solicitud. Intente nuevamente.";
+        //     exit;
+        // }
+
+        // ✅ Si todo es correcto, devolver 'OK' para que php-email-form.js lo entienda
+        echo "OK";
+        exit; // Detener la ejecución aquí también
+    }
+    public function addCitaFrontend() {
+        // REMOVIDO: AuthService::requireLogin(); y verificación de rol
+        // porque este formulario es público
+
+        // ✅ Asegurarse de que sea una solicitud POST
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405); // Method Not Allowed
+            echo "Method Not Allowed";
+            exit;
+        }
+
+        $data = [
+            'name' => $_POST['name'] ?? null,
+            'email' => $_POST['email'] ?? null,
+            'phone' => $_POST['phone'] ?? null,
+            'service' => $_POST['service'] ?? null,
+            'doctor' => $_POST['doctor'] ?? null,
+            'message' => $_POST['message'] ?? null,
+            // Añade aquí otros campos si los tienes en el formulario, como 'phone'
+            // 'phone' => $_POST['phone'] ?? null,
+        ];
+
+        // ✅ Validar campos requeridos del formulario de contacto
+        if (empty($data['name']) || empty($data['email']) || empty($data['service']) || empty($data['message']) || empty($data['phone'])) {
+            // ✅ Devolver mensaje de error directamente
+            echo "Todos los campos son obligatorios.";
+            exit; // Detener la ejecución aquí
+        }
+
+        // ✅ Opcional: Validar formato de email
+        if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+            echo "Por favor, ingrese un correo electrónico válido.";
+            exit;
+        }
+
+        // ✅ Enviar webhook con los datos del formulario de contacto
+        $user_info = null; // No hay usuario logueado en este formulario
+        $webhook_response = $this->webhookService->send([
+            'action' => 'cita_frontend', // Cambia la acción para identificarla
+            'contact_data' => $data, // Envía los datos del formulario
+            'submitted_at' => date('Y-m-d H:i:s')
+        ], $user_info);
+
+        // Puedes verificar la respuesta del webhook si es necesario
+        // if ($webhook_response === false) {
+        //     echo "Error al procesar su solicitud. Intente nuevamente.";
+        //     exit;
+        // }
+
+        // ✅ Si todo es correcto, devolver 'OK' para que php-email-form.js lo entienda
+        echo "OK";
+        exit; // Detener la ejecución aquí también
     }
 
     public function pagesAddCita() {

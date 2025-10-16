@@ -77,7 +77,7 @@ class ServiceController {
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $id = $_POST['id'] ?? null;
+            $id = $_POST['category_id'] ?? null;
             
             // ✅ Obtener category_id desde el formulario
             $categoryId = $_POST['category_id'] ?? null;

@@ -75,6 +75,8 @@ return [
     // rutas de cita
     '/pages-add-cita' => ['controller' => 'CitaController', 'action' => 'pagesAddCita'],
     '/add-cita' => ['controller' => 'CitaController', 'action' => 'addCita'],
+    '/add-contact-frontend' => ['controller' => 'CitaController', 'action' => 'addContactFrontend'],
+    '/add-cita-frontend' => ['controller' => 'CitaController', 'action' => 'addCitaFrontend'],
     '/pages-get-cita' => ['controller' => 'CitaController', 'action' => 'readCita'],
     '/pages-upd-cita' => ['controller' => 'CitaController', 'action' => 'editCita'],
     '/update-cita' => ['controller' => 'CitaController', 'action' => 'updateCita'],

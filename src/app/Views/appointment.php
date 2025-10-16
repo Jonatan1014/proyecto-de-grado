@@ -133,7 +133,7 @@
                     <!-- Formulario de Cita -->
                     <div class="col-lg-6">
                         <div class="appointment-form-wrapper" data-aos="fade-up" data-aos-delay="200">
-                            <form action="forms/appointment" method="post" class="appointment-form php-email-form">
+                            <form action="add-cita-frontend" method="post" class="appointment-form php-email-form">
                                 <div class="row gy-3">
 
                                     <div class="col-md-6">
@@ -152,19 +152,19 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                        <select name="department" class="form-select" required="">
-                                            <option value="">Selecciona un Departamento</option>
-                                            <option value="cardiology">Cardiología</option>
-                                            <option value="neurology">Neurología</option>
-                                            <option value="orthopedics">Ortopedia</option>
-                                            <option value="pediatrics">Pediatría</option>
-                                            <option value="dermatology">Dermatología</option>
-                                            <option value="general">Medicina General</option>
+                                        <select name="service" class="form-select" required="">
+                                            <option value="">Selecciona un Servicio</option>
+                                            <option value="cardiology">Consulta General</option>
+                                            <option value="neurology">Liempieza Bucal</option>
+                                            <option value="orthopedics">Blanqueamiento</option>
+                                            <option value="pediatrics">Implante Dental</option>
+                                            <option value="dermatology">brackets dentales</option>
+                                            <option value="general">Muelas de Juicio</option>
                                         </select>
                                     </div>
 
                                     <div class="col-md-6">
-                                        <input type="date" name="date" class="form-control" required="">
+                                        <input type="datetime-local" name="date" class="form-control" required="">
                                     </div>
 
                                     <div class="col-md-6">

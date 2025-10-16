@@ -88,7 +88,7 @@
                                         <div class="tab-pane show active" id="input-types-preview">
                                             <div class="row">
                                                 <div class="col-lg-12">
-                                                    <form action="add-service" method="POST">
+                                                    <form action="update-service" method="POST">
                                                         <div class="row">
                                                             <!-- Primera columna -->
                                                             <div class="col-lg-6">
@@ -278,7 +278,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <button type="submit" class="btn btn-success mt-3">Registrar
+                                                        <button type="submit" class="btn btn-success mt-3">Actualizar
                                                             Servicio</button>
                                                     </form>
 
