@@ -2,6 +2,7 @@
 // src/app/Controllers/AdminController.php
 
 require_once __DIR__ . '/../Services/AuthService.php';
+require_once __DIR__ . '/../Models/Dashboard.php';
 
 
 class AdminController {
@@ -13,6 +14,8 @@ class AdminController {
             header("Location: login");
             exit;
         }
+        // ✅ Obtener estadísticas del modelo
+        $stats = Dashboard::getStats();
 
         include __DIR__ . '/../Views/admin/dashboard.php';
     }

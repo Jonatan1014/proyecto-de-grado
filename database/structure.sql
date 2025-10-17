@@ -143,31 +143,3 @@ CREATE TABLE dental_clinical_records (
     FOREIGN KEY (doctor_id) REFERENCES doctors(id),
     FOREIGN KEY (appointment_id) REFERENCES appointments(id)
 );
-
--- Tabla: clinical_records (para otros tipos de historias clínicas)
-CREATE TABLE clinical_records (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    patient_id INT NOT NULL,
-    doctor_id INT NOT NULL,
-    appointment_id INT,
-    date DATE NOT NULL,
-    diagnosis TEXT,
-    treatment TEXT,
-    observations TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (patient_id) REFERENCES patients(id),
-    FOREIGN KEY (doctor_id) REFERENCES doctors(id),
-    FOREIGN KEY (appointment_id) REFERENCES appointments(id),
-    UNIQUE (patient_id, date)
-);
-
--- Tabla: medical_records_details
-CREATE TABLE medical_records_details (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    clinical_record_id INT NOT NULL,
-    detail_type VARCHAR(255),
-    detail_value TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (clinical_record_id) REFERENCES clinical_records(id),
-    UNIQUE (clinical_record_id, detail_type)
-);

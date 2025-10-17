@@ -106,20 +106,4 @@ INSERT INTO dental_clinical_records (
     'Tratamiento estimado de 18 meses con controles mensuales.'
 );
 
--- ==========================================
--- 10. INSERTAR HISTORIAS CLÍNICAS GENERALES
--- ==========================================
-INSERT INTO clinical_records (patient_id, doctor_id, appointment_id, date, diagnosis, treatment, observations) VALUES
-(3, 3, 3, '2025-10-17', 'Pulpitis aguda', 'Endodoncia programada para molar 36', 'Paciente con dolor severo, se prescribe analgésico'),
-(4, 1, 5, '2025-10-18', 'Pericoronaritis', 'Extracción de cordal cancelada', 'Paciente canceló cita, reprogramar');
-
--- ==========================================
--- 11. INSERTAR DETALLES DE HISTORIAS CLÍNICAS
--- ==========================================
-INSERT INTO medical_records_details (clinical_record_id, detail_type, detail_value) VALUES
-(1, 'Presión Arterial', '120/80 mmHg'),
-(1, 'Medicación Actual', 'Losartán 50mg/día'),
-(1, 'Alergias', 'Penicilina'),
-(2, 'Signos Vitales', 'Normales'),
-(2, 'Observaciones Radiográficas', 'Cordal inferior izquierdo parcialmente erupcionado');
 
