@@ -661,6 +661,23 @@
 
     <!-- Dashboard App js -->
     <script src="assets/admin/assets/js/pages/demo.dashboard.js"></script>
+    <script>
+    (function(d, t) {
+        var BASE_URL = "https://chatwoot.systemautomatic.xyz";
+        var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        g.src = BASE_URL + "/packs/js/sdk.js";
+        g.async = true;
+        s.parentNode.insertBefore(g, s);
+        g.onload = function() {
+            window.chatwootSDK.run({
+                websiteToken: 'SLZHfUWbfrJq2q3A3NQCeDq4',
+                baseUrl: BASE_URL
+            })
+        }
+    })(document, "script");
+    </script>
+
 
 </body>
 
