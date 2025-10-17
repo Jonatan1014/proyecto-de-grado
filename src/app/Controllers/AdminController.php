@@ -16,6 +16,9 @@ class AdminController {
         }
         // ✅ Obtener estadísticas del modelo
         $stats = Dashboard::getStats();
+        // ✅ Determinar si el usuario es 'root'
+        // Este valor se pasará a la vista dashboard.php
+        $isRoot = AuthService::getUserRole() === 'root';
 
         include __DIR__ . '/../Views/admin/dashboard.php';
     }

@@ -119,6 +119,7 @@
                     </ul>
                 </div>
             </li>
+            <?php if ($isRoot) : ?>
 
             <li class="side-nav-title">Gestión de Médicos y Servicios</li>
 
@@ -163,6 +164,7 @@
                     </ul>
                 </div>
             </li>
+            <?php endif; ?>
 
             <!-- Opcional: Mantener otras secciones como Tasks -->
             <li class="side-nav-title">Otras Herramientas</li>
