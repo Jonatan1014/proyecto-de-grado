@@ -13,6 +13,8 @@ class ServiceCategoryController {
             header("Location: login");
             exit;
         }
+        $isRoot = AuthService::getUserRole() === 'root';
+
 
         $categories = ServiceCategory::getAll();
         include __DIR__ . '/../Views/admin/pages-get-service-category.php';
@@ -141,6 +143,8 @@ class ServiceCategoryController {
         }
         $categories = ServiceCategory::getAll(); 
 
+        $isRoot = AuthService::getUserRole() === 'root';
+
 
         include __DIR__ . '/../Views/admin/pages-add-service-category.php';
     }
@@ -167,6 +171,8 @@ class ServiceCategoryController {
             header("Location: pages-upd-service-category");
             exit;
         }
+        $isRoot = AuthService::getUserRole() === 'root';
+
 
         include __DIR__ . '/../Views/admin/pages-upd-service-category.php';
     }

@@ -12,6 +12,8 @@ class ServiceController {
             header("Location: login");
             exit;
         }
+        $isRoot = AuthService::getUserRole() === 'root';
+
 
         $services = Service::read();
         include __DIR__ . '/../Views/admin/pages-get-service.php';
@@ -163,6 +165,8 @@ class ServiceController {
             header("Location: login");
             exit;
         }
+        $isRoot = AuthService::getUserRole() === 'root';
+
 
         // ✅ Obtener categorías para el formulario
         $categories = ServiceCategory::getAllAsArray();
@@ -254,6 +258,8 @@ class ServiceController {
             header("Location: pages-upd-service");
             exit;
         }
+        $isRoot = AuthService::getUserRole() === 'root';
+
 
         include __DIR__ . '/../Views/admin/pages-upd-service.php';
     }

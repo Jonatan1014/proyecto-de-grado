@@ -24,6 +24,8 @@ class CalendarController {
             header("Location: login");
             exit;
         }
+        $isRoot = AuthService::getUserRole() === 'root';
+
 
         include __DIR__ . '/../Views/admin/apps-calendar.php';
     }

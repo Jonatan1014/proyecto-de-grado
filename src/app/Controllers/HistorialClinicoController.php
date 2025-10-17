@@ -14,7 +14,8 @@ class HistorialClinicoController {
             header("Location: login");
             exit;
         }
-        
+        $isRoot = AuthService::getUserRole() === 'root';
+
         $pacientes = Paciente::getAllPaciente();
         include __DIR__ . '/../Views/admin/pages-add-historial-clinico.php';
     }
@@ -26,6 +27,8 @@ class HistorialClinicoController {
             header("Location: login");
             exit;
         }
+        $isRoot = AuthService::getUserRole() === 'root';
+
         
         $historiales = HistorialClinico::read();
         include __DIR__ . '/../Views/admin/pages-get-historial-clinico.php';
@@ -54,6 +57,8 @@ class HistorialClinicoController {
             header("Location: pages-get-historial-clinico");
             exit;
         }
+        $isRoot = AuthService::getUserRole() === 'root';
+
 
         $pacientes = Paciente::getAllPaciente();
         $doctores = Doctor::getAll();

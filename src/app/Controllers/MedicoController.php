@@ -14,6 +14,8 @@ class MedicoController {
             header("Location: login");
             exit;
         }
+        $isRoot = AuthService::getUserRole() === 'root';
+
 
         include __DIR__ . '/../Views/admin/pages-add-medico.php';
     }
@@ -70,6 +72,8 @@ class MedicoController {
             header("Location: login");
             exit;
         }
+        $isRoot = AuthService::getUserRole() === 'root';
+
 
         $doctors = Doctor::read(); // Llama al método del modelo que creamos antes
 
@@ -97,6 +101,8 @@ class MedicoController {
             header("Location: pages-upd-medico");
             exit;
         }
+        $isRoot = AuthService::getUserRole() === 'root';
+
 
         include __DIR__ . '/../Views/admin/pages-upd-medico.php';
     }

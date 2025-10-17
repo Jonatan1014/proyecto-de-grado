@@ -166,6 +166,8 @@ class CitaController {
             header("Location: login");
             exit;
         }
+        $isRoot = AuthService::getUserRole() === 'root';
+
 
         $pacientes = Paciente::getAll();
         $servicios = Service::getAll();
@@ -182,6 +184,8 @@ class CitaController {
             header("Location: login");
             exit;
         }
+        $isRoot = AuthService::getUserRole() === 'root';
+
 
         $appointments = Cita::read();
 
@@ -196,6 +200,8 @@ class CitaController {
         }
 
         $citaId = $_GET['id'] ?? null;
+        $isRoot = AuthService::getUserRole() === 'root';
+
 
         if (!$citaId) {
             $_SESSION['error'] = 'ID de cita no válido.';
