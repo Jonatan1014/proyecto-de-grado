@@ -663,7 +663,7 @@
     <script src="assets/admin/assets/js/pages/demo.dashboard.js"></script>
     <script>
     (function(d, t) {
-        var BASE_URL = "https://chatwoot.systemautomatic.xyz";
+        var BASE_URL = "https://clinica-dental.systemautomatic.xyz/";
         var g = d.createElement(t),
             s = d.getElementsByTagName(t)[0];
         g.src = BASE_URL + "/packs/js/sdk.js";
