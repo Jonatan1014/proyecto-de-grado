@@ -94,6 +94,14 @@ return [
     '/patients-list' => ['controller' => 'PacienteController', 'action' => 'getAll'],
     '/doctors-list' => ['controller' => 'MedicoController', 'action' => 'getAll'],
 
+    // rutas de usuarios/administradores
+    '/pages-add-admin' => ['controller' => 'UserController', 'action' => 'pagesAddUser'],
+    '/add-user' => ['controller' => 'UserController', 'action' => 'addUser'],
+    '/pages-get-admin' => ['controller' => 'UserController', 'action' => 'readUser'],
+    '/pages-upd-admin' => ['controller' => 'UserController', 'action' => 'editUser'],
+    '/update-user' => ['controller' => 'UserController', 'action' => 'updateUser'],
+    '/delete-user' => ['controller' => 'UserController', 'action' => 'deleteUser'],
+
 
 
 

@@ -51,6 +51,11 @@ class AuthService {
         return $role === 'admin' || $role === 'root';
     }
 
+    public static function isRoot() {
+        $role = self::getUserRole();
+        return $role === 'root';
+    }
+
     public static function requireLogin() {
         if (!self::isLoggedIn()) {
             header("Location: login");

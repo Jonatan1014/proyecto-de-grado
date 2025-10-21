@@ -164,6 +164,27 @@
                     </ul>
                 </div>
             </li>
+
+            <li class="side-nav-title">Gestión de Usuarios</li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarUsuarios" aria-expanded="false"
+                    aria-controls="sidebarUsuarios" class="side-nav-link">
+                    <i class="uil-user-check"></i>
+                    <span> Administradores </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarUsuarios">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="pages-add-admin">Registrar Administrador</a>
+                        </li>
+                        <li>
+                            <a href="pages-get-admin">Listar Administradores</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
             <?php endif; ?>
 
             <!-- Opcional: Mantener otras secciones como Tasks -->
