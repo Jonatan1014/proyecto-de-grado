@@ -35,7 +35,8 @@ return [
     '/pages-get-medico' => ['controller' => 'MedicoController', 'action' => 'readMedico'],
     '/pages-upd-medico' => ['controller' => 'MedicoController', 'action' => 'editMedico'],
     '/update-medico' => ['controller' => 'MedicoController', 'action' => 'updateMedico'],
-    '/delete-medico' => ['controller' => 'MedicoController', 'action' => 'deleteMedico'], 
+    '/delete-medico' => ['controller' => 'MedicoController', 'action' => 'deleteMedico'],
+    '/crear-medico-prueba' => ['controller' => 'MedicoController', 'action' => 'crearMedicoPrueba'], 
     
     // rutas de servicio
     '/pages-add-service' => ['controller' => 'ServiceController', 'action' => 'pagesAddService'],

@@ -4,9 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Terms - MediNest Bootstrap Template</title>
-    <meta name="description" content="">
-    <meta name="keywords" content="">
+    <title>Términos y Condiciones - MediNest</title>
+    <meta name="description" content="Términos y condiciones de uso de los servicios de MediNest">
+    <meta name="keywords" content="términos, condiciones, legal, privacidad">
 
     <!-- Favicons -->
     <link href="assets/img/favicon.png" rel="icon">
@@ -52,12 +52,11 @@
                 <div class="container">
                     <div class="row d-flex justify-content-center text-center">
                         <div class="col-lg-8">
-                            <h1 class="heading-title">Terms</h1>
+                            <h1 class="heading-title">Términos y Condiciones</h1>
                             <p class="mb-0">
-                                Odio et unde deleniti. Deserunt numquam exercitationem. Officiis quo
-                                odio sint voluptas consequatur ut a odio voluptatem. Sit dolorum
-                                debitis veritatis natus dolores. Quasi ratione sint. Sit quaerat
-                                ipsum dolorem.
+                                Conoce las condiciones de uso de nuestros servicios médicos y estéticos. 
+                                Lee atentamente estos términos antes de utilizar nuestras instalaciones 
+                                y servicios profesionales. Tu confianza y bienestar son nuestra prioridad.
                             </p>
                         </div>
                     </div>
@@ -66,8 +65,8 @@
             <nav class="breadcrumbs">
                 <div class="container">
                     <ol>
-                        <li><a href="home">Home</a></li>
-                        <li class="current">Terms</li>
+                        <li><a href="home">Inicio</a></li>
+                        <li class="current">Términos y Condiciones</li>
                     </ol>
                 </div>
             </nav>
@@ -79,134 +78,134 @@
             <div class="container" data-aos="fade-up">
                 <!-- Page Header -->
                 <div class="tos-header text-center" data-aos="fade-up">
-                    <span class="last-updated">Last Updated: February 27, 2025</span>
-                    <h2>Terms of Service</h2>
-                    <p>Please read these terms of service carefully before using our services</p>
+                    <span class="last-updated">Última Actualización: 20 de Octubre de 2025</span>
+                    <h2>Términos del Servicio</h2>
+                    <p>Por favor, lea estos términos de servicio cuidadosamente antes de usar nuestros servicios</p>
                 </div>
 
                 <!-- Content -->
                 <div class="tos-content" data-aos="fade-up" data-aos-delay="200">
                     <!-- Agreement Section -->
                     <div id="agreement" class="content-section">
-                        <h3>1. Agreement to Terms</h3>
-                        <p>By accessing our website and services, you agree to be bound by these Terms of Service and
-                            all applicable laws and regulations. If you do not agree with any of these terms, you are
-                            prohibited from using or accessing our services.</p>
+                        <h3>1. Aceptación de los Términos</h3>
+                        <p>Al acceder a nuestro sitio web y servicios, usted acepta estar sujeto a estos Términos de Servicio y
+                            todas las leyes y regulaciones aplicables. Si no está de acuerdo con alguno de estos términos, tiene
+                            prohibido usar o acceder a nuestros servicios.</p>
                         <div class="info-box">
                             <i class="bi bi-info-circle"></i>
-                            <p>These terms apply to all users, visitors, and others who access or use our services.</p>
+                            <p>Estos términos se aplican a todos los usuarios, visitantes y otras personas que accedan o utilicen nuestros servicios.</p>
                         </div>
                     </div>
 
                     <!-- Intellectual Property -->
                     <div id="intellectual-property" class="content-section">
-                        <h3>2. Intellectual Property Rights</h3>
-                        <p>Our service and its original content, features, and functionality are owned by us and are
-                            protected by international copyright, trademark, patent, trade secret, and other
-                            intellectual property laws.</p>
+                        <h3>2. Derechos de Propiedad Intelectual</h3>
+                        <p>Nuestro servicio y su contenido original, características y funcionalidad son de nuestra propiedad y están
+                            protegidos por derechos de autor internacionales, marcas comerciales, patentes, secretos comerciales y otras
+                            leyes de propiedad intelectual.</p>
                         <ul class="list-items">
-                            <li>All content is our exclusive property</li>
-                            <li>You may not copy or modify the content</li>
-                            <li>Our trademarks may not be used without permission</li>
-                            <li>Content is for personal, non-commercial use only</li>
+                            <li>Todo el contenido es propiedad exclusiva nuestra</li>
+                            <li>No puede copiar ni modificar el contenido</li>
+                            <li>Nuestras marcas comerciales no pueden ser utilizadas sin permiso</li>
+                            <li>El contenido es solo para uso personal y no comercial</li>
                         </ul>
                     </div>
 
                     <!-- User Accounts -->
                     <div id="user-accounts" class="content-section">
-                        <h3>3. User Accounts</h3>
-                        <p>When you create an account with us, you must provide accurate, complete, and current
-                            information. Failure to do so constitutes a breach of the Terms, which may result in
-                            immediate termination of your account.</p>
+                        <h3>3. Cuentas de Usuario</h3>
+                        <p>Cuando crea una cuenta con nosotros, debe proporcionar información precisa, completa y actualizada.
+                            No hacerlo constituye un incumplimiento de los Términos, lo que puede resultar en la
+                            terminación inmediata de su cuenta.</p>
                         <div class="alert-box">
                             <i class="bi bi-exclamation-triangle"></i>
                             <div class="alert-content">
-                                <h5>Important Notice</h5>
-                                <p>You are responsible for safeguarding the password and for all activities that occur
-                                    under your account.</p>
+                                <h5>Aviso Importante</h5>
+                                <p>Usted es responsable de proteger su contraseña y de todas las actividades que ocurran
+                                    bajo su cuenta.</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- Prohibited Activities -->
                     <div id="prohibited" class="content-section">
-                        <h3>4. Prohibited Activities</h3>
-                        <p>You may not access or use the Service for any purpose other than that for which we make it
-                            available.</p>
+                        <h3>4. Actividades Prohibidas</h3>
+                        <p>No puede acceder ni usar el Servicio para ningún propósito diferente al cual
+                            lo ponemos a disposición.</p>
                         <div class="prohibited-list">
                             <div class="prohibited-item">
                                 <i class="bi bi-x-circle"></i>
-                                <span>Systematic retrieval of data or content</span>
+                                <span>Recuperación sistemática de datos o contenido</span>
                             </div>
                             <div class="prohibited-item">
                                 <i class="bi bi-x-circle"></i>
-                                <span>Publishing malicious content</span>
+                                <span>Publicación de contenido malicioso</span>
                             </div>
                             <div class="prohibited-item">
                                 <i class="bi bi-x-circle"></i>
-                                <span>Engaging in unauthorized framing</span>
+                                <span>Participar en enmarcado no autorizado</span>
                             </div>
                             <div class="prohibited-item">
                                 <i class="bi bi-x-circle"></i>
-                                <span>Attempting to gain unauthorized access</span>
+                                <span>Intentar obtener acceso no autorizado</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Disclaimers -->
                     <div id="disclaimer" class="content-section">
-                        <h3>5. Disclaimers</h3>
-                        <p>Your use of our service is at your sole risk. The service is provided "AS IS" and "AS
-                            AVAILABLE" without warranties of any kind, whether express or implied.</p>
+                        <h3>5. Exenciones de Responsabilidad</h3>
+                        <p>El uso de nuestro servicio es bajo su propio riesgo. El servicio se proporciona "TAL CUAL" y "SEGÚN DISPONIBILIDAD"
+                            sin garantías de ningún tipo, ya sean expresas o implícitas.</p>
                         <div class="disclaimer-box">
-                            <p>We do not guarantee that:</p>
+                            <p>No garantizamos que:</p>
                             <ul>
-                                <li>The service will meet your requirements</li>
-                                <li>The service will be uninterrupted or error-free</li>
-                                <li>Results from using the service will be accurate</li>
-                                <li>Any errors will be corrected</li>
+                                <li>El servicio cumplirá con sus requisitos</li>
+                                <li>El servicio será ininterrumpido o libre de errores</li>
+                                <li>Los resultados del uso del servicio serán precisos</li>
+                                <li>Cualquier error será corregido</li>
                             </ul>
                         </div>
                     </div>
 
                     <!-- Limitation of Liability -->
                     <div id="limitation" class="content-section">
-                        <h3>6. Limitation of Liability</h3>
-                        <p>In no event shall we be liable for any indirect, punitive, incidental, special,
-                            consequential, or exemplary damages arising out of or in connection with your use of the
-                            service.</p>
+                        <h3>6. Limitación de Responsabilidad</h3>
+                        <p>En ningún caso seremos responsables de cualquier daño indirecto, punitivo, incidental, especial,
+                            consecuente o ejemplar que surja de o en conexión con su uso del
+                            servicio.</p>
                     </div>
 
                     <!-- Indemnification -->
                     <div id="indemnification" class="content-section">
-                        <h3>7. Indemnification</h3>
-                        <p>You agree to defend, indemnify, and hold us harmless from and against any claims,
-                            liabilities, damages, losses, and expenses arising out of your use of the service.</p>
+                        <h3>7. Indemnización</h3>
+                        <p>Usted acepta defender, indemnizar y mantenernos libres de responsabilidad frente a cualquier reclamo,
+                            responsabilidades, daños, pérdidas y gastos que surjan del uso del servicio.</p>
                     </div>
 
                     <!-- Termination -->
                     <div id="termination" class="content-section">
-                        <h3>8. Termination</h3>
-                        <p>We may terminate or suspend your account immediately, without prior notice or liability, for
-                            any reason whatsoever, including without limitation if you breach the Terms.</p>
+                        <h3>8. Terminación</h3>
+                        <p>Podemos terminar o suspender su cuenta inmediatamente, sin previo aviso o responsabilidad, por
+                            cualquier motivo, incluyendo sin limitación si usted incumple los Términos.</p>
                     </div>
 
                     <!-- Governing Law -->
                     <div id="governing-law" class="content-section">
-                        <h3>9. Governing Law</h3>
-                        <p>These Terms shall be governed by and construed in accordance with the laws of [Your Country],
-                            without regard to its conflict of law provisions.</p>
+                        <h3>9. Ley Aplicable</h3>
+                        <p>Estos Términos se regirán e interpretarán de acuerdo con las leyes de Colombia,
+                            sin tener en cuenta sus disposiciones sobre conflictos de leyes.</p>
                     </div>
 
                     <!-- Changes -->
                     <div id="changes" class="content-section">
-                        <h3>10. Changes to Terms</h3>
-                        <p>We reserve the right to modify or replace these Terms at any time. We will provide notice of
-                            any changes by posting the new Terms on this page.</p>
+                        <h3>10. Cambios en los Términos</h3>
+                        <p>Nos reservamos el derecho de modificar o reemplazar estos Términos en cualquier momento. Proporcionaremos aviso de
+                            cualquier cambio publicando los nuevos Términos en esta página.</p>
                         <div class="notice-box">
                             <i class="bi bi-bell"></i>
-                            <p>By continuing to access or use our service after those revisions become effective, you
-                                agree to be bound by the revised terms.</p>
+                            <p>Al continuar accediendo o usando nuestro servicio después de que esas revisiones entren en vigencia, usted
+                                acepta estar sujeto a los términos revisados.</p>
                         </div>
                     </div>
                 </div>
@@ -218,9 +217,9 @@
                             <i class="bi bi-envelope"></i>
                         </div>
                         <div class="contact-content">
-                            <h4>Questions About Terms?</h4>
-                            <p>If you have any questions about these Terms, please contact us.</p>
-                            <a href="#" class="contact-link">Contact Support</a>
+                            <h4>¿Preguntas sobre los Términos?</h4>
+                            <p>Si tiene alguna pregunta sobre estos Términos, por favor contáctenos.</p>
+                            <a href="contact" class="contact-link">Contactar Soporte</a>
                         </div>
                     </div>
                 </div>

@@ -184,13 +184,29 @@
                                             placeholder="Por favor describe tus síntomas o motivo de la visita (opcional)"></textarea>
                                     </div>
 
+                                    <!-- Términos y Condiciones -->
+                                    <div class="col-12">
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" type="checkbox" id="termsCheckbox" required>
+                                            <label class="form-check-label" for="termsCheckbox">
+                                                Acepto los <a href="terms" target="_blank" class="text-primary">Términos y Condiciones</a> del servicio
+                                            </label>
+                                        </div>
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" type="checkbox" id="privacyCheckbox" required>
+                                            <label class="form-check-label" for="privacyCheckbox">
+                                                Acepto la <a href="privacy" target="_blank" class="text-primary">Política de Privacidad</a> y el tratamiento de mis datos personales conforme a la Ley 1581 de 2012 de Protección de Datos de Colombia
+                                            </label>
+                                        </div>
+                                    </div>
+
                                     <div class="col-12">
                                         <div class="loading">Cargando</div>
                                         <div class="error-message"></div>
                                         <div class="sent-message">Tu solicitud de cita ha sido enviada con éxito.
                                             ¡Nos pondremos en contacto contigo pronto!</div>
 
-                                        <button type="submit" class="btn btn-appointment w-100">
+                                        <button type="submit" id="submitButton" class="btn btn-appointment w-100" disabled>
                                             <i class="bi bi-calendar-plus me-2"></i>Reservar Cita
                                         </button>
                                     </div>
@@ -287,6 +303,35 @@
 
     <!-- Main JS File -->
     <script src="assets/js/main.js"></script>
+
+    <!-- Script para habilitar/deshabilitar botón según checkboxes -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const termsCheckbox = document.getElementById('termsCheckbox');
+            const privacyCheckbox = document.getElementById('privacyCheckbox');
+            const submitButton = document.getElementById('submitButton');
+
+            function checkFormValidity() {
+                // Habilitar el botón solo si ambos checkboxes están marcados
+                if (termsCheckbox.checked && privacyCheckbox.checked) {
+                    submitButton.disabled = false;
+                    submitButton.style.opacity = '1';
+                    submitButton.style.cursor = 'pointer';
+                } else {
+                    submitButton.disabled = true;
+                    submitButton.style.opacity = '0.6';
+                    submitButton.style.cursor = 'not-allowed';
+                }
+            }
+
+            // Agregar event listeners a los checkboxes
+            termsCheckbox.addEventListener('change', checkFormValidity);
+            privacyCheckbox.addEventListener('change', checkFormValidity);
+
+            // Verificar el estado inicial
+            checkFormValidity();
+        });
+    </script>
 
 </body>
 

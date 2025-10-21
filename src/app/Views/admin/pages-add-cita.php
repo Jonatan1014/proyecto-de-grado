@@ -79,6 +79,14 @@
                                     <!-- Mensajes de éxito o error -->
                                     <?php include 'includes/alertEvent.php'; ?>
 
+                                    <!-- Mensaje informativo de campos requeridos -->
+                                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                                        <i class="mdi mdi-information-outline me-2"></i>
+                                        <strong>Importante:</strong> Campos marcados con 
+                                        <span class="text-danger">*</span> son obligatorios.
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+
 
                                     <div class="tab-content">
                                         <div class="tab-pane show active" id="input-types-preview">
@@ -90,7 +98,9 @@
                                                             <div class="col-lg-6">
                                                                 <div class="mb-3">
                                                                     <label for="patient_id"
-                                                                        class="form-label">Paciente</label>
+                                                                        class="form-label">Paciente 
+                                                                        <span class="text-danger">*</span>
+                                                                    </label>
                                                                     <!-- Single Select -->
                                                                     <select id="patient_id" name="patient_id"
                                                                         class="form-control select2" required
@@ -131,7 +141,9 @@
                                                             <div class="col-lg-6">
                                                                 <div class="mb-3">
                                                                     <label for="service_id"
-                                                                        class="form-label">Servicio</label>
+                                                                        class="form-label">Servicio 
+                                                                        <span class="text-danger">*</span>
+                                                                    </label>
                                                                     <select id="service_id" name="service_id"
                                                                         class="form-control" required>
                                                                         <option value="">Seleccionar servicio</option>
@@ -147,7 +159,9 @@
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="doctor_id"
-                                                                        class="form-label">Doctor</label>
+                                                                        class="form-label">Doctor 
+                                                                        <span class="text-danger">*</span>
+                                                                    </label>
                                                                     <select id="doctor_id" name="doctor_id"
                                                                         class="form-control" required>
                                                                         <option value="">Seleccionar doctor</option>
@@ -162,15 +176,25 @@
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="appointment_date"
-                                                                        class="form-label">Fecha y Hora</label>
+                                                                        class="form-label">Fecha y Hora 
+                                                                        <span class="text-danger">*</span>
+                                                                    </label>
                                                                     <input type="datetime-local" id="appointment_date"
                                                                         name="appointment_date" class="form-control"
                                                                         required>
+                                                                    <small class="text-muted">Seleccione la fecha y hora de la cita</small>
                                                                 </div>
                                                                 <div class="mb-3">
-                                                                    <label for="notes" class="form-label">Notas</label>
+                                                                    <label for="notes" class="form-label">Notas 
+                                                                        <span class="text-danger">*</span>
+                                                                    </label>
                                                                     <textarea id="notes" name="notes"
-                                                                        class="form-control" rows="3"></textarea>
+                                                                        class="form-control" rows="3" 
+                                                                        required
+                                                                        placeholder="Ingrese notas o motivo de la consulta"
+                                                                        minlength="10"
+                                                                        maxlength="500"></textarea>
+                                                                    <small class="text-muted">Mínimo 10 caracteres, máximo 500</small>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -200,6 +224,7 @@
             <!-- App js -->
             <script src="assets/admin/assets/js/app.js"></script>
             <script>
+            // Función para llenar datos del paciente
             function fillPatientData() {
                 const select = document.getElementById('patient_id');
                 const selectedOption = select.options[select.selectedIndex];
@@ -214,6 +239,130 @@
                     document.getElementById('email').value = '';
                 }
             }
+
+            // Validaciones adicionales del formulario
+            document.addEventListener('DOMContentLoaded', function() {
+                const form = document.querySelector('form');
+                const appointmentDate = document.getElementById('appointment_date');
+                const notes = document.getElementById('notes');
+                const patientSelect = document.getElementById('patient_id');
+                const serviceSelect = document.getElementById('service_id');
+                const doctorSelect = document.getElementById('doctor_id');
+
+                // Establecer fecha mínima (hoy)
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const day = String(now.getDate()).padStart(2, '0');
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const minDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+                appointmentDate.setAttribute('min', minDateTime);
+
+                // Contador de caracteres para notas
+                notes.addEventListener('input', function() {
+                    const remaining = 500 - this.value.length;
+                    const parent = this.parentElement;
+                    let counterElement = parent.querySelector('.char-counter');
+                    
+                    if (!counterElement) {
+                        counterElement = document.createElement('small');
+                        counterElement.className = 'char-counter text-muted d-block';
+                        parent.appendChild(counterElement);
+                    }
+                    
+                    counterElement.textContent = `Caracteres: ${this.value.length}/500`;
+                    
+                    if (this.value.length < 10) {
+                        counterElement.classList.add('text-danger');
+                        counterElement.classList.remove('text-muted');
+                    } else {
+                        counterElement.classList.add('text-muted');
+                        counterElement.classList.remove('text-danger');
+                    }
+                });
+
+                // Validación del formulario antes de enviar
+                form.addEventListener('submit', function(e) {
+                    let isValid = true;
+                    let errorMessages = [];
+
+                    // Validar paciente
+                    if (!patientSelect.value) {
+                        isValid = false;
+                        errorMessages.push('Debe seleccionar un paciente');
+                        patientSelect.classList.add('is-invalid');
+                    } else {
+                        patientSelect.classList.remove('is-invalid');
+                    }
+
+                    // Validar servicio
+                    if (!serviceSelect.value) {
+                        isValid = false;
+                        errorMessages.push('Debe seleccionar un servicio');
+                        serviceSelect.classList.add('is-invalid');
+                    } else {
+                        serviceSelect.classList.remove('is-invalid');
+                    }
+
+                    // Validar doctor
+                    if (!doctorSelect.value) {
+                        isValid = false;
+                        errorMessages.push('Debe seleccionar un doctor');
+                        doctorSelect.classList.add('is-invalid');
+                    } else {
+                        doctorSelect.classList.remove('is-invalid');
+                    }
+
+                    // Validar fecha
+                    if (!appointmentDate.value) {
+                        isValid = false;
+                        errorMessages.push('Debe seleccionar una fecha y hora');
+                        appointmentDate.classList.add('is-invalid');
+                    } else {
+                        const selectedDate = new Date(appointmentDate.value);
+                        if (selectedDate < now) {
+                            isValid = false;
+                            errorMessages.push('La fecha y hora no puede ser en el pasado');
+                            appointmentDate.classList.add('is-invalid');
+                        } else {
+                            appointmentDate.classList.remove('is-invalid');
+                        }
+                    }
+
+                    // Validar notas
+                    if (!notes.value || notes.value.trim().length < 10) {
+                        isValid = false;
+                        errorMessages.push('Las notas deben tener al menos 10 caracteres');
+                        notes.classList.add('is-invalid');
+                    } else {
+                        notes.classList.remove('is-invalid');
+                    }
+
+                    // Si hay errores, mostrarlos y prevenir el envío
+                    if (!isValid) {
+                        e.preventDefault();
+                        alert('Por favor, corrija los siguientes errores:\n\n' + errorMessages.join('\n'));
+                        return false;
+                    }
+
+                    // Confirmación antes de enviar
+                    const confirmMessage = '¿Está seguro de que desea registrar esta cita?';
+                    if (!confirm(confirmMessage)) {
+                        e.preventDefault();
+                        return false;
+                    }
+
+                    return true;
+                });
+
+                // Limpiar estilos de validación al cambiar valores
+                [patientSelect, serviceSelect, doctorSelect, appointmentDate, notes].forEach(element => {
+                    element.addEventListener('change', function() {
+                        this.classList.remove('is-invalid');
+                    });
+                });
+            });
             </script>
 
 </body>

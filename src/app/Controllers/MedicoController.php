@@ -189,4 +189,43 @@ class MedicoController {
         echo json_encode($doctors);
     }
 
+    /**
+     * Función de prueba para agregar un médico con datos predeterminados
+     *
+     * @return int|false ID del médico creado o false si falla
+     */
+    public function addMedicoTest() {
+        // Datos predeterminados del médico de prueba
+        $datosPrueba = [
+            'cedula' => '1234567890',
+            'name' => 'Dr. Juan Pérez',
+            'specialization' => 'Odontología General',
+            'phone' => '310-1234567',
+            'email' => 'juan.perez@clinica.com',
+            'license_number' => 'ODO-12345'
+        ];
+        $id = Doctor::create($datosPrueba);
+        if ($id) {
+            return $id;
+        } else {
+            echo "❌ Error al crear el médico de prueba<br>";
+            return false;
+        }
+    }
+
+    /**
+     * Función de prueba accesible por URL
+     */
+    public function crearMedicoPrueba() {
+        echo "<h2>Creando Médico de Prueba...</h2>";
+        $id = $this->addMedicoTest();
+
+        if ($id) {
+            echo "<br><a href='pages-get-medico'>Ver lista de médicos</a>";
+        }
+    }
+
+
+
+
 }
