@@ -78,151 +78,7 @@
 
 
 
-            <li class="dropdown notification-list">
-                <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button"
-                    aria-haspopup="false" aria-expanded="false">
-                    <i class="ri-notification-3-line font-22"></i>
-                    <span class="noti-icon-badge"></span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated dropdown-lg py-0">
-                    <div class="p-2 border-top-0 border-start-0 border-end-0 border-dashed border">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <h6 class="m-0 font-16 fw-semibold"> Notification</h6>
-                            </div>
-                            <div class="col-auto">
-                                <a href="javascript: void(0);" class="text-dark text-decoration-underline">
-                                    <small>Clear All</small>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="px-2" style="max-height: 300px;" data-simplebar>
-
-                        <h5 class="text-muted font-12 text-uppercase mt-2">Today</h5>
-                        <!-- item-->
-
-                        <a href="javascript:void(0);"
-                            class="dropdown-item p-0 notify-item card unread-noti shadow-none mb-1">
-                            <div class="card-body">
-                                <span class="float-end noti-close-btn text-muted"><i class="mdi mdi-close"></i></span>
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0">
-                                        <div class="notify-icon bg-primary">
-                                            <i class="ri-chat-quote-line font-18"></i>
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1 text-truncate ms-2">
-                                        <h5 class="noti-item-title fw-semibold font-14">Datacorp <small
-                                                class="fw-normal text-muted ms-1">1 min ago</small></h5>
-                                        <small class="noti-item-subtitle text-muted">Caleb Flakelar commented on
-                                            Admin</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);"
-                            class="dropdown-item p-0 notify-item card read-noti shadow-none mb-2">
-                            <div class="card-body">
-                                <span class="float-end noti-close-btn text-muted"><i class="mdi mdi-close"></i></span>
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0">
-                                        <div class="notify-icon bg-info">
-                                            <i class="ri-user-add-line font-18"></i>
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1 text-truncate ms-2">
-                                        <h5 class="noti-item-title fw-semibold font-14">Admin <small
-                                                class="fw-normal text-muted ms-1">1 hours ago</small></h5>
-                                        <small class="noti-item-subtitle text-muted">New user registered</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-
-                        <h5 class="text-muted font-12 text-uppercase mt-0">Yesterday</h5>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);"
-                            class="dropdown-item p-0 notify-item card read-noti shadow-none mb-2">
-                            <div class="card-body">
-                                <span class="float-end noti-close-btn text-muted"><i class="mdi mdi-close"></i></span>
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0">
-                                        <div class="notify-icon">
-                                            <img src="assets/admin/assets/images/users/avatar-2.jpg"
-                                                class="img-fluid rounded-circle" alt="" />
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1 text-truncate ms-2">
-                                        <h5 class="noti-item-title fw-semibold font-14">Cristina Pride <small
-                                                class="fw-normal text-muted ms-1">1 day ago</small></h5>
-                                        <small class="noti-item-subtitle text-muted">Hi, How are you? What about
-                                            our next meeting</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-
-                        <h5 class="text-muted font-12 text-uppercase mt-0">02 Jun 2025</h5>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);"
-                            class="dropdown-item p-0 notify-item card read-noti shadow-none mb-1">
-                            <div class="card-body">
-                                <span class="float-end noti-close-btn text-muted"><i class="mdi mdi-close"></i></span>
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0">
-                                        <div class="notify-icon bg-primary">
-                                            <i class="ri-chat-voice-line font-18"></i>
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1 text-truncate ms-2">
-                                        <h5 class="noti-item-title fw-semibold font-14">Datacorp</h5>
-                                        <small class="noti-item-subtitle text-muted">Caleb Flakelar commented on
-                                            Admin</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);"
-                            class="dropdown-item p-0 notify-item card read-noti shadow-none mb-2">
-                            <div class="card-body">
-                                <span class="float-end noti-close-btn text-muted"><i class="mdi mdi-close"></i></span>
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0">
-                                        <div class="notify-icon">
-                                            <img src="assets/admin/assets/images/users/avatar-4.jpg"
-                                                class="img-fluid rounded-circle" alt="" />
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1 text-truncate ms-2">
-                                        <h5 class="noti-item-title fw-semibold font-14">Karen Robinson</h5>
-                                        <small class="noti-item-subtitle text-muted">Wow ! this admin looks good
-                                            and awesome design</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-
-                        <div class="text-center">
-                            <i class="mdi mdi-dots-circle mdi-spin text-muted h3 mt-0"></i>
-                        </div>
-                    </div>
-
-                    <!-- All-->
-                    <a href="javascript:void(0);"
-                        class="dropdown-item text-center text-primary notify-item border-top py-2">
-                        View All
-                    </a>
-
-                </div>
-            </li>
+            
 
 
 
@@ -241,33 +97,67 @@
             </li>
 
             <li class="dropdown">
+                <?php
+                    // Obtener información del usuario de la sesión
+                    if (session_status() === PHP_SESSION_NONE) {
+                        session_start();
+                    }
+                    $username = $_SESSION['user']['username'] ?? 'Usuario';
+                    $role = $_SESSION['user']['role'] ?? 'user';
+                    
+                    // Extraer iniciales del nombre
+                    $nameParts = explode(' ', $username);
+                    $initials = '';
+                    
+                    if (count($nameParts) >= 2) {
+                        // Si tiene al menos 2 partes (nombre y apellido)
+                        $initials = strtoupper(substr($nameParts[0], 0, 1) . substr($nameParts[1], 0, 1));
+                    } else {
+                        // Si solo tiene una palabra, tomar las 2 primeras letras
+                        $initials = strtoupper(substr($username, 0, 2));
+                    }
+                    
+                    // Definir color según el rol
+                    $bgColor = 'bg-primary';
+                    $roleName = 'Usuario';
+                    if ($role === 'root') {
+                        $bgColor = 'bg-danger';
+                        $roleName = 'Root';
+                    } elseif ($role === 'admin') {
+                        $bgColor = 'bg-success';
+                        $roleName = 'Administrador';
+                    }
+                ?>
                 <a class="nav-link dropdown-toggle arrow-none nav-user px-2" data-bs-toggle="dropdown" href="#"
                     role="button" aria-haspopup="false" aria-expanded="false">
                     <span class="account-user-avatar">
-                        <img src="assets/admin/assets/images/users/avatar-1.jpg" alt="user-image" width="32"
-                            class="rounded-circle">
+                        <div class="avatar-sm">
+                            <span class="avatar-title <?php echo $bgColor; ?> rounded-circle">
+                                <?php echo $initials; ?>
+                            </span>
+                        </div>
                     </span>
                     <span class="d-lg-flex flex-column gap-1 d-none">
-                        <h5 class="my-0">Dominic Keller</h5>
-                        <h6 class="my-0 fw-normal">Founder</h6>
+                        <h5 class="my-0"><?php echo htmlspecialchars($username); ?></h5>
+                        <h6 class="my-0 fw-normal"><?php echo $roleName; ?></h6>
                     </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated profile-dropdown">
                     <!-- item-->
                     <div class=" dropdown-header noti-title">
-                        <h6 class="text-overflow m-0">Welcome !</h6>
+                        <h6 class="text-overflow m-0">¡Bienvenido!</h6>
                     </div>
 
                     <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item">
                         <i class="ri-user-smile-line font-16 me-1"></i>
-                        <span>My Account</span>
+                        <span>Mi Cuenta</span>
                     </a>
 
                     <!-- item-->
                     <a href="logout" class="dropdown-item">
                         <i class="ri-login-circle-line font-16 me-1"></i>
-                        <span>Logout</span>
+                        <span>Cerrar Sesión</span>
                     </a>
                 </div>
             </li>
