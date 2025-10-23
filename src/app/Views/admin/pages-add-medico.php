@@ -97,42 +97,63 @@
                                                             <!-- Primera columna -->
                                                             <div class="col-lg-6">
                                                                 <div class="mb-3">
-                                                                    <label for="name" class="form-label">Nombre</label>
+                                                                    <label for="idnumber" class="form-label">Cédula/Identificación</label>
+                                                                    <input type="text" id="idnumber" name="idnumber"
+                                                                        class="form-control" 
+                                                                        placeholder="Ej: 1234567890">
+                                                                    <small class="text-muted">Campo opcional</small>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="name" class="form-label">Nombre Completo <span class="text-danger">*</span></label>
                                                                     <input type="text" id="name" name="name"
-                                                                        class="form-control" required>
+                                                                        class="form-control" 
+                                                                        placeholder="Ej: Dr. Juan Pérez"
+                                                                        required>
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="specialization"
                                                                         class="form-label">Especialización</label>
                                                                     <input type="text" id="specialization"
-                                                                        name="specialization" class="form-control">
+                                                                        name="specialization" 
+                                                                        class="form-control"
+                                                                        placeholder="Ej: Ortodoncia">
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="phone"
                                                                         class="form-label">Teléfono</label>
                                                                     <input type="text" id="phone" name="phone"
-                                                                        class="form-control">
+                                                                        class="form-control"
+                                                                        placeholder="Ej: 310-1234567">
                                                                 </div>
                                                             </div>
                                                             <!-- Segunda columna -->
                                                             <div class="col-lg-6">
                                                                 <div class="mb-3">
-                                                                    <label for="email" class="form-label">Correo</label>
+                                                                    <label for="email" class="form-label">Correo Electrónico <span class="text-danger">*</span></label>
                                                                     <input type="email" id="email" name="email"
-                                                                        class="form-control" required>
+                                                                        class="form-control" 
+                                                                        placeholder="Ej: doctor@clinica.com"
+                                                                        required>
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="license_number"
-                                                                        class="form-label">Número de
-                                                                        Licencia</label>
+                                                                        class="form-label">Número de Licencia <span class="text-danger">*</span></label>
                                                                     <input type="text" id="license_number"
-                                                                        name="license_number" class="form-control"
+                                                                        name="license_number" 
+                                                                        class="form-control"
+                                                                        placeholder="Ej: ODO-12345"
                                                                         required>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <button type="submit" class="btn btn-success">Registrar
-                                                            Médico</button>
+                                                        <div class="d-flex justify-content-between">
+                                                            <a href="pages-get-medico" class="btn btn-secondary">
+                                                                <i class="mdi mdi-arrow-left me-1"></i> Cancelar
+                                                            </a>
+                                                            <button type="submit" class="btn btn-success">
+                                                                <i class="mdi mdi-content-save me-1"></i> Registrar Médico
+                                                            </button>
+                                                        </div>
                                                     </form>
                                                     <?php if (isset($_GET['error'])): ?>
                                                     <p class="text-danger mt-3">Credenciales incorrectas.</p>

@@ -304,26 +304,7 @@
                     return new bootstrap.Tooltip(tooltipTriggerEl)
                 });
 
-                // Configuración personalizada de DataTables
-                $('#basic-datatable').DataTable({
-                    "language": {
-                        "url": "//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json"
-                    },
-                    "pageLength": 25,
-                    "order": [[1, "asc"]], // Ordenar por nombre ascendente
-                    "columnDefs": [
-                        { "orderable": false, "targets": 6 }, // Deshabilitar orden en columna de acciones
-                        { "width": "5%", "targets": 0 },     // # ID
-                        { "width": "25%", "targets": 1 },    // Médico
-                        { "width": "18%", "targets": 2 },    // Especialización
-                        { "width": "13%", "targets": 3 },    // Contacto
-                        { "width": "15%", "targets": 4 },    // Email
-                        { "width": "14%", "targets": 5 },    // Licencia
-                        { "width": "10%", "targets": 6 }     // Acciones
-                    ],
-                    "dom": '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rtip',
-                    "responsive": true
-                });
+                
             });
         </script>
 

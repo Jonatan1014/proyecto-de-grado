@@ -41,6 +41,7 @@ class MedicoController {
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $data = [
+            'idnumber' => $_POST['idnumber'] ?? null,
             'name' => $_POST['name'] ?? '',
             'specialization' => $_POST['specialization'] ?? '',
             'phone' => $_POST['phone'] ?? '',

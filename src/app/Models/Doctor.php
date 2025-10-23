@@ -26,16 +26,16 @@ class Doctor {
     public static function create($data) {
         $db = Database::getConnection();
 
-        $stmt = $db->prepare("INSERT INTO doctors (idnumber, name, specialization, phone, email, license_number) VALUES (?, ?, ?, ?, ?)");
+        $stmt = $db->prepare("INSERT INTO doctors (idnumber, name, specialization, phone, email, license_number) VALUES (?, ?, ?, ?, ?, ?)");
         
         try {
             $stmt->execute([
-                $data['idnumber'],
+                $data['idnumber'] ?? null,
                 $data['name'],
-                $data['specialization'],
-                $data['phone'],
-                $data['email'],
-                $data['license_number']
+                $data['specialization'] ?? null,
+                $data['phone'] ?? null,
+                $data['email'] ?? null,
+                $data['license_number'] ?? null
             ]);
 
             return $db->lastInsertId();
