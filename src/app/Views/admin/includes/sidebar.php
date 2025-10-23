@@ -68,7 +68,7 @@
                             <a href="pages-upd-medico">Actualizacion de Datos</a>
                         </li>
                         <li>
-                            <a href="pages-add-medico">Agenda Medica</a>
+                            <a href="pages-add-cita">Agenda Medica</a>
                         </li>
                     </ul>
                 </div>
