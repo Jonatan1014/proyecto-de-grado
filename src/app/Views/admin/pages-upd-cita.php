@@ -79,19 +79,25 @@
                                                         <!-- ID oculto -->
                                                         <input type="hidden" name="id"
                                                             value="<?php echo htmlspecialchars($cita->id); ?>">
+                                                        
+                                                        <!-- Patient ID oculto (el campo disabled no se envía) -->
+                                                        <input type="hidden" name="patient_id"
+                                                            value="<?php echo htmlspecialchars($cita->patient_id); ?>">
 
                                                         <div class="row">
                                                             <!-- Primera columna -->
                                                             <div class="col-lg-6">
-                                                                <!-- Paciente -->
+                                                                <!-- Paciente (Solo lectura) -->
                                                                 <div class="mb-3">
-                                                                    <label for="patient_id" class="form-label">Paciente
-                                                                        <span class="text-danger">*</span></label>
-                                                                    <input id="patient_id" name="patient_id"
+                                                                    <label for="patient_display" class="form-label">Paciente
+                                                                        <span class="text-muted">(No editable)</span></label>
+                                                                    <input id="patient_display" 
                                                                         value="<?php echo htmlspecialchars($cita->patient_name . ' ' . $cita->patient_lastname); ?>"
-                                                                        class="form-control" disabled required>
-
-                                                                    </input>
+                                                                        class="form-control" disabled>
+                                                                    <small class="text-muted">
+                                                                        <i class="mdi mdi-information-outline"></i>
+                                                                        No se puede cambiar el paciente de una cita existente
+                                                                    </small>
                                                                 </div>
 
                                                                 <!-- Doctor -->
@@ -147,49 +153,24 @@
                                                                         required
                                                                         value="<?php echo htmlspecialchars(date('Y-m-d\TH:i', strtotime($cita->appointment_date))); ?>">
                                                                 </div>
-                                                                <!-- Precio de servicio -->
-                                                                <div class="mb-3">
-                                                                    <label for="price_service" class="form-label">Precio
-                                                                        del servicio <span
-                                                                            class="text-danger">*</span></label>
-                                                                    <input type="number" id="price_service"
-                                                                        name="price_service" class="form-control"
-                                                                        value="<?php echo isset($cita) ? htmlspecialchars($cita->price_service ?? $cita->service_price ?? '') : ''; ?>"
-                                                                        step="0.01" min="0" required>
-                                                                    <small class="text-muted">Precio base: <span
-                                                                            id="base_price_display">N/A</span></small>
-                                                                </div>
-
+                                                                
                                                                 <!-- Estado -->
                                                                 <div class="mb-3">
-                                                                    <label for="status" class="form-label">
-                                                                        Estado de la Cita <span
-                                                                            class="text-danger">*</span>
-                                                                    </label>
-                                                                    <!-- Estado -->
-                                                                    <div class="mb-3">
-                                                                        <label for="status" class="form-label">Estado
-                                                                            <span class="text-danger">*</span></label>
-                                                                        <select id="status" name="status"
-                                                                            class="form-select" required>
-                                                                            <option value="">Seleccionar estado</option>
-                                                                            <option value="scheduled"
-                                                                                <?php echo (isset($cita) && $cita->status == 'scheduled') ? 'selected' : ''; ?>>
-                                                                                📅 Programada</option>
-                                                                            <option value="completed"
-                                                                                <?php echo (isset($cita) && $cita->status == 'completed') ? 'selected' : ''; ?>>
-                                                                                ✅ Completada</option>
-                                                                            <option value="cancelled"
-                                                                                <?php echo (isset($cita) && $cita->status == 'cancelled') ? 'selected' : ''; ?>>
-                                                                                ❌ Cancelada</option>
-                                                                        </select>
-                                                                    </div>
-
-
-
-
-                                                                    
-
+                                                                    <label for="status" class="form-label">Estado
+                                                                        <span class="text-danger">*</span></label>
+                                                                    <select id="status" name="status"
+                                                                        class="form-select" required>
+                                                                        <option value="">Seleccionar estado</option>
+                                                                        <option value="scheduled"
+                                                                            <?php echo (isset($cita) && $cita->status == 'scheduled') ? 'selected' : ''; ?>>
+                                                                            📅 Programada</option>
+                                                                        <option value="completed"
+                                                                            <?php echo (isset($cita) && $cita->status == 'completed') ? 'selected' : ''; ?>>
+                                                                            ✅ Completada</option>
+                                                                        <option value="cancelled"
+                                                                            <?php echo (isset($cita) && $cita->status == 'cancelled') ? 'selected' : ''; ?>>
+                                                                            ❌ Cancelada</option>
+                                                                    </select>
                                                                 </div>
 
 
@@ -274,92 +255,50 @@
     <!-- Validación y funcionalidad del formulario -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const form = document.getElementById('editCitaForm');
+        const form = document.querySelector('form[action="update-cita"]');
 
         // Validación antes de enviar
-        form.addEventListener('submit', function(e) {
-            const appointmentDate = document.getElementById('appointment_date').value;
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                const appointmentDate = document.getElementById('appointment_date').value;
+                const status = document.getElementById('status').value;
 
-            // Validar que la fecha no sea muy antigua (opcional)
-            const selectedDate = new Date(appointmentDate);
-            const today = new Date();
-            const oneYearAgo = new Date();
-            oneYearAgo.setFullYear(today.getFullYear() - 1);
+                // Validar que la fecha no sea muy antigua (opcional)
+                const selectedDate = new Date(appointmentDate);
+                const today = new Date();
+                const oneYearAgo = new Date();
+                oneYearAgo.setFullYear(today.getFullYear() - 1);
 
-            if (selectedDate < oneYearAgo) {
-                const confirmOld = window.confirm(
-                    '⚠️ La fecha seleccionada es muy antigua (más de 1 año atrás). ¿Desea continuar?'
+                if (selectedDate < oneYearAgo) {
+                    const confirmOld = window.confirm(
+                        '⚠️ La fecha seleccionada es muy antigua (más de 1 año atrás). ¿Desea continuar?'
+                    );
+                    if (!confirmOld) {
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+
+                // Confirmación final con detalles
+                const statusLabels = {
+                    'scheduled': '📅 Programada',
+                    'completed': '✅ Completada',
+                    'cancelled': '❌ Cancelada'
+                };
+                const statusText = statusLabels[status] || status;
+                
+                const confirmSubmit = window.confirm(
+                    `¿Está seguro de actualizar esta cita?\n\nNuevo estado: ${statusText}\nFecha: ${new Date(appointmentDate).toLocaleString('es-CO')}`
                 );
-                if (!confirmOld) {
+                
+                if (!confirmSubmit) {
                     e.preventDefault();
                     return false;
                 }
-            }
 
-            // Confirmación final
-            const confirmSubmit = window.confirm('¿Está seguro de actualizar esta cita?');
-            if (!confirmSubmit) {
-                e.preventDefault();
-                return false;
-            }
-
-            return true;
-        });
-
-
-
-
-    });
-
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const serviceSelect = document.getElementById('service_id');
-        const priceInput = document.getElementById('price_service');
-        const basePriceDisplay = document.getElementById('base_price_display');
-
-        // Función para formatear a moneda COP
-        function formatCOP(value) {
-            return new Intl.NumberFormat('es-CO', {
-                style: 'currency',
-                currency: 'COP',
-                minimumFractionDigits: 0
-            }).format(value);
+                return true;
+            });
         }
-
-        // Función para actualizar el precio
-        function updateServicePrice() {
-            const selectedOption = serviceSelect.options[serviceSelect.selectedIndex];
-
-            if (selectedOption.value) {
-                const basePrice = selectedOption.getAttribute('data-price');
-
-                // Mostrar precio base formateado
-                if (basePrice) {
-                    basePriceDisplay.textContent = formatCOP(basePrice);
-
-                    // Autocompletar el input si está vacío o marcado
-                    if (!priceInput.value || priceInput.dataset.autoFilled === 'true') {
-                        priceInput.value = parseFloat(basePrice).toFixed(2);
-                        priceInput.dataset.autoFilled = 'true';
-                    }
-                } else {
-                    basePriceDisplay.textContent = 'N/A';
-                }
-            } else {
-                basePriceDisplay.textContent = 'N/A';
-                if (priceInput.dataset.autoFilled === 'true') {
-                    priceInput.value = '';
-                    priceInput.dataset.autoFilled = 'true';
-                }
-            }
-        }
-
-        // Eventos
-        serviceSelect.addEventListener('change', updateServicePrice);
-        priceInput.addEventListener('input', () => priceInput.dataset.autoFilled = 'false');
-
-        // Inicializar al cargar
-        updateServicePrice();
     });
     </script>
 </body>

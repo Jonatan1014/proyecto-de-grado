@@ -5,6 +5,7 @@ require_once __DIR__ . '/../../config/database.php';
 
 class Doctor {
     public $id;
+    public $idnumber;
     public $name;
     public $specialization;
     public $phone;
@@ -25,10 +26,11 @@ class Doctor {
     public static function create($data) {
         $db = Database::getConnection();
 
-        $stmt = $db->prepare("INSERT INTO doctors (name, specialization, phone, email, license_number) VALUES (?, ?, ?, ?, ?)");
+        $stmt = $db->prepare("INSERT INTO doctors (idnumber, name, specialization, phone, email, license_number) VALUES (?, ?, ?, ?, ?)");
         
         try {
             $stmt->execute([
+                $data['idnumber'],
                 $data['name'],
                 $data['specialization'],
                 $data['phone'],

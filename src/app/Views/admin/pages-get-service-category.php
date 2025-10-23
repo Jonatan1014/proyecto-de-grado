@@ -4,9 +4,9 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Datatables | Hyper - Responsive Bootstrap 5 Admin Dashboard</title>
+    <title>Categorías de Servicios | Sistema Clínica Dental</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="Sistema de gestión de categorías de servicios dentales" name="description" />
     <meta content="Coderthemes" name="author" />
 
     <!-- App favicon -->
@@ -64,11 +64,15 @@
                             <div class="page-title-box">
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="/admin">Home</a></li>
-                                        <li class="breadcrumb-item active">Lista de Médicos</li>
+                                        <li class="breadcrumb-item"><a href="/admin">Inicio</a></li>
+                                        <li class="breadcrumb-item"><a href="pages-get-service">Servicios</a></li>
+                                        <li class="breadcrumb-item active">Categorías</li>
                                     </ol>
                                 </div>
-                                <h4 class="page-title">Lista de Médicos</h4>
+                                <h4 class="page-title">
+                                    <i class="mdi mdi-tag-multiple text-primary me-1"></i>
+                                    Gestión de Categorías de Servicios
+                                </h4>
                                 <!-- Mensajes de éxito o error -->
                                 <?php include 'includes/alertEvent.php'; ?>
 
@@ -83,51 +87,122 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="header-title">Basic Data Table</h4>
-                                    <p class="text-muted font-14 mb-4">
-                                        DataTables has most features enabled by default, so all you need to do to use it
-                                        with your own tables is to call the construction
-                                        function:
-                                        <code>$().DataTable();</code>. KeyTable provides Excel like cell navigation on
-                                        any table. Events (focus, blur, action etc) can be assigned to individual
-                                        cells, columns, rows or all cells.
-                                    </p>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-8">
+                                            <h4 class="header-title mb-1">
+                                                <i class="mdi mdi-folder-open text-primary me-1"></i>
+                                                Categorías de Servicios Odontológicos
+                                            </h4>
+                                            <p class="text-muted font-13">
+                                                Organice los servicios dentales en categorías para una mejor clasificación.
+                                                Puede crear, editar y eliminar categorías según sea necesario.
+                                            </p>
+                                        </div>
+                                        <div class="col-sm-4 text-sm-end">
+                                            <a href="pages-add-service-category" class="btn btn-primary mb-2">
+                                                <i class="mdi mdi-plus-circle me-1"></i> Nueva Categoría
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <!-- Estadísticas rápidas -->
+                                    <div class="row mb-3">
+                                        <div class="col-md-12">
+                                            <div class="alert alert-info bg-info text-white border-0 mb-0" role="alert">
+                                                <i class="mdi mdi-information-outline me-2"></i>
+                                                <strong>Total de categorías registradas: <?php echo count($categories); ?></strong>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                     <table id="basic-datatable"
-                                        class="table table-striped dt-responsive nowrap w-100 mb-0">
-                                        <thead>
+                                        class="table table-striped table-hover dt-responsive nowrap w-100 mb-0">
+                                        <thead class="table-light">
                                             <tr>
-                                                <th>ID</th>
-                                                <th>Nombre</th>
-                                                <th>Fecha de Creación</th>
-                                                <th>Última Actualización</th>
-                                                <th>Acciones</th>
+                                                <th class="text-center" style="width: 8%">#</th>
+                                                <th style="width: 45%"><i class="mdi mdi-tag me-1"></i>Nombre de Categoría</th>
+                                                <th style="width: 20%"><i class="mdi mdi-calendar-clock me-1"></i>Fecha Creación</th>
+                                                <th style="width: 20%"><i class="mdi mdi-update me-1"></i>Última Actualización</th>
+                                                <th class="text-center" style="width: 12%"><i class="mdi mdi-tools me-1"></i>Acciones</th>
                                             </tr>
                                         </thead>
 
                                         <tbody>
                                             <?php foreach($categories as $category): ?>
                                             <tr>
-                                                <td><?php echo htmlspecialchars($category->id); ?></td>
-                                                <td><?php echo htmlspecialchars($category->name); ?></td>
-                                                <td><?php echo htmlspecialchars($category->created_at); ?></td>
-                                                <td><?php echo htmlspecialchars($category->updated_at); ?></td>
+                                                <td class="text-center">
+                                                    <span class="badge badge-outline-primary fs-6"><?php echo htmlspecialchars($category->id); ?></span>
+                                                </td>
                                                 <td>
-                                                    <a href="pages-upd-service-category?id=<?php echo $category->id; ?>"
-                                                        class="btn btn-outline-info rounded-pill">
-                                                        <i class="uil-edit"></i> Editar
-                                                    </a>
+                                                    <div class="d-flex align-items-center">
+                                                        
+                                                        <div>
+                                                            <h5 class="mb-0 font-15 fw-semibold">
+                                                                <?php echo htmlspecialchars($category->name); ?>
+                                                            </h5>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div>
+                                                        <i class="mdi mdi-calendar-plus text-success me-1"></i>
+                                                        <span class="text-muted">
+                                                            <?php echo date('d/m/Y', strtotime($category->created_at)); ?>
+                                                        </span>
+                                                    </div>
+                                                    <small class="text-muted">
+                                                        <i class="mdi mdi-clock-outline me-1"></i>
+                                                        <?php echo date('h:i A', strtotime($category->created_at)); ?>
+                                                    </small>
+                                                </td>
+                                                <td>
+                                                    <?php 
+                                                        $created = new DateTime($category->created_at);
+                                                        $updated = new DateTime($category->updated_at);
+                                                        $wasUpdated = $created->format('Y-m-d H:i:s') !== $updated->format('Y-m-d H:i:s');
+                                                    ?>
+                                                    <?php if($wasUpdated): ?>
+                                                    <div>
+                                                        <i class="mdi mdi-pencil text-warning me-1"></i>
+                                                        <span class="text-muted">
+                                                            <?php echo date('d/m/Y', strtotime($category->updated_at)); ?>
+                                                        </span>
+                                                    </div>
+                                                    <small class="text-muted">
+                                                        <i class="mdi mdi-clock-outline me-1"></i>
+                                                        <?php echo date('h:i A', strtotime($category->updated_at)); ?>
+                                                    </small>
+                                                    <?php else: ?>
+                                                    <span class="badge bg-soft-secondary text-secondary">
+                                                        <i class="mdi mdi-information-outline me-1"></i>
+                                                        Sin modificaciones
+                                                    </span>
+                                                    <?php endif; ?>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="btn-group" role="group">
+                                                        <a href="pages-upd-service-category?id=<?php echo $category->id; ?>"
+                                                            class="btn btn-sm btn-info"
+                                                            data-bs-toggle="tooltip"
+                                                            data-bs-placement="top"
+                                                            title="Editar categoría">
+                                                            <i class="mdi mdi-pencil"></i>
+                                                        </a>
 
-                                                    <form action="delete-service-category" method="POST"
-                                                        style="display:inline-block;"
-                                                        onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta categoría?');">
-                                                        <input type="hidden" name="id"
-                                                            value="<?php echo $category->id; ?>">
-                                                        <button type="submit"
-                                                            class="btn btn-outline-danger rounded-pill">
-                                                            <i class="uil-trash-alt"></i> Eliminar
-                                                        </button>
-                                                    </form>
+                                                        <form action="delete-service-category" method="POST"
+                                                            style="display:inline-block;"
+                                                            onsubmit="return confirm('⚠️ ¿Está seguro de eliminar esta categoría?\n\nCategoría: <?php echo htmlspecialchars($category->name); ?>\n\n⚠️ ADVERTENCIA: Esta acción eliminará todos los servicios asociados a esta categoría.\n\nEsta acción no se puede deshacer.');">
+                                                            <input type="hidden" name="id"
+                                                                value="<?php echo $category->id; ?>">
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-danger"
+                                                                data-bs-toggle="tooltip"
+                                                                data-bs-placement="top"
+                                                                title="Eliminar categoría">
+                                                                <i class="mdi mdi-delete"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <?php endforeach; ?>
@@ -188,6 +263,19 @@
 
         <!-- Datatable Custom js -->
         <script src="assets/admin/assets/js/pages/demo.datatable-init.js"></script>
+
+        <!-- Script personalizado para categorías -->
+        <script>
+            // Inicializar tooltips de Bootstrap
+            document.addEventListener('DOMContentLoaded', function() {
+                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+                var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl)
+                });
+
+                
+            });
+        </script>
 
 </body>
 

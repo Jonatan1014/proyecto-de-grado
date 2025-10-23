@@ -1,0 +1,809 @@
+═══════════════════════════════════════════════════════════════════════════════
+    MANUAL DE BASE DE DATOS - SISTEMA DE GESTIÓN CLÍNICA DENTAL
+═══════════════════════════════════════════════════════════════════════════════
+
+Versión: 1.0
+Fecha: 22-10-2025
+Base de datos: clinic_db
+Motor: MySQL 8.0+
+Charset: utf8mb4_general_ci
+
+═══════════════════════════════════════════════════════════════════════════════
+1. INTRODUCCIÓN
+═══════════════════════════════════════════════════════════════════════════════
+
+Este manual describe el esquema completo de la base de datos del sistema de 
+gestión de clínica dental, incluyendo todas las tablas, relaciones, índices, 
+restricciones y su funcionamiento operativo.
+
+El sistema está diseñado para gestionar:
+- Pacientes y sus datos personales
+- Doctores y especialidades
+- Citas médicas y su programación
+- Historiales clínicos odontológicos completos
+- Servicios y categorías ofrecidos
+- Sistema de calendario con recordatorios
+- Usuarios administradores con roles
+
+═══════════════════════════════════════════════════════════════════════════════
+2. ARQUITECTURA DE LA BASE DE DATOS
+═══════════════════════════════════════════════════════════════════════════════
+
+Nombre de la base de datos: clinic_db
+Total de tablas: 9
+
+Tablas principales:
+├── clinics              (Información de la clínica)
+├── users                (Usuarios del sistema - Admins/Root)
+├── doctors              (Médicos/Doctores)
+├── patients             (Pacientes)
+├── service_categories   (Categorías de servicios)
+├── services             (Servicios odontológicos)
+├── appointments         (Citas médicas)
+├── events_calendar      (Eventos y recordatorios)
+└── dental_clinical_records (Historiales clínicos)
+
+═══════════════════════════════════════════════════════════════════════════════
+3. DESCRIPCIÓN DETALLADA DE TABLAS
+═══════════════════════════════════════════════════════════════════════════════
+
+───────────────────────────────────────────────────────────────────────────────
+3.1. TABLA: clinics
+───────────────────────────────────────────────────────────────────────────────
+
+Propósito: Almacena información general de la clínica dental.
+
+Estructura:
++-------------+---------------+--------+----------+----------------------------+
+| Campo       | Tipo          | Nulo   | Clave    | Descripción               |
++-------------+---------------+--------+----------+----------------------------+
+| id          | INT           | NO     | PRIMARY  | ID único de la clínica    |
+| name        | VARCHAR(255)  | NO     |          | Nombre de la clínica      |
+| address     | TEXT          | NO     |          | Dirección física          |
+| phone       | VARCHAR(20)   | SÍ     |          | Teléfono de contacto      |
+| email       | VARCHAR(255)  | SÍ     |          | Email de contacto         |
+| schedule    | TEXT          | SÍ     |          | Horario de atención       |
+| created_at  | TIMESTAMP     | NO     |          | Fecha de creación         |
++-------------+---------------+--------+----------+----------------------------+
+
+Características:
+- AUTO_INCREMENT en 'id'
+- created_at por defecto CURRENT_TIMESTAMP
+
+Uso típico:
+- Almacenar datos institucionales
+- Mostrar información en el sitio web
+- Generar reportes con datos de la clínica
+
+───────────────────────────────────────────────────────────────────────────────
+3.2. TABLA: users
+───────────────────────────────────────────────────────────────────────────────
+
+Propósito: Gestiona usuarios administrativos del sistema con roles jerárquicos.
+
+Estructura:
++-------------+---------------+--------+----------+----------------------------+
+| Campo       | Tipo          | Nulo   | Clave    | Descripción               |
++-------------+---------------+--------+----------+----------------------------+
+| id          | INT           | NO     | PRIMARY  | ID único del usuario      |
+| username    | VARCHAR(100)  | NO     | UNIQUE   | Nombre de usuario (login) |
+| email       | VARCHAR(255)  | NO     | UNIQUE   | Email único               |
+| password    | VARCHAR(255)  | NO     |          | Contraseña hasheada       |
+| role        | ENUM          | NO     |          | 'root' o 'admin'          |
+| is_active   | BOOLEAN       | NO     |          | Estado activo/inactivo    |
+| created_at  | TIMESTAMP     | NO     |          | Fecha de creación         |
+| updated_at  | TIMESTAMP     | NO     |          | Última actualización      |
++-------------+---------------+--------+----------+----------------------------+
+
+Características especiales:
+- UNIQUE en 'username' y 'email' (no permite duplicados)
+- role ENUM('root', 'admin'):
+  * 'root': Acceso total al sistema, puede gestionar usuarios
+  * 'admin': Acceso administrativo limitado
+- is_active DEFAULT TRUE
+- updated_at se actualiza automáticamente ON UPDATE CURRENT_TIMESTAMP
+
+Seguridad:
+- Las contraseñas DEBEN almacenarse hasheadas (password_hash() en PHP)
+- Nunca almacenar contraseñas en texto plano
+- Validar unicidad de username y email antes de insertar
+
+Casos de uso:
+1. Login: SELECT * FROM users WHERE email = ? AND is_active = 1
+2. Crear admin: INSERT INTO users (username, email, password, role, is_active)
+3. Listar admins: SELECT id, username, email, role, is_active FROM users
+4. Control de acceso: WHERE role = 'root' (para funciones privilegiadas)
+
+───────────────────────────────────────────────────────────────────────────────
+3.3. TABLA: doctors
+───────────────────────────────────────────────────────────────────────────────
+
+Propósito: Almacena información de los médicos/doctores de la clínica.
+
+Estructura:
++-----------------+---------------+--------+----------+----------------------------+
+| Campo           | Tipo          | Nulo   | Clave    | Descripción               |
++-----------------+---------------+--------+----------+----------------------------+
+| id              | INT           | NO     | PRIMARY  | ID único del doctor       |
+| idnumber        | VARCHAR(50)   | SÍ     | UNIQUE   | Cédula/identificación     |
+| name            | VARCHAR(255)  | NO     |          | Nombre completo           |
+| specialization  | VARCHAR(255)  | SÍ     |          | Especialización médica    |
+| phone           | VARCHAR(20)   | SÍ     |          | Teléfono de contacto      |
+| email           | VARCHAR(255)  | SÍ     |          | Email                     |
+| license_number  | VARCHAR(100)  | SÍ     |          | Número de licencia        |
+| created_at      | TIMESTAMP     | NO     |          | Fecha de registro         |
+| updated_at      | TIMESTAMP     | NO     |          | Última actualización      |
++-----------------+---------------+--------+----------+----------------------------+
+
+Características:
+- UNIQUE en 'idnumber' (cédula única por doctor)
+- specialization permite valores como: "Ortodoncista", "Endodoncista", etc.
+
+Relaciones:
+- Referenciado por: appointments (doctor_id)
+- Referenciado por: events_calendar (doctor_id)
+- Referenciado por: dental_clinical_records (doctor_id)
+
+───────────────────────────────────────────────────────────────────────────────
+3.4. TABLA: patients
+───────────────────────────────────────────────────────────────────────────────
+
+Propósito: Gestiona datos personales y de contacto de los pacientes.
+
+Estructura:
++---------------------------+---------------+--------+----------+----------------------------+
+| Campo                     | Tipo          | Nulo   | Clave    | Descripción               |
++---------------------------+---------------+--------+----------+----------------------------+
+| id                        | INT           | NO     | PRIMARY  | ID único del paciente     |
+| name                      | VARCHAR(255)  | NO     |          | Nombre(s)                 |
+| lastname                  | VARCHAR(255)  | NO     |          | Apellido(s)               |
+| idnumber                  | VARCHAR(50)   | SÍ     | UNIQUE   | Cédula/identificación     |
+| birth_date                | DATE          | SÍ     |          | Fecha de nacimiento       |
+| gender                    | ENUM          | SÍ     |          | 'M', 'F', 'Otro'          |
+| phone                     | VARCHAR(20)   | SÍ     |          | Teléfono principal        |
+| email                     | VARCHAR(255)  | SÍ     |          | Email                     |
+| address                   | TEXT          | SÍ     |          | Dirección completa        |
+| emergency_contact_name    | VARCHAR(255)  | SÍ     |          | Nombre contacto urgencia  |
+| emergency_contact_phone   | VARCHAR(20)   | SÍ     |          | Teléfono urgencia         |
+| created_at                | TIMESTAMP     | NO     |          | Fecha de registro         |
+| updated_at                | TIMESTAMP     | NO     |          | Última actualización      |
++---------------------------+---------------+--------+----------+----------------------------+
+
+Características:
+- UNIQUE en 'idnumber'
+- gender ENUM('M', 'F', 'Otro') para inclusividad
+- Campos de emergencia importantes para contacto rápido
+
+Relaciones:
+- Referenciado por: appointments (patient_id)
+- Referenciado por: events_calendar (patient_id)
+- Referenciado por: dental_clinical_records (patient_id)
+
+Cálculos útiles:
+- Edad actual: TIMESTAMPDIFF(YEAR, birth_date, CURDATE())
+
+───────────────────────────────────────────────────────────────────────────────
+3.5. TABLA: service_categories
+───────────────────────────────────────────────────────────────────────────────
+
+Propósito: Categorizar los servicios odontológicos ofrecidos.
+
+Estructura:
++-------------+---------------+--------+----------+----------------------------+
+| Campo       | Tipo          | Nulo   | Clave    | Descripción               |
++-------------+---------------+--------+----------+----------------------------+
+| id          | INT           | NO     | PRIMARY  | ID único de categoría     |
+| name        | VARCHAR(100)  | NO     | UNIQUE   | Nombre de la categoría    |
+| created_at  | TIMESTAMP     | NO     |          | Fecha de creación         |
+| updated_at  | TIMESTAMP     | NO     |          | Última actualización      |
++-------------+---------------+--------+----------+----------------------------+
+
+Ejemplos de categorías:
+- "Ortodoncia"
+- "Endodoncia"
+- "Periodoncia"
+- "Estética Dental"
+- "Cirugía Oral"
+
+Relaciones:
+- Referenciado por: services (category_id)
+
+───────────────────────────────────────────────────────────────────────────────
+3.6. TABLA: services
+───────────────────────────────────────────────────────────────────────────────
+
+Propósito: Define los servicios/tratamientos específicos que ofrece la clínica.
+
+Estructura:
++-------------------+---------------+--------+----------+----------------------------+
+| Campo             | Tipo          | Nulo   | Clave    | Descripción               |
++-------------------+---------------+--------+----------+----------------------------+
+| id                | INT           | NO     | PRIMARY  | ID único del servicio     |
+| name              | VARCHAR(255)  | NO     |          | Nombre del servicio       |
+| description       | TEXT          | SÍ     |          | Descripción detallada     |
+| duration_minutes  | INT           | SÍ     |          | Duración estimada (min)   |
+| price             | DECIMAL(10,2) | SÍ     |          | Precio del servicio       |
+| category_id       | INT           | SÍ     | FOREIGN  | Categoría del servicio    |
+| icon              | VARCHAR(100)  | SÍ     |          | Nombre del ícono/imagen   |
+| features          | JSON          | SÍ     |          | Características en JSON   |
+| is_featured       | BOOLEAN       | NO     |          | Servicio destacado        |
+| status            | ENUM          | NO     |          | 'active', 'inactive'      |
+| created_at        | TIMESTAMP     | NO     |          | Fecha de creación         |
+| updated_at        | TIMESTAMP     | NO     |          | Última actualización      |
++-------------------+---------------+--------+----------+----------------------------+
+
+Características:
+- FOREIGN KEY (category_id) REFERENCES service_categories(id)
+- price DECIMAL(10,2) permite valores como 150.50
+- features JSON puede almacenar:
+  {
+    "includes": ["Consulta inicial", "Radiografía"],
+    "duration_sessions": 3,
+    "warranty_months": 12
+  }
+- is_featured DEFAULT FALSE (para destacar en página principal)
+- status ENUM('active', 'inactive') DEFAULT 'active'
+
+Relaciones:
+- Referencia: service_categories (category_id)
+- Referenciado por: appointments (service_id)
+
+Consultas útiles:
+- Servicios activos: WHERE status = 'active'
+- Servicios destacados: WHERE is_featured = TRUE AND status = 'active'
+- Por categoría: WHERE category_id = ? AND status = 'active'
+
+───────────────────────────────────────────────────────────────────────────────
+3.7. TABLA: appointments
+───────────────────────────────────────────────────────────────────────────────
+
+Propósito: Gestiona las citas médicas entre pacientes y doctores.
+
+Estructura:
++-------------------+---------------+--------+----------+----------------------------+
+| Campo             | Tipo          | Nulo   | Clave    | Descripción               |
++-------------------+---------------+--------+----------+----------------------------+
+| id                | INT           | NO     | PRIMARY  | ID único de la cita       |
+| patient_id        | INT           | NO     | FOREIGN  | ID del paciente           |
+| doctor_id         | INT           | NO     | FOREIGN  | ID del doctor             |
+| service_id        | INT           | NO     | FOREIGN  | ID del servicio           |
+| appointment_date  | DATETIME      | NO     |          | Fecha y hora de la cita   |
+| status            | ENUM          | NO     |          | Estado de la cita         |
+| notes             | TEXT          | SÍ     |          | Notas adicionales         |
+| created_at        | TIMESTAMP     | NO     |          | Fecha de creación         |
+| updated_at        | TIMESTAMP     | NO     |          | Última actualización      |
++-------------------+---------------+--------+----------+----------------------------+
+
+Características:
+- FOREIGN KEY (patient_id) REFERENCES patients(id)
+- FOREIGN KEY (doctor_id) REFERENCES doctors(id)
+- FOREIGN KEY (service_id) REFERENCES services(id)
+- UNIQUE (patient_id, doctor_id, appointment_date) 
+  → Previene citas duplicadas del mismo paciente con el mismo doctor a la misma hora
+- status ENUM('scheduled', 'completed', 'cancelled') DEFAULT 'scheduled'
+
+Estados de la cita:
+- 'scheduled': Cita programada (pendiente)
+- 'completed': Cita completada/atendida
+- 'cancelled': Cita cancelada
+
+Relaciones:
+- Referencia: patients (patient_id)
+- Referencia: doctors (doctor_id)
+- Referencia: services (service_id)
+- Referenciado por: events_calendar (appointment_id)
+- Referenciado por: dental_clinical_records (appointment_id)
+
+Validaciones importantes:
+1. No permitir citas en fechas pasadas
+2. Verificar disponibilidad del doctor (no más de X citas por hora)
+3. Validar horarios de atención de la clínica
+
+Consultas útiles:
+- Citas del día: WHERE DATE(appointment_date) = CURDATE()
+- Citas pendientes: WHERE status = 'scheduled' AND appointment_date >= NOW()
+- Por doctor: WHERE doctor_id = ? ORDER BY appointment_date
+- Por paciente: WHERE patient_id = ? ORDER BY appointment_date DESC
+
+───────────────────────────────────────────────────────────────────────────────
+3.8. TABLA: events_calendar
+───────────────────────────────────────────────────────────────────────────────
+
+Propósito: Sistema de calendario con eventos, recordatorios y webhooks.
+
+Estructura:
++--------------------+---------------+--------+----------+----------------------------+
+| Campo              | Tipo          | Nulo   | Clave    | Descripción               |
++--------------------+---------------+--------+----------+----------------------------+
+| id                 | INT           | NO     | PRIMARY  | ID único del evento       |
+| title              | VARCHAR(255)  | NO     |          | Título del evento         |
+| description        | TEXT          | SÍ     |          | Descripción detallada     |
+| start_datetime     | DATETIME      | NO     |          | Inicio del evento         |
+| end_datetime       | DATETIME      | NO     |          | Fin del evento            |
+| event_type         | ENUM          | NO     |          | Tipo de evento            |
+| appointment_id     | INT           | SÍ     | FOREIGN  | ID cita relacionada       |
+| patient_id         | INT           | SÍ     | FOREIGN  | ID paciente relacionado   |
+| doctor_id          | INT           | SÍ     | FOREIGN  | ID doctor relacionado     |
+| is_reminder_sent   | BOOLEAN       | NO     |          | Recordatorio enviado      |
+| reminder_datetime  | DATETIME      | SÍ     |          | Fecha envío recordatorio  |
+| webhook_sent       | BOOLEAN       | NO     |          | Webhook enviado           |
+| created_at         | TIMESTAMP     | NO     |          | Fecha de creación         |
+| updated_at         | TIMESTAMP     | NO     |          | Última actualización      |
++--------------------+---------------+--------+----------+----------------------------+
+
+Características:
+- FOREIGN KEY (appointment_id) REFERENCES appointments(id) ON DELETE CASCADE
+  → Si se elimina la cita, se elimina el evento automáticamente
+- FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE SET NULL
+- FOREIGN KEY (doctor_id) REFERENCES doctors(id) ON DELETE SET NULL
+- event_type ENUM('appointment', 'reminder', 'other', 'cancelled')
+- is_reminder_sent DEFAULT FALSE
+- webhook_sent DEFAULT FALSE
+
+Tipos de eventos:
+- 'appointment': Evento de cita médica
+- 'reminder': Recordatorio independiente
+- 'other': Evento genérico (reuniones, capacitaciones)
+- 'cancelled': Evento cancelado
+
+Flujo de recordatorios:
+1. Crear evento con reminder_datetime = appointment_date - 24 hours
+2. Cron job revisa WHERE is_reminder_sent = FALSE AND reminder_datetime <= NOW()
+3. Enviar email/SMS al paciente
+4. Actualizar is_reminder_sent = TRUE
+
+Uso en calendario:
+- FullCalendar.js consume estos eventos vía API
+- Formato JSON: { id, title, start, end, color, extendedProps }
+
+───────────────────────────────────────────────────────────────────────────────
+3.9. TABLA: dental_clinical_records
+───────────────────────────────────────────────────────────────────────────────
+
+Propósito: Historiales clínicos odontológicos completos de los pacientes.
+
+Estructura:
++-----------------------+---------------+--------+----------+----------------------------+
+| Campo                 | Tipo          | Nulo   | Clave    | Descripción               |
++-----------------------+---------------+--------+----------+----------------------------+
+| id                    | INT           | NO     | PRIMARY  | ID único del historial    |
+| patient_id            | INT           | NO     | FOREIGN  | ID del paciente           |
+| doctor_id             | INT           | NO     | FOREIGN  | ID del doctor             |
+| appointment_id        | INT           | SÍ     | FOREIGN  | ID cita relacionada       |
+| history_number        | VARCHAR(50)   | SÍ     | UNIQUE   | Número de historia        |
+| registration_date     | DATE          | NO     |          | Fecha de registro         |
+| reason_consultation   | TEXT          | SÍ     |          | Motivo de consulta        |
+| current_illness       | TEXT          | SÍ     |          | Enfermedad actual         |
+| medical_history       | TEXT          | SÍ     |          | Antecedentes médicos      |
+| family_history        | TEXT          | SÍ     |          | Antecedentes familiares   |
+| general_exam          | TEXT          | SÍ     |          | Examen general            |
+| local_exam            | TEXT          | SÍ     |          | Examen local/bucal        |
+| odontogram            | JSON          | SÍ     |          | Datos del odontograma     |
+| main_diagnosis        | TEXT          | SÍ     |          | Diagnóstico principal     |
+| secondary_diagnosis   | TEXT          | SÍ     |          | Diagnóstico secundario    |
+| treatment_plan        | JSON          | SÍ     |          | Plan de tratamiento       |
+| final_observations    | TEXT          | SÍ     |          | Observaciones finales     |
+| created_at            | TIMESTAMP     | NO     |          | Fecha de creación         |
+| updated_at            | TIMESTAMP     | NO     |          | Última actualización      |
++-----------------------+---------------+--------+----------+----------------------------+
+
+Características:
+- FOREIGN KEY (patient_id) REFERENCES patients(id)
+- FOREIGN KEY (doctor_id) REFERENCES doctors(id)
+- FOREIGN KEY (appointment_id) REFERENCES appointments(id)
+- UNIQUE en 'history_number' (número único de historia clínica)
+
+Campos JSON:
+
+1. odontogram (Odontograma):
+   Estructura sugerida:
+   {
+     "teeth": {
+       "11": {"status": "caries", "treatment": "resina"},
+       "12": {"status": "sano"},
+       "21": {"status": "ausente"},
+       "36": {"status": "endodoncia"}
+     },
+     "observations": "Paciente con buena higiene bucal"
+   }
+
+2. treatment_plan (Plan de tratamiento):
+   Estructura sugerida:
+   {
+     "treatments": [
+       {
+         "description": "Limpieza dental profunda",
+         "cost": 80.00,
+         "estimated_date": "2025-11-15",
+         "status": "pending"
+       },
+       {
+         "description": "Resina en diente 11",
+         "cost": 120.00,
+         "estimated_date": "2025-11-22",
+         "status": "completed"
+       }
+     ],
+     "total_cost": 200.00,
+     "payment_method": "efectivo"
+   }
+
+Uso en generación de PDFs:
+- El sistema genera PDFs con toda la información del historial
+- Incluye el odontograma visual
+- Plan de tratamiento con costos
+- Firma digital del doctor
+
+Consultas útiles:
+- Historiales por paciente: WHERE patient_id = ? ORDER BY registration_date DESC
+- Historiales recientes: WHERE registration_date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
+- Por número: WHERE history_number = ?
+
+═══════════════════════════════════════════════════════════════════════════════
+4. DIAGRAMA DE RELACIONES (ERD)
+═══════════════════════════════════════════════════════════════════════════════
+
+service_categories (1) ─────< (N) services
+                                     │
+                                     │ (1)
+                                     │
+patients (1) ─────< (N) appointments <───── (N) doctors
+   │                        │ (1)
+   │ (1)                    │
+   │                        │
+   └───< (N) dental_clinical_records >───┘
+   │                        │
+   │ (1)                    │ (1)
+   │                        │
+   └───< (N) events_calendar ────< (N) doctors
+                │ (1)
+                │
+                └─── (0..1) appointments
+
+Leyenda:
+- (1) = Uno
+- (N) = Muchos
+- <───> = Relación bidireccional
+- ─── = Relación unidireccional
+
+═══════════════════════════════════════════════════════════════════════════════
+5. ÍNDICES Y OPTIMIZACIONES
+═══════════════════════════════════════════════════════════════════════════════
+
+Índices automáticos por PRIMARY KEY:
+- Todas las tablas tienen índice en 'id'
+
+Índices automáticos por UNIQUE:
+- users: username, email
+- doctors: idnumber
+- patients: idnumber
+- service_categories: name
+- dental_clinical_records: history_number
+
+Índices automáticos por FOREIGN KEY:
+- services: category_id
+- appointments: patient_id, doctor_id, service_id
+- events_calendar: appointment_id, patient_id, doctor_id
+- dental_clinical_records: patient_id, doctor_id, appointment_id
+
+Índices compuestos sugeridos para optimizar consultas frecuentes:
+
+CREATE INDEX idx_appointments_date ON appointments(appointment_date);
+CREATE INDEX idx_appointments_status ON appointments(status);
+CREATE INDEX idx_events_dates ON events_calendar(start_datetime, end_datetime);
+CREATE INDEX idx_events_reminders ON events_calendar(is_reminder_sent, reminder_datetime);
+CREATE INDEX idx_records_patient_date ON dental_clinical_records(patient_id, registration_date);
+
+═══════════════════════════════════════════════════════════════════════════════
+6. REGLAS DE INTEGRIDAD Y RESTRICCIONES
+═══════════════════════════════════════════════════════════════════════════════
+
+6.1. Integridad Referencial (FOREIGN KEYS)
+───────────────────────────────────────────
+- appointments.patient_id → patients.id (RESTRICT)
+- appointments.doctor_id → doctors.id (RESTRICT)
+- appointments.service_id → services.id (RESTRICT)
+- services.category_id → service_categories.id (RESTRICT)
+- events_calendar.appointment_id → appointments.id (CASCADE)
+- events_calendar.patient_id → patients.id (SET NULL)
+- events_calendar.doctor_id → doctors.id (SET NULL)
+- dental_clinical_records.patient_id → patients.id (RESTRICT)
+- dental_clinical_records.doctor_id → doctors.id (RESTRICT)
+- dental_clinical_records.appointment_id → appointments.id (RESTRICT)
+
+6.2. Restricciones de Unicidad
+───────────────────────────────
+- users.username: Debe ser único en todo el sistema
+- users.email: Debe ser único en todo el sistema
+- doctors.idnumber: Cédula única por doctor
+- patients.idnumber: Cédula única por paciente
+- service_categories.name: Nombre único por categoría
+- dental_clinical_records.history_number: Número único por historia
+- appointments (patient_id, doctor_id, appointment_date): Combinación única
+
+6.3. Valores por Defecto
+─────────────────────────
+- users.is_active = TRUE
+- users.role = Sin valor por defecto (debe especificarse)
+- services.is_featured = FALSE
+- services.status = 'active'
+- appointments.status = 'scheduled'
+- events_calendar.is_reminder_sent = FALSE
+- events_calendar.webhook_sent = FALSE
+- events_calendar.event_type = 'other'
+
+6.4. Validaciones a Nivel de Aplicación (PHP)
+──────────────────────────────────────────────
+- Validar formato de email antes de insertar
+- Validar longitud de contraseñas (mínimo 6 caracteres)
+- Validar fechas futuras para citas
+- Validar formato de cédula/idnumber según país
+- Validar precios positivos en servicios
+- Validar JSON válido en campos odontogram y treatment_plan
+- Verificar disponibilidad de doctor antes de agendar cita
+
+═══════════════════════════════════════════════════════════════════════════════
+7. PROCEDIMIENTOS ALMACENADOS Y TRIGGERS SUGERIDOS
+═══════════════════════════════════════════════════════════════════════════════
+
+7.1. Trigger: Auto-crear evento al crear cita
+──────────────────────────────────────────────
+DELIMITER //
+CREATE TRIGGER after_appointment_insert
+AFTER INSERT ON appointments
+FOR EACH ROW
+BEGIN
+    INSERT INTO events_calendar (
+        title, 
+        start_datetime, 
+        end_datetime, 
+        event_type, 
+        appointment_id, 
+        patient_id, 
+        doctor_id,
+        reminder_datetime
+    )
+    VALUES (
+        CONCAT('Cita: ', (SELECT name FROM patients WHERE id = NEW.patient_id)),
+        NEW.appointment_date,
+        DATE_ADD(NEW.appointment_date, INTERVAL (SELECT duration_minutes FROM services WHERE id = NEW.service_id) MINUTE),
+        'appointment',
+        NEW.id,
+        NEW.patient_id,
+        NEW.doctor_id,
+        DATE_SUB(NEW.appointment_date, INTERVAL 24 HOUR)
+    );
+END//
+DELIMITER ;
+
+7.2. Trigger: Actualizar evento al cambiar cita
+────────────────────────────────────────────────
+DELIMITER //
+CREATE TRIGGER after_appointment_update
+AFTER UPDATE ON appointments
+FOR EACH ROW
+BEGIN
+    UPDATE events_calendar
+    SET 
+        start_datetime = NEW.appointment_date,
+        end_datetime = DATE_ADD(NEW.appointment_date, INTERVAL (SELECT duration_minutes FROM services WHERE id = NEW.service_id) MINUTE),
+        event_type = CASE 
+            WHEN NEW.status = 'cancelled' THEN 'cancelled'
+            ELSE 'appointment'
+        END
+    WHERE appointment_id = NEW.id;
+END//
+DELIMITER ;
+
+7.3. Procedimiento: Obtener disponibilidad de doctor
+─────────────────────────────────────────────────────
+DELIMITER //
+CREATE PROCEDURE GetDoctorAvailability(
+    IN p_doctor_id INT,
+    IN p_date DATE
+)
+BEGIN
+    SELECT 
+        TIME(appointment_date) as hora,
+        s.duration_minutes as duracion
+    FROM appointments a
+    JOIN services s ON a.service_id = s.id
+    WHERE a.doctor_id = p_doctor_id
+      AND DATE(a.appointment_date) = p_date
+      AND a.status != 'cancelled'
+    ORDER BY appointment_date;
+END//
+DELIMITER ;
+
+═══════════════════════════════════════════════════════════════════════════════
+8. CONSULTAS SQL ÚTILES
+═══════════════════════════════════════════════════════════════════════════════
+
+8.1. Dashboard - Estadísticas generales
+────────────────────────────────────────
+-- Total de pacientes
+SELECT COUNT(*) as total_pacientes FROM patients;
+
+-- Total de doctores
+SELECT COUNT(*) as total_doctores FROM doctors;
+
+-- Citas del día
+SELECT COUNT(*) as citas_hoy 
+FROM appointments 
+WHERE DATE(appointment_date) = CURDATE() 
+  AND status = 'scheduled';
+
+-- Citas del mes
+SELECT COUNT(*) as citas_mes 
+FROM appointments 
+WHERE MONTH(appointment_date) = MONTH(CURDATE()) 
+  AND YEAR(appointment_date) = YEAR(CURDATE());
+
+8.2. Reporte de citas por doctor
+─────────────────────────────────
+SELECT 
+    d.name as doctor,
+    COUNT(a.id) as total_citas,
+    SUM(CASE WHEN a.status = 'completed' THEN 1 ELSE 0 END) as completadas,
+    SUM(CASE WHEN a.status = 'cancelled' THEN 1 ELSE 0 END) as canceladas
+FROM doctors d
+LEFT JOIN appointments a ON d.id = a.doctor_id
+WHERE MONTH(a.appointment_date) = MONTH(CURDATE())
+GROUP BY d.id, d.name
+ORDER BY total_citas DESC;
+
+8.3. Historial completo de un paciente
+───────────────────────────────────────
+SELECT 
+    dcr.history_number,
+    dcr.registration_date,
+    d.name as doctor,
+    dcr.main_diagnosis,
+    dcr.treatment_plan
+FROM dental_clinical_records dcr
+JOIN doctors d ON dcr.doctor_id = d.id
+WHERE dcr.patient_id = ?
+ORDER BY dcr.registration_date DESC;
+
+8.4. Servicios más solicitados
+───────────────────────────────
+SELECT 
+    s.name as servicio,
+    sc.name as categoria,
+    COUNT(a.id) as total_citas,
+    SUM(s.price) as ingresos_estimados
+FROM services s
+JOIN service_categories sc ON s.category_id = sc.id
+LEFT JOIN appointments a ON s.id = a.service_id
+WHERE a.status = 'completed'
+GROUP BY s.id
+ORDER BY total_citas DESC
+LIMIT 10;
+
+8.5. Recordatorios pendientes de envío
+───────────────────────────────────────
+SELECT 
+    ec.id,
+    ec.title,
+    p.name as paciente,
+    p.phone,
+    p.email,
+    ec.reminder_datetime
+FROM events_calendar ec
+JOIN patients p ON ec.patient_id = p.id
+WHERE ec.is_reminder_sent = FALSE
+  AND ec.reminder_datetime <= NOW()
+  AND ec.event_type = 'appointment'
+ORDER BY ec.reminder_datetime;
+
+═══════════════════════════════════════════════════════════════════════════════
+9. MANTENIMIENTO Y RESPALDOS
+═══════════════════════════════════════════════════════════════════════════════
+
+9.1. Respaldo de la base de datos
+──────────────────────────────────
+# Respaldo completo
+mysqldump -u root -p clinic_db > backup_clinic_$(date +%Y%m%d_%H%M%S).sql
+
+# Respaldo solo estructura
+mysqldump -u root -p --no-data clinic_db > structure.sql
+
+# Respaldo solo datos
+mysqldump -u root -p --no-create-info clinic_db > data.sql
+
+9.2. Restauración
+─────────────────
+mysql -u root -p clinic_db < backup_clinic_20251022.sql
+
+9.3. Limpieza de datos antiguos
+────────────────────────────────
+-- Eliminar citas canceladas de hace más de 6 meses
+DELETE FROM appointments 
+WHERE status = 'cancelled' 
+  AND created_at < DATE_SUB(CURDATE(), INTERVAL 6 MONTH);
+
+-- Archivar historiales antiguos (mover a tabla de archivo)
+CREATE TABLE dental_clinical_records_archive LIKE dental_clinical_records;
+
+INSERT INTO dental_clinical_records_archive
+SELECT * FROM dental_clinical_records
+WHERE registration_date < DATE_SUB(CURDATE(), INTERVAL 5 YEAR);
+
+9.4. Optimización de tablas
+────────────────────────────
+OPTIMIZE TABLE appointments;
+OPTIMIZE TABLE events_calendar;
+OPTIMIZE TABLE dental_clinical_records;
+
+ANALYZE TABLE appointments;
+ANALYZE TABLE patients;
+
+═══════════════════════════════════════════════════════════════════════════════
+10. SEGURIDAD Y BUENAS PRÁCTICAS
+═══════════════════════════════════════════════════════════════════════════════
+
+10.1. Control de acceso
+───────────────────────
+- Crear usuarios de base de datos con permisos limitados:
+  * Usuario lectura: SELECT
+  * Usuario aplicación: SELECT, INSERT, UPDATE (no DELETE en tablas críticas)
+  * Usuario admin: ALL PRIVILEGES
+
+CREATE USER 'clinic_app'@'localhost' IDENTIFIED BY 'password_seguro';
+GRANT SELECT, INSERT, UPDATE ON clinic_db.* TO 'clinic_app'@'localhost';
+FLUSH PRIVILEGES;
+
+10.2. Encriptación de datos sensibles
+──────────────────────────────────────
+- Contraseñas: Usar password_hash() en PHP (bcrypt/argon2)
+- Datos médicos: Considerar encriptación a nivel de aplicación para HIPAA/GDPR
+
+10.3. Auditoría
+───────────────
+- Considerar crear tabla de logs para cambios importantes:
+
+CREATE TABLE audit_log (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    table_name VARCHAR(50),
+    record_id INT,
+    action ENUM('INSERT', 'UPDATE', 'DELETE'),
+    user_id INT,
+    old_values JSON,
+    new_values JSON,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+10.4. Validaciones
+──────────────────
+- Nunca confiar en datos del cliente
+- Sanitizar todos los inputs antes de queries
+- Usar prepared statements (PDO)
+- Validar tipos de datos
+- Implementar rate limiting para prevenir ataques
+
+═══════════════════════════════════════════════════════════════════════════════
+11. MIGRACIÓN Y VERSIONADO
+═══════════════════════════════════════════════════════════════════════════════
+
+Versión actual: 1.0
+
+Historial de cambios:
+- v1.0 (2025-10-22): Creación inicial del esquema
+
+Para futuras migraciones, seguir el patrón:
+database/migrations/
+    ├── v1.0_initial_schema.sql
+    ├── v1.1_add_sms_notifications.sql
+    └── v1.2_add_payment_table.sql
+
+═══════════════════════════════════════════════════════════════════════════════
+12. CONTACTO Y SOPORTE
+═══════════════════════════════════════════════════════════════════════════════
+
+Para consultas sobre el esquema de base de datos:
+- Repositorio: https://github.com/Jonatan1014/proyecto-de-grado
+- Documentación adicional: Ver README.md y manual tecnico.txt
+
+═══════════════════════════════════════════════════════════════════════════════
+FIN DEL MANUAL DE BASE DE DATOS
+═══════════════════════════════════════════════════════════════════════════════

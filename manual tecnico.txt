@@ -1,0 +1,184 @@
+Manual Técnico - Sistema de Gestión Clínica Dental
+===============================================
+
+Versión: 1.0
+Fecha: 22-10-2025
+Autor: Equipo de desarrollo
+
+1. Objetivo
+----------
+Este documento explica la arquitectura, componentes y el flujo interno del sistema para que desarrolladores puedan entender, mantener y extender la aplicación.
+
+2. Arquitectura general
+-----------------------
+El proyecto está construido con un patrón MVC ligero en PHP puro (sin frameworks grandes). Estructura principal:
+
+- `src/app/Controllers/` — Controladores que reciben la petición y preparan datos para las vistas.
+- `src/app/Models/` — Acceso a la base de datos y representación de entidades.
+- `src/app/Views/` — Plantillas PHP/HTML (Bootstrap 5) para la interfaz.
+- `src/app/Services/` — Servicios de apoyo como autenticación, webhooks y utilidades.
+- `src/config/` — Configuraciones como `routes.php` y `database.php`.
+- `src/public/` — Punto de entrada (`index.php`) y recursos públicos (`assets/`).
+
+3. Flujo de petición
+---------------------
+1. El archivo `src/public/index.php` carga configuraciones y el sistema de routing.
+2. `src/config/routes.php` mapea la URI a un controlador y acción (o a una vista directa).
+3. Si la ruta apunta a un controlador, se instancia el controlador y se ejecuta la acción.
+4. El controlador interactúa con modelos y servicios, prepara datos y finalmente incluye una vista.
+5. La vista renderiza HTML y se devuelve al cliente.
+
+4. Rutas importantes
+---------------------
+Las rutas principales están en `src/config/routes.php`. Ejemplos:
+
+- `/pages-add-cita` -> `CitaController::pagesAddCita`
+- `/add-cita` -> `CitaController::addCita`
+- `/pages-get-admin` -> `UserController::readUser` (solo ROOT)
+- `/pages-add-admin` -> `UserController::pagesAddUser` (solo ROOT)
+
+Para agregar una ruta nueva: editar `routes.php` y seguir el formato existente.
+
+5. Controladores
+------------------
+Ubicación: `src/app/Controllers/`
+
+Convenciones:
+- Los controladores usan métodos públicos cuyo nombre describe la acción (ej: `pagesAddUser`, `addUser`).
+- Cada método debe llamar a `AuthService::requireLogin()` cuando sea necesario.
+- Para control de roles, usar `AuthService::isRoot()` o `AuthService::isAdminOrRoot()`.
+
+Ejemplo de ciclo dentro de un controlador:
+
+1. Validar que la petición sea POST (si aplica).
+2. Sanitizar y validar datos de entrada.
+3. Llamar al modelo correspondiente para persistir datos.
+4. Establecer mensajes en `$_SESSION['success']` o `$_SESSION['error']`.
+5. Redireccionar a la vista correspondiente.
+
+6. Modelos
+-----------
+Ubicación: `src/app/Models/`
+
+Los modelos encapsulan la lógica de acceso a datos usando PDO. El archivo `src/config/database.php` expone `Database::getConnection()` para obtener la instancia PDO.
+
+Recomendaciones:
+- Preparar sentencias con `prepare()` para evitar inyección SQL.
+- Devolver arreglos asociativos o instancias de clase donde sea conveniente.
+- Añadir métodos estáticos para operaciones CRUD comunes (create, read, findById, update, delete).
+
+7. Servicios
+------------
+Ubicación: `src/app/Services/`
+
+Servicios existentes:
+- `AuthService.php`: manejo de sesiones, login, logout y helpers de roles.
+- `WebhookService.php`, `CitaService.php`, `HistorialService.php`.
+
+Uso recomendado: servicios son puntos para lógica compartida (enviar emails, generar PDFs, llamadas externas).
+
+8. Base de Datos
+-----------------
+Archivos SQL en `database/`:
+- `structure.sql`: crea la estructura de la BD y tablas.
+- `example.sql`: datos de ejemplo.
+- `dump.sql`: respaldo.
+
+Configuración de conexión: `src/config/database.php` usa variables de entorno o valores por defecto (host `localhost`, db `clinic_db`, usuario `root`).
+
+Tablas clave:
+- `users` (id, username, email, password, role ENUM('root','admin'), is_active, created_at, updated_at)
+- `pacientes`
+- `doctores`
+- `citas`
+- `historial_clinico`
+- `servicios`, `service_categories`
+
+9. Autenticación y Autorización
+--------------------------------
+- Login: `AuthService::login($email, $password)` -> setea `$_SESSION['user']` con `id`, `username`, `email`, `role`.
+- `AuthService::requireLogin()` redirige a `login` si no hay sesión activa.
+- `AuthService::isRoot()` y `isAdminOrRoot()` para control de accesos en controladores y vistas.
+
+10. Vistas y Assets
+--------------------
+- Las vistas están en `src/app/Views/` y usan plantillas PHP simples.
+- Los assets (CSS/JS/imagenes) están en `src/public/assets/`.
+- Para nuevas vistas, seguir la estructura `Views/<seccion>/archivo.php`.
+
+11. Convenciones de Código
+--------------------------
+- PHP: usar `snake_case` para archivos y `StudlyCaps` para clases.
+- Nombres de métodos en controladores: `camelCase`.
+- Archivos incluidos con `require_once` o `include_once` desde rutas relativas `__DIR__`.
+- Sanitizar siempre entradas con `trim()` y `htmlspecialchars()` al imprimir.
+
+12. Añadir nuevas funcionalidades
+---------------------------------
+1. Diseñar la tabla(s) necesarias y agregar al `database/structure.sql`.
+2. Crear el modelo en `src/app/Models/` con métodos CRUD.
+3. Crear el controlador en `src/app/Controllers/` con las acciones necesarias.
+4. Añadir rutas en `src/config/routes.php`.
+5. Crear vistas en `src/app/Views/` y enlazarlas desde el controlador.
+6. Probar flujo completo: inserción, edición, listado, eliminación.
+
+13. Generación automática de la base de datos desde código (opcional)
+------------------------------------------------------------------
+Si se desea que la BD se cree automáticamente desde PHP al iniciar el proyecto, se pueden seguir dos opciones:
+
+Opción A - Script de instalación PHP (recomendado para automatización):
+1. Crear `scripts/install.php` que:
+	- Lee `database/structure.sql` y ejecuta las declaraciones SQL mediante `PDO::exec()`.
+	- Crea la BD si no existe `CREATE DATABASE IF NOT EXISTS clinic_db`.
+	- Inserta datos de `example.sql` si se solicita.
+2. Ejecutar desde la línea de comandos una vez:
+
+```bash
+php scripts/install.php
+```
+
+Opción B - Detectar y crear al primer run:
+1. En `src/config/database.php` al intentar la conexión, si la BD no existe, capturar la excepción y ejecutar la creación:
+	- Conectar a MySQL sin DB (`mysql:host=...`) y ejecutar `CREATE DATABASE IF NOT EXISTS clinic_db`.
+	- Volver a conectar con la BD creada.
+2. Esta opción debe usarse con cuidado en producción.
+
+14. Pruebas
+-----------
+- Actualmente hay pruebas unitarias mínimas en `tests/` (ej: `CitaTest.php`, `HistorialTest.php`).
+- Ejecutar pruebas con PHPUnit (añadir `phpunit` si se requiere):
+
+```bash
+# Instalar phpunit (global o dev dependency)
+composer require --dev phpunit/phpunit
+
+# Ejecutar tests
+./vendor/bin/phpunit --testdox
+```
+
+15. Debugging y logs
+--------------------
+- Revisar logs de Apache: `C:\xampp\apache\logs\error.log` (Windows)
+- Logs de PHP/Aplicación: agregar un logger sencillo que escriba en `logs/`.
+
+16. Despliegue
+--------------
+- Para producción, usar un servidor con PHP-FPM + Nginx/Apache.
+- Configurar variables de entorno para credenciales de producción en `$_ENV`.
+- Asegurar HTTPS y reglas de firewall.
+
+17. Buenas prácticas y recomendaciones
+-------------------------------------
+- No guardar contraseñas en texto plano en producción.
+- Hacer backups periódicos de la BD (cron + mysqldump).
+- Revisar y limpiar dependencias de Composer.
+- Añadir validaciones y sanitización en cada punto de entrada.
+
+18. Contacto y referencias
+---------------------------
+Para dudas sobre el código, contactar al autor del repositorio en GitHub: https://github.com/Jonatan1014
+
+---
+
+Fin del manual técnico.
+

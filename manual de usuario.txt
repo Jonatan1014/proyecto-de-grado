@@ -1,0 +1,1658 @@
+Versión: 1.0
+Fecha: 20-10-2025
+Sistema: Clínica Dental - Gestión Integral
+
+═══════════════════════════════════════════════════════════════════════════════
+ÍNDICE
+═══════════════════════════════════════════════════════════════════════════════
+
+1. INTRODUCCIÓN AL SISTEMA
+2. REQUISITOS PARA USAR EL SISTEMA
+3. INICIO DE SESIÓN
+4. PANEL DE CONTROL (DASHBOARD)
+5. GESTIÓN DE PACIENTES
+6. GESTIÓN DE MÉDICOS
+7. GESTIÓN DE CITAS
+8. GESTIÓN DE SERVICIOS
+9. CALENDARIO DE CITAS
+10. HISTORIALES CLÍNICOS
+11. GESTIÓN DE USUARIOS (ADMINISTRADORES)
+12. PERFIL DE USUARIO
+13. PREGUNTAS FRECUENTES
+14. SOLUCIÓN DE PROBLEMAS
+
+═══════════════════════════════════════════════════════════════════════════════
+1. INTRODUCCIÓN AL SISTEMA
+═══════════════════════════════════════════════════════════════════════════════
+
+Bienvenido al Sistema de Gestión de Clínica Dental. Este sistema ha sido 
+diseñado para facilitar la administración de citas e historial clinico de una clínica dental, 
+permitiendo gestionar pacientes, doctores, citas, servicios y llevar un 
+registro completo de historiales clínicos odontológicos.
+
+¿Para quién es este sistema?
+-----------------------------
+Este manual está dirigido a:
+- ✅ Administradores de la clínica
+- ✅ Personal de recepción
+- ✅ Usuarios ROOT (administradores principales)
+- ✅ Personal administrativo
+
+¿Qué puede hacer con este sistema?
+-----------------------------------
+- 📋 Registrar y gestionar pacientes
+- 👨‍⚕️ Administrar médicos y sus especialidades
+- 📅 Agendar, modificar y cancelar citas
+- 🦷 Crear historiales clínicos odontológicos completos
+- 📊 Ver estadísticas y reportes
+- 🗓️ Visualizar calendario de citas
+- 📄 Generar reportes en PDF
+- 👥 Gestionar usuarios administradores (solo ROOT)
+
+[ESPACIO PARA IMAGEN: Pantalla principal del sistema]
+
+
+═══════════════════════════════════════════════════════════════════════════════
+2. REQUISITOS PARA USAR EL SISTEMA
+═══════════════════════════════════════════════════════════════════════════════
+
+Requisitos Técnicos:
+--------------------
+✅ Navegador web actualizado (Chrome, Firefox, Edge, Safari)
+✅ Conexión a Internet estable
+✅ Resolución de pantalla mínima: 1366x768 píxeles
+✅ Credenciales de acceso proporcionadas por el administrador
+
+Navegadores Recomendados:
+-------------------------
+- Google Chrome (versión 90 o superior)
+- Mozilla Firefox (versión 88 o superior)
+- Microsoft Edge (versión 90 o superior)
+- Safari (versión 14 o superior)
+
+Credenciales de Acceso:
+-----------------------
+Para acceder al sistema necesitará:
+1. Nombre de usuario o email
+2. Contraseña personal
+
+Si no cuenta con credenciales, contacte al administrador ROOT del sistema.
+
+[ESPACIO PARA IMAGEN: Requisitos del sistema]
+
+
+═══════════════════════════════════════════════════════════════════════════════
+3. INICIO DE SESIÓN
+═══════════════════════════════════════════════════════════════════════════════
+
+Cómo Iniciar Sesión:
+--------------------
+
+PASO 1: Acceder al Sistema
+---------------------------
+1. Abra su navegador web
+2. Ingrese la dirección del sistema proporcionada por su administrador
+   Ejemplo: http://localhost/proyecto-de-grado/src/public/
+3. Presione Enter
+
+[ESPACIO PARA IMAGEN: Barra de direcciones del navegador con URL]
+
+PASO 2: Ingresar Credenciales
+------------------------------
+1. En la pantalla de inicio de sesión, encontrará dos campos:
+   
+   📧 Email o Usuario
+   └─ Ingrese su email o nombre de usuario
+
+   🔒 Contraseña
+   └─ Ingrese su contraseña (los caracteres se mostrarán ocultos)
+
+2. Haga clic en el botón "Iniciar Sesión"
+
+[ESPACIO PARA IMAGEN: Pantalla de inicio de sesión completa]
+
+PASO 3: Acceso Exitoso
+-----------------------
+Si las credenciales son correctas:
+✅ Será redirigido automáticamente al Panel de Control (Dashboard)
+✅ Verá su nombre y rol en la esquina superior derecha
+
+[ESPACIO PARA IMAGEN: Dashboard después del login exitoso]
+
+Problemas al Iniciar Sesión:
+-----------------------------
+
+❌ "Credenciales incorrectas"
+   → Verifique que su usuario y contraseña estén escritos correctamente
+   → Asegúrese de que la tecla Bloq Mayús no esté activada
+   → Contacte al administrador si olvidó su contraseña
+
+❌ "Usuario inactivo"
+   → Su cuenta ha sido desactivada
+   → Contacte al administrador ROOT para reactivarla
+
+[ESPACIO PARA IMAGEN: Mensajes de error comunes]
+
+Cerrar Sesión:
+--------------
+Para salir del sistema de forma segura:
+
+1. Haga clic en su avatar (círculo con iniciales) en la esquina superior derecha
+2. Seleccione "Cerrar Sesión" del menú desplegable
+3. Será redirigido a la pantalla de inicio de sesión
+
+[ESPACIO PARA IMAGEN: Menú de usuario con opción "Cerrar Sesión"]
+
+⚠️ IMPORTANTE: Siempre cierre sesión al terminar, especialmente en 
+   computadoras compartidas.
+
+
+═══════════════════════════════════════════════════════════════════════════════
+4. PANEL DE CONTROL (DASHBOARD)
+═══════════════════════════════════════════════════════════════════════════════
+
+El Dashboard es la pantalla principal que verá al iniciar sesión. Muestra un 
+resumen general de la actividad de la clínica.
+
+[ESPACIO PARA IMAGEN: Vista completa del Dashboard]
+
+Elementos del Dashboard:
+-------------------------
+
+📊 TARJETAS DE ESTADÍSTICAS (parte superior)
+────────────────────────────────────────────
+Las tarjetas muestran información resumida:
+
+1. Total de Pacientes
+   - Número total de pacientes registrados en el sistema
+   - Icono: 👥
+   
+2. Total de Doctores
+   - Número de médicos registrados
+   - Icono: 👨‍⚕️
+   
+3. Citas del Día
+   - Citas programadas para hoy
+   - Icono: 📅
+   
+4. Citas del Mes
+   - Total de citas del mes actual
+   - Icono: 📊
+
+[ESPACIO PARA IMAGEN: Tarjetas de estadísticas individuales]
+
+📈 GRÁFICOS Y REPORTES (parte central)
+──────────────────────────────────────
+- Gráfico de citas por día/semana/mes
+- Distribución de servicios más solicitados
+- Estado de citas (pendientes, completadas, canceladas)
+
+[ESPACIO PARA IMAGEN: Gráficos del dashboard]
+
+🔔 NOTIFICACIONES Y ALERTAS (lateral derecho)
+─────────────────────────────────────────────
+- Citas próximas del día
+- Recordatorios pendientes
+- Actualizaciones del sistema
+
+[ESPACIO PARA IMAGEN: Panel de notificaciones]
+
+Navegación en el Dashboard:
+---------------------------
+Desde el Dashboard puede acceder a todas las funciones del sistema usando:
+
+1. MENÚ LATERAL (izquierda)
+   - Navegue entre los diferentes módulos
+   - Haga clic en cualquier opción para acceder
+
+2. BARRA SUPERIOR (arriba)
+   - Información de su cuenta
+   - Configuración rápida
+   - Cerrar sesión
+
+[ESPACIO PARA IMAGEN: Menú lateral completo]
+
+
+═══════════════════════════════════════════════════════════════════════════════
+5. GESTIÓN DE PACIENTES
+═══════════════════════════════════════════════════════════════════════════════
+
+El módulo de Pacientes le permite registrar y administrar toda la información
+de los pacientes de la clínica.
+
+5.1. VER LISTA DE PACIENTES
+────────────────────────────
+
+Cómo acceder:
+-------------
+1. En el menú lateral, haga clic en "Pacientes"
+2. Seleccione "Listar Pacientes"
+
+[ESPACIO PARA IMAGEN: Menú de pacientes]
+
+La pantalla muestra:
+--------------------
+📋 Tabla con todos los pacientes registrados:
+   - Nombre completo
+   - Número de identificación (cédula)
+   - Teléfono
+   - Email
+   - Fecha de registro
+   - Acciones disponibles (Editar / Eliminar)
+
+[ESPACIO PARA IMAGEN: Lista completa de pacientes]
+
+Funciones de la Tabla:
+----------------------
+🔍 BUSCAR: Busque pacientes por nombre, cédula o teléfono
+   - Escriba en el campo "Buscar..."
+   - La tabla se filtra automáticamente
+
+📄 PAGINACIÓN: Navegue entre páginas si hay muchos registros
+   - Botones "Anterior" y "Siguiente"
+   - Selector de número de resultados por página (10, 25, 50, 100)
+
+📊 ORDENAR: Haga clic en los encabezados de columna para ordenar
+   - Orden ascendente (A-Z) o descendente (Z-A)
+
+[ESPACIO PARA IMAGEN: Funciones de búsqueda y filtrado]
+
+5.2. REGISTRAR NUEVO PACIENTE
+──────────────────────────────
+
+Cómo acceder:
+-------------
+1. En el menú lateral, haga clic en "Pacientes"
+2. Seleccione "Registrar Paciente"
+
+[ESPACIO PARA IMAGEN: Opción "Registrar Paciente" en el menú]
+
+Formulario de Registro:
+-----------------------
+
+SECCIÓN 1: DATOS PERSONALES
+────────────────────────────
+📝 Campos requeridos (marcados con *):
+
+1. Nombre(s) *
+   - Ingrese el o los nombres del paciente
+   - Ejemplo: "Juan Carlos"
+
+2. Apellido(s) *
+   - Ingrese los apellidos del paciente
+   - Ejemplo: "Pérez García"
+
+3. Número de Identificación (Cédula)
+   - Cédula de identidad única
+   - Ejemplo: "1234567890"
+   - ⚠️ No puede duplicarse (sistema valida automáticamente)
+
+4. Fecha de Nacimiento
+   - Seleccione la fecha usando el calendario
+   - El sistema calcula la edad automáticamente
+
+5. Género
+   - Opciones: Masculino / Femenino / Otro
+   - Seleccione del menú desplegable
+
+[ESPACIO PARA IMAGEN: Sección de datos personales del formulario]
+
+SECCIÓN 2: DATOS DE CONTACTO
+─────────────────────────────
+
+6. Teléfono
+   - Número de contacto principal
+   - Ejemplo: "0987654321"
+
+7. Email
+   - Correo electrónico del paciente
+   - Ejemplo: "juan.perez@email.com"
+
+8. Dirección
+   - Dirección completa de residencia
+   - Ejemplo: "Av. Principal #123, Sector Norte"
+
+[ESPACIO PARA IMAGEN: Sección de datos de contacto]
+
+SECCIÓN 3: CONTACTO DE EMERGENCIA
+──────────────────────────────────
+
+9. Nombre de Contacto de Emergencia
+   - Nombre de la persona a contactar en caso de emergencia
+   - Ejemplo: "María Pérez"
+
+10. Teléfono de Emergencia
+    - Número del contacto de emergencia
+    - Ejemplo: "0999888777"
+
+[ESPACIO PARA IMAGEN: Sección de contacto de emergencia]
+
+Botones de Acción:
+------------------
+✅ GUARDAR PACIENTE
+   - Guarda toda la información ingresada
+   - Valida que los campos requeridos estén completos
+   - Muestra mensaje de éxito o error
+
+❌ CANCELAR
+   - Descarta los cambios
+   - Regresa a la lista de pacientes
+
+[ESPACIO PARA IMAGEN: Botones de acción del formulario]
+
+Validaciones Automáticas:
+-------------------------
+El sistema valida:
+✅ Que los campos requeridos no estén vacíos
+✅ Que el número de identificación sea único
+✅ Que el email tenga formato válido
+✅ Que la fecha de nacimiento sea coherente
+
+[ESPACIO PARA IMAGEN: Mensaje de validación]
+
+Mensaje de Éxito:
+-----------------
+Si el registro es exitoso, verá:
+✅ "Paciente registrado exitosamente"
+📋 Será redirigido a la lista de pacientes
+👁️ El nuevo paciente aparecerá en la tabla
+
+[ESPACIO PARA IMAGEN: Mensaje de éxito]
+
+5.3. EDITAR INFORMACIÓN DE PACIENTE
+────────────────────────────────────
+
+Cómo acceder:
+-------------
+1. Desde la lista de pacientes
+2. Localice al paciente que desea editar
+3. Haga clic en el botón "Editar" (ícono de lápiz) en la columna de acciones
+
+[ESPACIO PARA IMAGEN: Botón editar en la lista]
+
+Formulario de Edición:
+----------------------
+- Verá el mismo formulario de registro
+- Todos los campos estarán pre-llenados con la información actual
+- Modifique los campos necesarios
+- Haga clic en "Actualizar Paciente"
+
+[ESPACIO PARA IMAGEN: Formulario de edición con datos pre-llenados]
+
+⚠️ NOTA: No puede cambiar el número de identificación a uno que ya exista
+         en el sistema.
+
+5.4. ELIMINAR PACIENTE
+──────────────────────
+
+Cómo eliminar:
+--------------
+1. Desde la lista de pacientes
+2. Localice al paciente que desea eliminar
+3. Haga clic en el botón "Eliminar" (ícono de basurero)
+
+[ESPACIO PARA IMAGEN: Botón eliminar en la lista]
+
+Confirmación de Eliminación:
+----------------------------
+- El sistema mostrará un mensaje de confirmación
+- Pregunta: "¿Está seguro de eliminar este paciente?"
+- Botones:
+  ✅ CONFIRMAR: Elimina el paciente permanentemente
+  ❌ CANCELAR: Cancela la acción
+
+[ESPACIO PARA IMAGEN: Diálogo de confirmación de eliminación]
+
+⚠️ ADVERTENCIA IMPORTANTE:
+   - La eliminación es permanente y no se puede deshacer
+   - Se eliminarán TODOS los registros relacionados:
+     * Citas asociadas
+     * Historiales clínicos
+     * Eventos del calendario
+   - Use esta función con precaución
+
+
+═══════════════════════════════════════════════════════════════════════════════
+6. GESTIÓN DE MÉDICOS
+═══════════════════════════════════════════════════════════════════════════════
+
+El módulo de Médicos permite administrar la información de los doctores que
+trabajan en la clínica.
+
+⚠️ ACCESO RESTRINGIDO: Esta función solo está disponible para usuarios ROOT
+
+6.1. VER LISTA DE MÉDICOS
+──────────────────────────
+
+Cómo acceder:
+-------------
+1. En el menú lateral, expanda "Médicos y Servicios"
+2. Seleccione "Listar Médicos"
+
+[ESPACIO PARA IMAGEN: Menú de médicos]
+
+La pantalla muestra:
+--------------------
+📋 Tabla con todos los médicos registrados:
+   - Nombre completo
+   - Número de identificación
+   - Especialización
+   - Teléfono
+   - Email
+   - Número de licencia
+   - Acciones (Editar / Eliminar)
+
+[ESPACIO PARA IMAGEN: Lista completa de médicos]
+
+6.2. REGISTRAR NUEVO MÉDICO
+────────────────────────────
+
+Cómo acceder:
+-------------
+1. En el menú lateral, expanda "Médicos y Servicios"
+2. Seleccione "Registrar Médico"
+
+[ESPACIO PARA IMAGEN: Formulario de registro de médico - vacío]
+
+Formulario de Registro:
+-----------------------
+
+Campos del Formulario:
+──────────────────────
+
+1. Número de Identificación *
+   - Cédula o documento de identidad del médico
+   - Debe ser único en el sistema
+
+2. Nombre Completo *
+   - Nombre y apellidos del médico
+   - Ejemplo: "Dr. Carlos Rodríguez"
+
+3. Especialización
+   - Área de especialidad del médico
+   - Ejemplos: "Ortodoncista", "Endodoncista", "Cirujano Oral"
+
+4. Teléfono
+   - Número de contacto profesional
+
+5. Email
+   - Correo electrónico del médico
+
+6. Número de Licencia
+   - Número de licencia profesional médica
+
+[ESPACIO PARA IMAGEN: Formulario completo de registro de médico]
+
+Botones de Acción:
+------------------
+✅ GUARDAR MÉDICO: Guarda la información
+❌ CANCELAR: Descarta los cambios
+
+[ESPACIO PARA IMAGEN: Mensaje de éxito al registrar médico]
+
+6.3. EDITAR INFORMACIÓN DE MÉDICO
+──────────────────────────────────
+
+Similar al proceso de editar pacientes:
+1. Desde la lista de médicos
+2. Clic en "Editar"
+3. Modificar los campos necesarios
+4. Guardar cambios
+
+[ESPACIO PARA IMAGEN: Formulario de edición de médico]
+
+6.4. ELIMINAR MÉDICO
+────────────────────
+
+Proceso de eliminación:
+1. Clic en el botón "Eliminar" en la lista
+2. Confirmar la acción
+
+⚠️ ADVERTENCIA: Se eliminarán todas las citas y registros asociados
+
+[ESPACIO PARA IMAGEN: Confirmación de eliminación de médico]
+
+
+═══════════════════════════════════════════════════════════════════════════════
+7. GESTIÓN DE CITAS
+═══════════════════════════════════════════════════════════════════════════════
+
+El módulo de Citas es el corazón del sistema. Permite programar, modificar y
+gestionar todas las citas médicas de la clínica.
+
+7.1. VER LISTA DE CITAS
+───────────────────────
+
+Cómo acceder:
+-------------
+1. En el menú lateral, haga clic en "Citas"
+2. Seleccione "Listar Citas"
+
+[ESPACIO PARA IMAGEN: Lista de citas]
+
+La tabla muestra:
+-----------------
+- Fecha y hora de la cita
+- Paciente
+- Médico
+- Servicio solicitado
+- Estado (Programada / Completada / Cancelada)
+- Notas
+- Acciones disponibles
+
+[ESPACIO PARA IMAGEN: Tabla completa de citas con filtros]
+
+Estados de las Citas:
+---------------------
+🟢 PROGRAMADA (Scheduled)
+   - Cita agendada y pendiente
+   - Color: Verde
+
+🔵 COMPLETADA (Completed)
+   - Cita ya atendida
+   - Color: Azul
+
+🔴 CANCELADA (Cancelled)
+   - Cita cancelada
+   - Color: Rojo
+
+[ESPACIO PARA IMAGEN: Badges de estados]
+
+7.2. AGENDAR NUEVA CITA
+───────────────────────
+
+Cómo acceder:
+-------------
+1. En el menú lateral, haga clic en "Citas"
+2. Seleccione "Agendar Cita"
+
+[ESPACIO PARA IMAGEN: Opción de agendar cita en el menú]
+
+Formulario de Agendamiento:
+---------------------------
+
+PASO 1: SELECCIONAR PACIENTE *
+───────────────────────────────
+1. Haga clic en el campo "Seleccionar Paciente"
+2. Aparecerá una lista desplegable con todos los pacientes
+3. Puede buscar escribiendo el nombre
+4. Seleccione el paciente deseado
+
+[ESPACIO PARA IMAGEN: Selector de paciente con búsqueda]
+
+💡 TIP: Si el paciente no existe, primero debe registrarlo en el módulo
+        de Pacientes.
+
+PASO 2: SELECCIONAR MÉDICO *
+─────────────────────────────
+1. Haga clic en el campo "Seleccionar Médico"
+2. Elija el médico que atenderá la cita
+3. Se mostrarán nombre y especialización
+
+[ESPACIO PARA IMAGEN: Selector de médico]
+
+PASO 3: SELECCIONAR SERVICIO *
+───────────────────────────────
+1. Haga clic en el campo "Seleccionar Servicio"
+2. Elija el servicio/tratamiento requerido
+3. El sistema mostrará:
+   - Nombre del servicio
+   - Duración estimada
+   - Precio (si aplica)
+
+[ESPACIO PARA IMAGEN: Selector de servicio con detalles]
+
+PASO 4: FECHA Y HORA *
+──────────────────────
+1. Haga clic en el campo de fecha
+2. Seleccione la fecha en el calendario
+3. Seleccione la hora en el campo de tiempo
+4. El sistema validará:
+   ✅ Que la fecha no sea pasada
+   ✅ Que esté dentro del horario de atención
+   ✅ Disponibilidad del médico
+
+[ESPACIO PARA IMAGEN: Selector de fecha y hora]
+
+PASO 5: NOTAS (Opcional)
+─────────────────────────
+- Campo de texto libre para observaciones
+- Ejemplos:
+  * "Paciente con alergia a anestesia"
+  * "Primera consulta"
+  * "Tratamiento de seguimiento"
+- Mínimo 10 caracteres, máximo 500
+
+[ESPACIO PARA IMAGEN: Campo de notas]
+
+Validaciones del Sistema:
+-------------------------
+El sistema verifica automáticamente:
+✅ Campos requeridos completos
+✅ No duplicar cita (mismo paciente, médico y fecha/hora)
+✅ Disponibilidad del médico en ese horario
+✅ Fecha futura (no permite citas en el pasado)
+✅ Horario dentro de la atención de la clínica
+
+[ESPACIO PARA IMAGEN: Mensaje de validación]
+
+Botones de Acción:
+------------------
+✅ AGENDAR CITA
+   - Guarda la cita en el sistema
+   - Crea automáticamente un evento en el calendario
+   - Programa recordatorio 24 horas antes
+
+❌ CANCELAR
+   - Descarta la información
+   - Regresa a la lista de citas
+
+[ESPACIO PARA IMAGEN: Botones del formulario de citas]
+
+Confirmación de Agendamiento:
+-----------------------------
+Al agendar exitosamente:
+✅ Mensaje: "Cita agendada exitosamente"
+📅 La cita aparece en la lista
+🗓️ Se crea un evento en el calendario
+🔔 Se programa un recordatorio automático
+
+[ESPACIO PARA IMAGEN: Mensaje de confirmación exitosa]
+
+7.3. EDITAR CITA
+────────────────
+
+Cómo editar una cita:
+---------------------
+1. Desde la lista de citas
+2. Localice la cita a modificar
+3. Haga clic en el botón "Editar" (ícono de lápiz)
+
+[ESPACIO PARA IMAGEN: Botón editar en lista de citas]
+
+Formulario de Edición:
+----------------------
+- Verá el mismo formulario de agendamiento
+- Todos los campos pre-llenados
+- Modifique lo necesario:
+  * Cambiar fecha/hora
+  * Cambiar médico
+  * Cambiar servicio
+  * Actualizar notas
+  * Cambiar estado
+
+[ESPACIO PARA IMAGEN: Formulario de edición de cita]
+
+Campo Adicional - Estado:
+-------------------------
+En el formulario de edición puede cambiar el estado:
+- 🟢 Programada
+- 🔵 Completada (cuando la cita fue atendida)
+- 🔴 Cancelada (si se cancela la cita)
+
+[ESPACIO PARA IMAGEN: Selector de estado de cita]
+
+💡 TIP: Marque las citas como "Completadas" después de atender al paciente.
+        Esto ayuda a mantener estadísticas precisas.
+
+7.4. CANCELAR/ELIMINAR CITA
+────────────────────────────
+
+Hay dos formas de cancelar una cita:
+
+OPCIÓN 1: CAMBIAR ESTADO A "CANCELADA"
+───────────────────────────────────────
+1. Editar la cita
+2. Cambiar estado a "Cancelada"
+3. Guardar cambios
+✅ La cita se mantiene en el historial pero marcada como cancelada
+
+[ESPACIO PARA IMAGEN: Cambio de estado a cancelada]
+
+OPCIÓN 2: ELIMINAR PERMANENTEMENTE
+───────────────────────────────────
+1. Clic en el botón "Eliminar" (ícono de basurero)
+2. Confirmar eliminación
+⚠️ La cita se borra completamente del sistema
+
+[ESPACIO PARA IMAGEN: Confirmación de eliminación de cita]
+
+💡 RECOMENDACIÓN: Use la Opción 1 para mantener historial. Solo elimine
+                  si la cita se agendó por error.
+
+
+═══════════════════════════════════════════════════════════════════════════════
+8. GESTIÓN DE SERVICIOS
+═══════════════════════════════════════════════════════════════════════════════
+
+El módulo de Servicios permite administrar el catálogo de servicios y 
+tratamientos que ofrece la clínica.
+
+⚠️ ACCESO RESTRINGIDO: Solo usuarios ROOT pueden gestionar servicios
+
+8.1. CATEGORÍAS DE SERVICIOS
+─────────────────────────────
+
+Las categorías agrupan servicios relacionados.
+
+[ESPACIO PARA IMAGEN: Lista de categorías de servicios]
+
+Ejemplos de Categorías:
+-----------------------
+- 🦷 Ortodoncia
+- 🔬 Endodoncia
+- ✨ Estética Dental
+- 🏥 Cirugía Oral
+- 🧹 Limpieza y Prevención
+
+Registrar Nueva Categoría:
+--------------------------
+1. Menú lateral → "Médicos y Servicios" → "Categorías"
+2. Clic en "Registrar Categoría"
+3. Ingresar nombre de la categoría
+4. Guardar
+
+[ESPACIO PARA IMAGEN: Formulario de categoría]
+
+8.2. SERVICIOS
+──────────────
+
+Ver Lista de Servicios:
+-----------------------
+1. Menú lateral → "Médicos y Servicios" → "Listar Servicios"
+
+[ESPACIO PARA IMAGEN: Lista de servicios]
+
+La tabla muestra:
+-----------------
+- Nombre del servicio
+- Categoría
+- Descripción
+- Duración (minutos)
+- Precio
+- Estado (Activo/Inactivo)
+- Destacado (Sí/No)
+- Acciones
+
+[ESPACIO PARA IMAGEN: Tabla detallada de servicios]
+
+Registrar Nuevo Servicio:
+-------------------------
+1. Clic en "Registrar Servicio"
+
+Campos del Formulario:
+──────────────────────
+
+1. Nombre del Servicio *
+   - Ejemplo: "Limpieza Dental Profunda"
+
+2. Categoría *
+   - Seleccione de la lista de categorías
+
+3. Descripción
+   - Descripción detallada del servicio
+   - Ejemplo: "Limpieza completa de sarro y placa bacteriana..."
+
+4. Duración (minutos)
+   - Tiempo estimado del procedimiento
+   - Ejemplo: "60" (una hora)
+
+5. Precio
+   - Costo del servicio
+   - Ejemplo: "80.00"
+
+6. Ícono
+   - Nombre del ícono para mostrar en el sitio web
+   - Ejemplo: "tooth-icon"
+
+7. Características (JSON)
+   - Características adicionales en formato JSON
+   - Ejemplo:
+     {
+       "includes": ["Consulta", "Radiografía"],
+       "sessions": 1
+     }
+
+8. Servicio Destacado
+   - ☑️ Marcar si desea destacar en la página principal
+
+9. Estado
+   - Activo: El servicio está disponible
+   - Inactivo: El servicio no se muestra
+
+[ESPACIO PARA IMAGEN: Formulario completo de servicio]
+
+[ESPACIO PARA IMAGEN: Mensaje de éxito al guardar servicio]
+
+
+═══════════════════════════════════════════════════════════════════════════════
+9. CALENDARIO DE CITAS
+═══════════════════════════════════════════════════════════════════════════════
+
+El Calendario proporciona una vista visual de todas las citas programadas.
+
+Cómo acceder:
+-------------
+1. En el menú lateral, haga clic en "Apps"
+2. Seleccione "Calendario"
+
+[ESPACIO PARA IMAGEN: Opción de calendario en el menú]
+
+Vista del Calendario:
+---------------------
+
+[ESPACIO PARA IMAGEN: Vista completa del calendario mensual]
+
+Tipos de Vista:
+---------------
+📅 VISTA MES
+   - Muestra todo el mes
+   - Cada día con sus citas
+
+📆 VISTA SEMANA
+   - Vista semanal detallada
+   - Muestra horarios específicos
+
+📋 VISTA DÍA
+   - Agenda del día
+   - Citas por hora
+
+📝 VISTA LISTA
+   - Lista cronológica de eventos
+
+[ESPACIO PARA IMAGEN: Botones de cambio de vista]
+
+Elementos del Calendario:
+-------------------------
+
+EVENTOS/CITAS:
+--------------
+Cada evento muestra:
+- 🟢 Hora de inicio
+- 👤 Nombre del paciente
+- 👨‍⚕️ Médico asignado
+- 🦷 Tipo de servicio
+
+Códigos de Color:
+-----------------
+- 🟢 Verde: Cita programada
+- 🔵 Azul: Cita completada
+- 🔴 Rojo: Cita cancelada
+- 🟡 Amarillo: Recordatorio
+
+[ESPACIO PARA IMAGEN: Leyenda de colores]
+
+Interacción con el Calendario:
+-------------------------------
+
+VER DETALLES DE UNA CITA:
+--------------------------
+1. Haga clic sobre cualquier evento en el calendario
+2. Se abrirá un modal con información detallada:
+   - Paciente
+   - Médico
+   - Servicio
+   - Fecha y hora
+   - Notas
+   - Estado
+
+[ESPACIO PARA IMAGEN: Modal de detalles de cita]
+
+CREAR CITA DESDE EL CALENDARIO:
+--------------------------------
+1. Haga clic en una fecha/hora vacía
+2. Se abrirá el formulario de nueva cita
+3. La fecha/hora estarán pre-seleccionadas
+4. Complete los demás campos
+5. Guarde la cita
+
+[ESPACIO PARA IMAGEN: Crear cita desde calendario]
+
+MOVER/REPROGRAMAR CITA:
+-----------------------
+1. Haga clic y arrastre un evento
+2. Suelte en la nueva fecha/hora
+3. Confirme el cambio
+4. El sistema actualiza automáticamente
+
+[ESPACIO PARA IMAGEN: Demostración de arrastrar y soltar cita]
+
+NAVEGACIÓN:
+-----------
+◀️ ANTERIOR: Ver mes/semana anterior
+▶️ SIGUIENTE: Ver mes/semana siguiente
+🏠 HOY: Volver a la fecha actual
+
+[ESPACIO PARA IMAGEN: Controles de navegación del calendario]
+
+Filtros del Calendario:
+-----------------------
+Puede filtrar eventos por:
+- 👨‍⚕️ Médico específico
+- 🏥 Tipo de servicio
+- 📊 Estado de la cita
+
+[ESPACIO PARA IMAGEN: Panel de filtros]
+
+
+═══════════════════════════════════════════════════════════════════════════════
+10. HISTORIALES CLÍNICOS
+═══════════════════════════════════════════════════════════════════════════════
+
+El módulo de Historiales Clínicos permite crear y gestionar registros médicos
+odontológicos completos de los pacientes.
+
+10.1. VER LISTA DE HISTORIALES
+───────────────────────────────
+
+Cómo acceder:
+-------------
+1. Menú lateral → "Historiales Clínicos"
+2. Seleccione "Listar Historiales"
+
+[ESPACIO PARA IMAGEN: Lista de historiales clínicos]
+
+La tabla muestra:
+-----------------
+- Número de historia clínica
+- Paciente
+- Médico que atendió
+- Fecha de registro
+- Diagnóstico principal
+- Acciones (Ver / Editar / Eliminar / Descargar PDF)
+
+[ESPACIO PARA IMAGEN: Tabla completa de historiales]
+
+10.2. CREAR NUEVO HISTORIAL CLÍNICO
+────────────────────────────────────
+
+Cómo acceder:
+-------------
+1. Menú lateral → "Historiales Clínicos"
+2. Clic en "Registrar Historial"
+
+[ESPACIO PARA IMAGEN: Formulario de historial - vista completa]
+
+El formulario está dividido en secciones:
+
+SECCIÓN 1: INFORMACIÓN BÁSICA
+──────────────────────────────
+
+1. Paciente *
+   - Seleccione el paciente de la lista
+
+2. Médico *
+   - Seleccione el médico que realiza la evaluación
+
+3. Cita Relacionada (opcional)
+   - Vincule a una cita específica
+
+4. Número de Historia Clínica
+   - Generado automáticamente o manual
+   - Debe ser único
+
+5. Fecha de Registro *
+   - Fecha de la evaluación
+
+[ESPACIO PARA IMAGEN: Sección de información básica]
+
+SECCIÓN 2: ANAMNESIS
+────────────────────
+
+6. Motivo de Consulta *
+   - ¿Por qué acude el paciente?
+   - Ejemplo: "Dolor en muela superior derecha"
+
+7. Enfermedad Actual
+   - Descripción detallada del problema actual
+   - Ejemplo: "Paciente refiere dolor pulsátil desde hace 3 días..."
+
+8. Antecedentes Médicos
+   - Enfermedades previas, medicamentos, alergias
+   - Ejemplo: "Hipertensión controlada con medicamento. Alergia a penicilina."
+
+9. Antecedentes Familiares
+   - Historial médico familiar relevante
+   - Ejemplo: "Madre diabética, padre con hipertensión"
+
+[ESPACIO PARA IMAGEN: Sección de anamnesis]
+
+SECCIÓN 3: EXAMEN CLÍNICO
+──────────────────────────
+
+10. Examen General
+    - Estado general del paciente
+    - Ejemplo: "Paciente consciente, orientado, signos vitales estables"
+
+11. Examen Local (Bucal)
+    - Evaluación de la cavidad oral
+    - Ejemplo: "Higiene oral regular, presencia de caries en..."
+
+[ESPACIO PARA IMAGEN: Sección de examen clínico]
+
+SECCIÓN 4: ODONTOGRAMA
+──────────────────────
+
+12. Odontograma Interactivo
+    - Representación visual de los dientes
+    - Marque cada diente con su estado:
+      * Sano
+      * Caries
+      * Obturado (con resina/amalgama)
+      * Endodoncia
+      * Corona
+      * Ausente
+      * Prótesis
+
+[ESPACIO PARA IMAGEN: Odontograma interactivo completo]
+
+Cómo usar el Odontograma:
+-------------------------
+1. Haga clic en un diente
+2. Seleccione el estado/tratamiento
+3. El diente se marca con un color específico:
+   - 🟢 Verde: Sano
+   - 🔴 Rojo: Caries
+   - 🔵 Azul: Obturado
+   - ⚫ Negro: Endodoncia
+   - 🟡 Amarillo: Corona
+   - ⬜ Blanco: Ausente
+
+[ESPACIO PARA IMAGEN: Interacción con odontograma]
+
+SECCIÓN 5: DIAGNÓSTICO
+──────────────────────
+
+13. Diagnóstico Principal *
+    - Diagnóstico primario
+    - Ejemplo: "Caries profunda en pieza 16"
+
+14. Diagnóstico Secundario
+    - Diagnósticos adicionales
+    - Ejemplo: "Gingivitis generalizada leve"
+
+[ESPACIO PARA IMAGEN: Sección de diagnóstico]
+
+SECCIÓN 6: PLAN DE TRATAMIENTO
+───────────────────────────────
+
+15. Plan de Tratamiento (JSON)
+    - Detalle de tratamientos a realizar
+    - Formato:
+      {
+        "treatments": [
+          {
+            "description": "Endodoncia pieza 16",
+            "cost": 250.00,
+            "estimated_date": "2025-11-15",
+            "status": "pending"
+          },
+          {
+            "description": "Corona pieza 16",
+            "cost": 400.00,
+            "estimated_date": "2025-12-01",
+            "status": "pending"
+          }
+        ],
+        "total_cost": 650.00
+      }
+
+[ESPACIO PARA IMAGEN: Editor de plan de tratamiento]
+
+También puede usar el EDITOR VISUAL:
+1. Clic en "Agregar Tratamiento"
+2. Complete los campos:
+   - Descripción del tratamiento
+   - Costo
+   - Fecha estimada
+   - Estado
+3. Agregue más tratamientos según necesario
+4. El sistema calcula el costo total automáticamente
+
+[ESPACIO PARA IMAGEN: Editor visual de plan de tratamiento]
+
+SECCIÓN 7: OBSERVACIONES FINALES
+─────────────────────────────────
+
+16. Observaciones Finales
+    - Comentarios adicionales
+    - Recomendaciones
+    - Ejemplo: "Se recomienda higiene oral 3 veces al día. Control en 30 días."
+
+[ESPACIO PARA IMAGEN: Campo de observaciones]
+
+Botones de Acción:
+------------------
+✅ GUARDAR HISTORIAL
+   - Guarda toda la información
+   - Genera el historial clínico
+
+📄 GUARDAR Y GENERAR PDF
+   - Guarda el historial
+   - Genera automáticamente un PDF
+   - Descarga el documento
+
+❌ CANCELAR
+   - Descarta los cambios
+
+[ESPACIO PARA IMAGEN: Botones de acción del historial]
+
+10.3. VER Y EDITAR HISTORIAL
+─────────────────────────────
+
+Ver Historial:
+--------------
+1. Desde la lista de historiales
+2. Clic en el botón "Ver" (ícono de ojo)
+3. Se muestra toda la información en modo lectura
+
+[ESPACIO PARA IMAGEN: Vista de historial en modo lectura]
+
+Editar Historial:
+-----------------
+1. Clic en el botón "Editar"
+2. Modifique los campos necesarios
+3. Guarde los cambios
+
+[ESPACIO PARA IMAGEN: Formulario de edición de historial]
+
+10.4. GENERAR PDF DEL HISTORIAL
+────────────────────────────────
+
+Puede descargar el historial clínico en formato PDF:
+
+MÉTODO 1: Desde la lista
+-------------------------
+1. Clic en el botón "PDF" (ícono de documento)
+2. El PDF se genera y descarga automáticamente
+
+[ESPACIO PARA IMAGEN: Botón de descarga PDF en lista]
+
+MÉTODO 2: Al guardar
+--------------------
+1. Al crear/editar un historial
+2. Clic en "Guardar y Generar PDF"
+3. Se guarda y descarga el PDF
+
+[ESPACIO PARA IMAGEN: Ejemplo de PDF generado]
+
+El PDF incluye:
+---------------
+✅ Encabezado con logo de la clínica
+✅ Datos del paciente
+✅ Datos del médico
+✅ Fecha de registro
+✅ Todos los campos del historial
+✅ Odontograma visual
+✅ Plan de tratamiento con costos
+✅ Firma digital del médico
+
+[ESPACIO PARA IMAGEN: Vista previa de PDF completo]
+
+
+═══════════════════════════════════════════════════════════════════════════════
+11. GESTIÓN DE USUARIOS (ADMINISTRADORES)
+═══════════════════════════════════════════════════════════════════════════════
+
+⚠️ ACCESO EXCLUSIVO ROOT: Solo usuarios con rol ROOT pueden acceder a este
+   módulo para gestionar administradores del sistema.
+
+11.1. VER LISTA DE ADMINISTRADORES
+───────────────────────────────────
+
+Cómo acceder:
+-------------
+1. Menú lateral → "Gestión de Usuarios"
+2. Seleccione "Listar Administradores"
+
+[ESPACIO PARA IMAGEN: Menú de gestión de usuarios (solo visible para ROOT)]
+
+La tabla muestra:
+-----------------
+- Nombre de usuario
+- Email
+- Rol (ROOT / Admin)
+- Estado (Activo / Inactivo)
+- Fecha de creación
+- Acciones (Editar / Eliminar)
+
+[ESPACIO PARA IMAGEN: Lista de administradores]
+
+Roles de Usuario:
+-----------------
+🔴 ROOT (Administrador Principal)
+   - Acceso total al sistema
+   - Puede gestionar usuarios
+   - Puede gestionar médicos y servicios
+   - Solo debe haber pocos usuarios ROOT
+
+🟢 ADMIN (Administrador)
+   - Acceso a gestión de pacientes
+   - Acceso a gestión de citas
+   - Acceso a historiales clínicos
+   - NO puede gestionar usuarios
+
+[ESPACIO PARA IMAGEN: Badges de roles]
+
+Estados de Usuario:
+-------------------
+✅ ACTIVO
+   - El usuario puede iniciar sesión
+   - Tiene acceso al sistema
+
+❌ INACTIVO
+   - El usuario no puede iniciar sesión
+   - La cuenta está deshabilitada
+
+[ESPACIO PARA IMAGEN: Badges de estados]
+
+11.2. REGISTRAR NUEVO ADMINISTRADOR
+────────────────────────────────────
+
+Cómo acceder:
+-------------
+1. Menú lateral → "Gestión de Usuarios"
+2. Clic en "Registrar Administrador"
+
+[ESPACIO PARA IMAGEN: Formulario de registro de administrador]
+
+Campos del Formulario:
+──────────────────────
+
+1. Nombre de Usuario *
+   - Nombre único para iniciar sesión
+   - Entre 3 y 100 caracteres
+   - No puede repetirse
+   - Ejemplo: "admin01", "recepcion"
+
+2. Email *
+   - Correo electrónico único
+   - Debe tener formato válido
+   - Ejemplo: "admin@clinica.com"
+
+3. Contraseña *
+   - Mínimo 6 caracteres
+   - Será encriptada automáticamente
+   - Ejemplo: "Admin123!"
+
+4. Confirmar Contraseña *
+   - Debe coincidir con la contraseña
+   - El sistema valida que sean iguales
+
+5. Rol *
+   - Seleccione el rol del usuario:
+     * Admin: Permisos limitados
+     * Root: Acceso total
+   - ⚠️ Use ROOT con precaución
+
+6. Estado Activo
+   - ☑️ Marcar para activar la cuenta
+   - □ Desmarcar para crear cuenta inactiva
+
+[ESPACIO PARA IMAGEN: Formulario completo con todos los campos]
+
+Validaciones del Sistema:
+-------------------------
+El sistema valida:
+✅ Nombre de usuario único (no duplicado)
+✅ Email único (no duplicado)
+✅ Contraseñas coinciden
+✅ Longitud mínima de contraseña (6 caracteres)
+✅ Formato de email válido
+
+[ESPACIO PARA IMAGEN: Mensajes de validación]
+
+Botones de Acción:
+------------------
+✅ GUARDAR ADMINISTRADOR
+   - Crea la cuenta del usuario
+   - Encripta la contraseña
+   - Muestra mensaje de éxito
+
+❌ CANCELAR
+   - Descarta los cambios
+   - Regresa a la lista
+
+[ESPACIO PARA IMAGEN: Mensaje de éxito al crear administrador]
+
+11.3. EDITAR ADMINISTRADOR
+───────────────────────────
+
+Cómo editar:
+------------
+1. Desde la lista de administradores
+2. Clic en el botón "Editar"
+
+[ESPACIO PARA IMAGEN: Formulario de edición de administrador]
+
+En el formulario de edición:
+----------------------------
+- Todos los campos pre-llenados
+- Puede modificar:
+  * Nombre de usuario
+  * Email
+  * Rol
+  * Estado (Activo/Inactivo)
+- Contraseña (opcional):
+  * Dejar vacío para mantener la actual
+  * Ingresar nueva para cambiarla
+  * Confirmar nueva contraseña
+
+[ESPACIO PARA IMAGEN: Sección de cambio de contraseña en edición]
+
+⚠️ IMPORTANTE: No puede cambiar su propio rol o desactivar su propia cuenta
+              mientras esté en sesión.
+
+11.4. ELIMINAR ADMINISTRADOR
+─────────────────────────────
+
+Cómo eliminar:
+--------------
+1. Desde la lista de administradores
+2. Clic en el botón "Eliminar" (ícono de basurero)
+
+[ESPACIO PARA IMAGEN: Botón eliminar]
+
+Confirmación:
+-------------
+- Mensaje: "¿Está seguro de eliminar este administrador?"
+- Opciones:
+  ✅ CONFIRMAR: Elimina permanentemente
+  ❌ CANCELAR: Cancela la acción
+
+[ESPACIO PARA IMAGEN: Diálogo de confirmación]
+
+Restricciones:
+--------------
+❌ No puede eliminarse a sí mismo (usuario en sesión)
+❌ Debe haber al menos un usuario ROOT en el sistema
+⚠️ La eliminación es permanente
+
+[ESPACIO PARA IMAGEN: Mensaje de error si intenta eliminarse]
+
+
+═══════════════════════════════════════════════════════════════════════════════
+12. PERFIL DE USUARIO
+═══════════════════════════════════════════════════════════════════════════════
+
+El perfil de usuario muestra su información personal y permite actualizarla.
+
+Cómo acceder:
+-------------
+1. Haga clic en su avatar (círculo con iniciales) en la esquina superior derecha
+2. Seleccione "Mi Cuenta" del menú desplegable
+
+[ESPACIO PARA IMAGEN: Menú de usuario con "Mi Cuenta"]
+
+Información del Perfil:
+-----------------------
+
+[ESPACIO PARA IMAGEN: Página de perfil completa]
+
+Secciones del Perfil:
+---------------------
+
+1. INFORMACIÓN BÁSICA
+   - Avatar con iniciales
+   - Nombre de usuario
+   - Email
+   - Rol (ROOT / Admin)
+   - Estado de la cuenta
+
+[ESPACIO PARA IMAGEN: Sección de información básica]
+
+2. CAMBIAR CONTRASEÑA
+   
+   Campos:
+   - Contraseña Actual
+   - Nueva Contraseña
+   - Confirmar Nueva Contraseña
+   
+   Pasos:
+   1. Ingrese su contraseña actual
+   2. Ingrese la nueva contraseña
+   3. Confirme la nueva contraseña
+   4. Clic en "Actualizar Contraseña"
+
+[ESPACIO PARA IMAGEN: Formulario de cambio de contraseña]
+
+   Validaciones:
+   ✅ Contraseña actual correcta
+   ✅ Nueva contraseña mínimo 6 caracteres
+   ✅ Las nuevas contraseñas coinciden
+   ✅ La nueva es diferente a la actual
+
+[ESPACIO PARA IMAGEN: Mensaje de confirmación de cambio]
+
+3. ACTIVIDAD RECIENTE
+   - Últimas acciones realizadas
+   - Fecha y hora de último acceso
+   - Historial de cambios
+
+[ESPACIO PARA IMAGEN: Sección de actividad reciente]
+
+4. PREFERENCIAS
+   - Configuración de notificaciones
+   - Preferencias de visualización
+   - Idioma del sistema
+
+[ESPACIO PARA IMAGEN: Sección de preferencias]
+
+
+═══════════════════════════════════════════════════════════════════════════════
+13. PREGUNTAS FRECUENTES (FAQ)
+═══════════════════════════════════════════════════════════════════════════════
+
+P1: ¿Cómo recupero mi contraseña si la olvidé?
+───────────────────────────────────────────────
+R: Debe contactar al administrador ROOT del sistema para que restablezca su
+   contraseña. Por seguridad, el sistema no tiene función de auto-recuperación.
+
+P2: ¿Puedo agendar múltiples citas para el mismo paciente en el mismo día?
+───────────────────────────────────────────────────────────────────────────
+R: Sí, siempre que sean en horarios diferentes y con médicos disponibles.
+
+P3: ¿Qué pasa si elimino un paciente con citas programadas?
+────────────────────────────────────────────────────────────
+R: El sistema le advertirá que se eliminarán TODAS las citas, historiales y
+   registros asociados. Esta acción es permanente.
+
+P4: ¿Puedo editar un historial clínico después de guardado?
+────────────────────────────────────────────────────────────
+R: Sí, puede editar historiales en cualquier momento. El sistema registra la
+   fecha de última actualización.
+
+P5: ¿Cómo sé si una cita fue completada o está pendiente?
+──────────────────────────────────────────────────────────
+R: Las citas tienen badges de color:
+   - 🟢 Verde: Programada (pendiente)
+   - 🔵 Azul: Completada
+   - 🔴 Rojo: Cancelada
+
+P6: ¿El sistema envía recordatorios automáticos a los pacientes?
+─────────────────────────────────────────────────────────────────
+R: El sistema programa recordatorios automáticamente 24 horas antes de cada
+   cita. La funcionalidad de envío requiere configuración adicional.
+
+P7: ¿Puedo descargar reportes del sistema?
+───────────────────────────────────────────
+R: Sí, puede descargar:
+   - Historiales clínicos en PDF
+   - Reportes de citas (exportar desde la tabla)
+   - Estadísticas desde el dashboard
+
+P8: ¿Cuántos usuarios ROOT puede haber?
+────────────────────────────────────────
+R: No hay límite técnico, pero se recomienda tener solo 2-3 usuarios ROOT
+   por seguridad.
+
+P9: ¿Puedo buscar pacientes por nombre o cédula?
+─────────────────────────────────────────────────
+R: Sí, todas las tablas tienen campo de búsqueda que filtra por cualquier
+   columna visible.
+
+P10: ¿El sistema funciona en dispositivos móviles?
+───────────────────────────────────────────────────
+R: Sí, el sistema es responsive y se adapta a tablets y smartphones, aunque
+    se recomienda usar computadora para mejor experiencia.
+
+
+═══════════════════════════════════════════════════════════════════════════════
+14. SOLUCIÓN DE PROBLEMAS
+═══════════════════════════════════════════════════════════════════════════════
+
+Problema 1: No puedo iniciar sesión
+────────────────────────────────────
+❌ Error: "Credenciales incorrectas"
+
+Soluciones:
+1. Verifique que está escribiendo correctamente usuario y contraseña
+2. Asegúrese de que Bloq Mayús no esté activado
+3. Limpie la caché del navegador (Ctrl + Shift + Delete)
+4. Intente con otro navegador
+5. Contacte al administrador para verificar que su cuenta esté activa
+
+[ESPACIO PARA IMAGEN: Pantalla de error de login]
+
+Problema 2: El sistema está lento
+──────────────────────────────────
+🐌 El sistema carga lentamente
+
+Soluciones:
+1. Verifique su conexión a Internet
+2. Cierre pestañas innecesarias del navegador
+3. Limpie caché y cookies del navegador
+4. Reinicie el navegador
+5. Contacte al administrador si el problema persiste
+
+Problema 3: No puedo ver algunas opciones del menú
+───────────────────────────────────────────────────
+👁️ Faltan opciones en el menú lateral
+
+Explicación:
+- Algunas opciones solo son visibles según su rol:
+  * "Gestión de Usuarios" → Solo ROOT
+  * "Médicos y Servicios" → Solo ROOT
+  
+Solución:
+- Si necesita acceso, contacte al administrador ROOT
+
+[ESPACIO PARA IMAGEN: Diferencia entre menú Admin y ROOT]
+
+Problema 4: Error al guardar un registro
+─────────────────────────────────────────
+❌ "Error al guardar la información"
+
+Causas comunes:
+1. Campos requeridos vacíos
+2. Email o identificación duplicados
+3. Formato de datos incorrecto
+4. Conexión perdida con el servidor
+
+Soluciones:
+1. Verifique que todos los campos marcados con * estén completos
+2. Revise mensajes de validación en rojo bajo los campos
+3. Asegúrese de que email/cédula no existan en el sistema
+4. Recargue la página e intente nuevamente
+
+[ESPACIO PARA IMAGEN: Mensajes de error en formulario]
+
+Problema 5: El PDF no se descarga
+──────────────────────────────────
+📄 No se genera el PDF del historial
+
+Soluciones:
+1. Verifique que su navegador no esté bloqueando descargas
+2. Permita pop-ups para este sitio
+3. Intente con otro navegador
+4. Verifique espacio disponible en su disco
+5. Contacte al administrador técnico
+
+Problema 6: No aparecen los datos en una tabla
+───────────────────────────────────────────────
+📊 La tabla está vacía
+
+Verificar:
+1. ¿Hay filtros activos? → Límpielos
+2. ¿Hay búsqueda activa? → Borre el término de búsqueda
+3. ¿Está en la página correcta? → Use los controles de paginación
+4. Recargue la página (F5)
+
+[ESPACIO PARA IMAGEN: Controles de tabla vacía]
+
+Problema 7: Sesión expirada
+────────────────────────────
+⏱️ "Su sesión ha expirado, inicie sesión nuevamente"
+
+Explicación:
+- Por seguridad, las sesiones expiran después de inactividad
+
+Solución:
+- Vuelva a iniciar sesión con sus credenciales
+- Consejo: Guarde sus cambios frecuentemente
+
+Problema 8: El calendario no carga eventos
+───────────────────────────────────────────
+📅 El calendario está vacío
+
+Soluciones:
+1. Verifique que haya citas agendadas para el período visible
+2. Cambie la vista (Mes/Semana/Día)
+3. Quite filtros activos
+4. Recargue la página
+5. Limpie caché del navegador
+
+[ESPACIO PARA IMAGEN: Calendario sin eventos]
+
+
+═══════════════════════════════════════════════════════════════════════════════
+GLOSARIO DE TÉRMINOS
+═══════════════════════════════════════════════════════════════════════════════
+
+ADMINISTRADOR: Usuario con permisos para gestionar el sistema
+
+ANAMNESIS: Información médica recopilada mediante preguntas al paciente
+
+AVATAR: Imagen circular con las iniciales del usuario
+
+BADGE: Etiqueta de color que indica el estado de un elemento
+
+DASHBOARD: Panel de control con estadísticas generales
+
+HISTORIAL CLÍNICO: Registro médico completo de un paciente
+
+ODONTOGRAMA: Representación gráfica de los dientes del paciente
+
+ROOT: Usuario con máximos permisos en el sistema
+
+WEBHOOK: Notificación automática enviada por el sistema
+
+
+═══════════════════════════════════════════════════════════════════════════════
+INFORMACIÓN DE CONTACTO Y SOPORTE
+═══════════════════════════════════════════════════════════════════════════════
+
+Para asistencia técnica o dudas sobre el uso del sistema:
+
+📧 Email de Soporte: soporte@clinicadental.com
+📞 Teléfono: +593 XX XXX XXXX
+🕒 Horario de Atención: Lunes a Viernes, 8:00 AM - 5:00 PM
+
+Administrador del Sistema:
+- Contacte al usuario ROOT de su institución
+
+Documentación Adicional:
+- Manual Técnico (para desarrolladores)
+- Manual de Base de Datos (para administradores de BD)
+- README.md del proyecto
+
+
+═══════════════════════════════════════════════════════════════════════════════
+FIN DEL MANUAL DE USUARIO
+═══════════════════════════════════════════════════════════════════════════════
+
+Versión: 1.0
+Fecha: 20-10-2025
+Sistema: Clínica Dental - Gestión Integral
+
+© 2025 Sistema de Gestión Clínica Dental. Todos los derechos reservados.

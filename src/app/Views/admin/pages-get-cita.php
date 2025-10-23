@@ -5,9 +5,9 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Datatables | Hyper - Responsive Bootstrap 5 Admin Dashboard</title>
+    <title>Gestión de Citas | Sistema Clínica Dental</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="Sistema de gestión de citas médicas - Clínica Dental" name="description" />
     <meta content="Coderthemes" name="author" />
 
     <!-- App favicon -->
@@ -65,11 +65,14 @@
                             <div class="page-title-box">
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="/admin">Home</a></li>
-                                        <li class="breadcrumb-item active">Lista de Médicos</li>
+                                        <li class="breadcrumb-item"><a href="/admin">Inicio</a></li>
+                                        <li class="breadcrumb-item"><a href="pages-get-cita">Citas</a></li>
+                                        <li class="breadcrumb-item active">Lista de Citas</li>
                                     </ol>
                                 </div>
-                                <h4 class="page-title">Lista de Médicos</h4>
+                                <h4 class="page-title">
+                                    <i class="mdi mdi-calendar-clock me-1"></i> Gestión de Citas Médicas
+                                </h4>
                                 <!-- Mensajes de éxito o error -->
                                 <?php include 'includes/alertEvent.php'; ?>
 
@@ -84,29 +87,56 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="header-title">Basic Data Table</h4>
-                                    <p class="text-muted font-14 mb-4">
-                                        DataTables has most features enabled by default, so all you need to do to use it
-                                        with your own tables is to call the construction
-                                        function:
-                                        <code>$().DataTable();</code>. KeyTable provides Excel like cell navigation on
-                                        any table. Events (focus, blur, action etc) can be assigned to individual
-                                        cells, columns, rows or all cells.
-                                    </p>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-8">
+                                            <h4 class="header-title mb-1">
+                                                <i class="mdi mdi-format-list-bulleted text-primary me-1"></i>
+                                                Registro de Citas
+                                            </h4>
+                                            <p class="text-muted font-13">
+                                                Visualice y gestione todas las citas médicas programadas. 
+                                                Puede filtrar, buscar y exportar la información.
+                                            </p>
+                                        </div>
+                                        <div class="col-sm-4 text-sm-end">
+                                            <a href="pages-add-cita" class="btn btn-success mb-2">
+                                                <i class="mdi mdi-plus-circle me-1"></i> Agendar Nueva Cita
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <!-- Filtros rápidos -->
+                                    <div class="row mb-3">
+                                        <div class="col-md-12">
+                                            <div class="btn-group" role="group" aria-label="Filtros de estado">
+                                                <button type="button" class="btn btn-sm btn-outline-secondary active" onclick="filterByStatus('all')">
+                                                    <i class="mdi mdi-eye me-1"></i> Todas
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-outline-warning" onclick="filterByStatus('scheduled')">
+                                                    <i class="mdi mdi-clock-outline me-1"></i> Programadas
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-outline-success" onclick="filterByStatus('completed')">
+                                                    <i class="mdi mdi-check-circle me-1"></i> Completadas
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-outline-danger" onclick="filterByStatus('cancelled')">
+                                                    <i class="mdi mdi-close-circle me-1"></i> Canceladas
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                     <table id="basic-datatable"
-                                        class="table table-striped dt-responsive nowrap w-100 mb-0">
-                                        <thead>
+                                        class="table table-striped table-hover dt-responsive nowrap w-100 mb-0">
+                                        <thead class="table-light">
                                             <tr>
-                                                <th>ID</th>
-                                                <th>Paciente</th>
-                                                <th>Médico</th>
-                                                <th>Servicio</th>
-                                                <th>Fecha y Hora</th>
-                                                <th>Estado</th>
-                                                <th>Notas</th>
-                                                <th>Fecha de Registro</th>
-                                                <th>Acciones</th>
+                                                <th class="text-center">#</th>
+                                                <th><i class="mdi mdi-account me-1"></i>Paciente</th>
+                                                <th><i class="mdi mdi-doctor me-1"></i>Médico</th>
+                                                <th><i class="mdi mdi-medical-bag me-1"></i>Servicio</th>
+                                                <th><i class="mdi mdi-calendar-clock me-1"></i>Fecha y Hora</th>
+                                                <th class="text-center"><i class="mdi mdi-flag me-1"></i>Estado</th>
+                                                <th><i class="mdi mdi-note-text me-1"></i>Observaciones</th>
+                                                <th class="text-center"><i class="mdi mdi-tools me-1"></i>Acciones</th>
                                             </tr>
                                         </thead>
 
@@ -114,57 +144,111 @@
                                             <?php foreach($appointments as $appointment): ?>
                                             <!-- Cita -->
                                             <tr>
-                                                <td><?php echo htmlspecialchars($appointment->idnumber) ?></td>
-                                                <td><?php echo htmlspecialchars($appointment->patient_name.' '.$appointment->patient_lastname) ?>
+                                                <td class="text-center">
+                                                    <span class="badge badge-outline-primary"><?php echo htmlspecialchars($appointment->idnumber) ?></span>
                                                 </td>
-                                                <td><?php echo htmlspecialchars($appointment->doctor_name) ?></td>
-                                                <td><?php echo htmlspecialchars($appointment->service_name) ?></td>
-                                                <td><?php echo htmlspecialchars($appointment->appointment_date) ?></td>
                                                 <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="avatar-sm me-2">
+                                                            <span class="avatar-title bg-soft-info text-info rounded-circle">
+                                                                <?php 
+                                                                    $initials = strtoupper(substr($appointment->patient_name, 0, 1) . substr($appointment->patient_lastname, 0, 1));
+                                                                    echo $initials; 
+                                                                ?>
+                                                            </span>
+                                                        </div>
+                                                        <div>
+                                                            <h5 class="mb-0 font-14"><?php echo htmlspecialchars($appointment->patient_name.' '.$appointment->patient_lastname) ?></h5>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <i class="mdi mdi-stethoscope text-primary me-1"></i>
+                                                    <?php echo htmlspecialchars($appointment->doctor_name) ?>
+                                                </td>
+                                                <td>
+                                                    <span class="badge badge-soft-secondary">
+                                                        <?php echo htmlspecialchars($appointment->service_name) ?>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <div>
+                                                        <i class="mdi mdi-calendar text-muted me-1"></i>
+                                                        <strong><?php echo date('d/m/Y', strtotime($appointment->appointment_date)) ?></strong>
+                                                    </div>
+                                                    <div class="text-muted small">
+                                                        <i class="mdi mdi-clock-outline me-1"></i>
+                                                        <?php echo date('h:i A', strtotime($appointment->appointment_date)) ?>
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">
                                                     <?php
                                                         $statusClass = '';
                                                         $statusText = '';
+                                                        $statusIcon = '';
                                                         switch($appointment->status) {
                                                             case 'scheduled':
-                                                                $statusClass = 'badge bg-warning';
+                                                                $statusClass = 'badge bg-warning text-dark';
                                                                 $statusText = 'Programada';
+                                                                $statusIcon = 'mdi mdi-clock-outline';
                                                                 break;
                                                             case 'completed':
                                                                 $statusClass = 'badge bg-success';
                                                                 $statusText = 'Completada';
+                                                                $statusIcon = 'mdi mdi-check-circle';
                                                                 break;
                                                             case 'cancelled':
                                                                 $statusClass = 'badge bg-danger';
                                                                 $statusText = 'Cancelada';
+                                                                $statusIcon = 'mdi mdi-close-circle';
                                                                 break;
                                                             default:
                                                                 $statusClass = 'badge bg-secondary';
                                                                 $statusText = ucfirst($appointment->status);
+                                                                $statusIcon = 'mdi mdi-information';
                                                         }
                                                         ?>
                                                     <span class="<?php echo $statusClass; ?>">
+                                                        <i class="<?php echo $statusIcon; ?> me-1"></i>
                                                         <?php echo htmlspecialchars($statusText); ?>
                                                     </span>
                                                 </td>
-                                                <td><?php echo htmlspecialchars($appointment->notes ?? 'N/A') ?></td>
-                                                <td><?php echo htmlspecialchars($appointment->created_at) ?></td>
                                                 <td>
-                                                    <!-- Formulario para Editar -->
-                                                    <a href="pages-upd-cita?id=<?php echo $appointment->id ?>"
-                                                        class="btn btn-outline-info rounded-pill">
-                                                        <i class="uil-edit"></i>
-                                                    </a>
+                                                    <?php 
+                                                        $notes = $appointment->notes ?? '';
+                                                        if(strlen($notes) > 50) {
+                                                            echo '<span title="' . htmlspecialchars($notes) . '">' . htmlspecialchars(substr($notes, 0, 50)) . '...</span>';
+                                                        } else {
+                                                            echo htmlspecialchars($notes ?: 'Sin observaciones');
+                                                        }
+                                                    ?>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="btn-group" role="group">
+                                                        <!-- Botón Ver/Editar -->
+                                                        <a href="pages-upd-cita?id=<?php echo $appointment->id ?>"
+                                                            class="btn btn-sm btn-info"
+                                                            data-bs-toggle="tooltip" 
+                                                            data-bs-placement="top" 
+                                                            title="Editar cita">
+                                                            <i class="mdi mdi-pencil"></i>
+                                                        </a>
 
-                                                    <form action="delete-cita" method="POST"
-                                                        style="display:inline-block;"
-                                                        onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta cita?');">
-                                                        <input type="hidden" name="id"
-                                                            value="<?php echo $appointment->id; ?>">
-                                                        <button type="submit"
-                                                            class="btn btn-outline-danger rounded-pill">
-                                                            <i class="uil-trash-alt"></i>
-                                                        </button>
-                                                    </form>
+                                                        <!-- Botón Eliminar -->
+                                                        <form action="delete-cita" method="POST"
+                                                            style="display:inline-block;"
+                                                            onsubmit="return confirm('⚠️ ¿Está seguro de eliminar esta cita?\n\nPaciente: <?php echo htmlspecialchars($appointment->patient_name.' '.$appointment->patient_lastname) ?>\nFecha: <?php echo date('d/m/Y h:i A', strtotime($appointment->appointment_date)) ?>\n\nEsta acción no se puede deshacer.');">
+                                                            <input type="hidden" name="id"
+                                                                value="<?php echo $appointment->id; ?>">
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-danger"
+                                                                data-bs-toggle="tooltip" 
+                                                                data-bs-placement="top" 
+                                                                title="Eliminar cita">
+                                                                <i class="mdi mdi-delete"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <?php endforeach; ?>
@@ -225,6 +309,43 @@
 
         <!-- Datatable Custom js -->
         <script src="assets/admin/assets/js/pages/demo.datatable-init.js"></script>
+
+        <!-- Script para filtros de estado -->
+        <script>
+            // Inicializar tooltips de Bootstrap
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            });
+
+            // Función para filtrar por estado
+            function filterByStatus(status) {
+                var table = $('#basic-datatable').DataTable();
+                
+                // Remover clase active de todos los botones
+                document.querySelectorAll('.btn-group button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Agregar clase active al botón clickeado
+                event.target.closest('button').classList.add('active');
+                
+                // Filtrar tabla
+                if (status === 'all') {
+                    table.search('').columns().search('').draw();
+                } else {
+                    // Buscar en la columna de estado (columna 5)
+                    var statusText = {
+                        'scheduled': 'Programada',
+                        'completed': 'Completada',
+                        'cancelled': 'Cancelada'
+                    };
+                    table.column(5).search(statusText[status]).draw();
+                }
+            }
+
+            
+        </script>
 
 </body>
 

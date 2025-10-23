@@ -247,14 +247,14 @@ class CitaController {
 
             if (!$id) {
                 $_SESSION['error'] = 'ID de cita no válido.';
-                header("Location: pages-get-citas");
+                header("Location: pages-get-cita");
                 exit;
             }
 
             // Validar que todos los campos requeridos estén presentes
             if (!$data['patient_id'] || !$data['doctor_id'] || !$data['service_id'] || !$data['appointment_date']) {
                 $_SESSION['error'] = 'Todos los campos son obligatorios.';
-                header("Location: pages-edit-cita?id=" . $id);
+                header("Location: pages-upd-cita?id=" . $id);
                 exit;
             }
 
@@ -262,11 +262,11 @@ class CitaController {
 
             if ($success) {
                 $_SESSION['exito'] = 'Cita actualizada correctamente.';
-                header("Location: pages-get-citas");
+                header("Location: pages-get-cita");
                 exit;
             } else {
                 $_SESSION['error'] = 'No se pudo actualizar la cita. Intente nuevamente.';
-                header("Location: pages-edit-cita?id=" . $id);
+                header("Location: pages-upd-cita?id=" . $id);
                 exit;
             }
         }
@@ -285,7 +285,7 @@ class CitaController {
 
             if (!$id) {
                 $_SESSION['error'] = 'ID de cita no válido.';
-                header("Location: pages-get-citas");
+                header("Location: pages-get-cita");
                 exit;
             }
 
@@ -297,7 +297,7 @@ class CitaController {
                 $_SESSION['error'] = 'No se pudo eliminar la cita. Intente nuevamente.';
             }
 
-            header("Location: pages-get-citas");
+            header("Location: pages-get-cita");
             exit;
         }
     }

@@ -5,9 +5,9 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Datatables | Hyper - Responsive Bootstrap 5 Admin Dashboard</title>
+    <title>Gestión de Servicios | Sistema Clínica Dental</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="Sistema de gestión de servicios odontológicos" name="description" />
     <meta content="Coderthemes" name="author" />
 
     <!-- App favicon -->
@@ -65,11 +65,15 @@
                             <div class="page-title-box">
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="/admin">Home</a></li>
-                                        <li class="breadcrumb-item active">Lista de Médicos</li>
+                                        <li class="breadcrumb-item"><a href="/admin">Inicio</a></li>
+                                        <li class="breadcrumb-item"><a href="pages-get-service">Servicios</a></li>
+                                        <li class="breadcrumb-item active">Lista de Servicios</li>
                                     </ol>
                                 </div>
-                                <h4 class="page-title">Lista de Médicos</h4>
+                                <h4 class="page-title">
+                                    <i class="mdi mdi-tooth text-primary me-1"></i>
+                                    Catálogo de Servicios Odontológicos
+                                </h4>
                                 <!-- Mensajes de éxito o error -->
                                 <?php include 'includes/alertEvent.php'; ?>
 
@@ -83,57 +87,151 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="header-title">Basic Data Table</h4>
-                                    <p class="text-muted font-14 mb-4">
-                                        DataTables has most features enabled by default, so all you need to do to use it
-                                        with your own tables is to call the construction
-                                        function:
-                                        <code>$().DataTable();</code>. KeyTable provides Excel like cell navigation on
-                                        any table. Events (focus, blur, action etc) can be assigned to individual
-                                        cells, columns, rows or all cells.
-                                    </p>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-8">
+                                            <h4 class="header-title mb-1">
+                                                <i class="mdi mdi-medical-bag text-primary me-1"></i>
+                                                Servicios y Tratamientos Dentales
+                                            </h4>
+                                            <p class="text-muted font-13">
+                                                Administre el catálogo completo de servicios odontológicos ofrecidos por la clínica.
+                                                Incluye precios, duración y categorización.
+                                            </p>
+                                        </div>
+                                        <div class="col-sm-4 text-sm-end">
+                                            <a href="pages-add-service" class="btn btn-success mb-2">
+                                                <i class="mdi mdi-plus-circle me-1"></i> Nuevo Servicio
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <!-- Estadísticas rápidas -->
+                                    <div class="row mb-3">
+                                        <div class="col-md-12">
+                                            <div class="alert alert-primary bg-primary text-white border-0 mb-0" role="alert">
+                                                <i class="mdi mdi-information-outline me-2"></i>
+                                                <strong>Total de servicios registrados: <?php echo count($services); ?></strong>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                     <table id="basic-datatable"
-                                        class="table table-striped dt-responsive nowrap w-100 mb-0">
-                                        <thead>
+                                        class="table table-striped table-hover dt-responsive nowrap w-100 mb-0">
+                                        <thead class="table-light">
                                             <tr>
-                                                <th>ID</th>
-                                                <th>Nombre</th>
-                                                <th>Duracion</th>
-                                                <th>Precio</th>
-                                                <th>Categoria</th>
-                                                <th>Estado</th>
-                                                <th>Acciones</th>
+                                                <th class="text-center" style="width: 5%">#</th>
+                                                <th style="width: 30%"><i class="mdi mdi-tooth me-1"></i>Servicio/Tratamiento</th>
+                                                <th style="width: 10%"><i class="mdi mdi-clock-outline me-1"></i>Duración</th>
+                                                <th style="width: 12%"><i class="mdi mdi-currency-usd me-1"></i>Precio</th>
+                                                <th style="width: 18%"><i class="mdi mdi-tag me-1"></i>Categoría</th>
+                                                <th class="text-center" style="width: 12%"><i class="mdi mdi-toggle-switch me-1"></i>Estado</th>
+                                                <th class="text-center" style="width: 13%"><i class="mdi mdi-tools me-1"></i>Acciones</th>
                                             </tr>
                                         </thead>
 
                                         <tbody>
                                             <?php foreach($services as $service): ?>
-                                            <!-- Médico -->
                                             <tr>
-                                                <td><?php echo htmlspecialchars($service->id) ?></td>
-                                                <td><?php echo htmlspecialchars($service->name) ?></td>
-                                                <td><?php echo htmlspecialchars($service->duration_minutes) ?></td>
-                                                <td><?php echo htmlspecialchars($service->price) ?></td>
-                                                <td><?php echo htmlspecialchars($service->category_name) ?></td>
-                                                <td><?php echo htmlspecialchars($service->status) ?></td>
+                                                <td class="text-center">
+                                                    <span class="badge badge-outline-primary"><?php echo htmlspecialchars($service->id) ?></span>
+                                                </td>
                                                 <td>
-                                                    <!-- Formulario para Editar -->
-                                                    <a href="pages-upd-service?id=<?php echo $service->id ?>"
-                                                        class="btn btn-outline-info rounded-pill">
-                                                        <i class="uil-edit"></i>
-                                                    </a>
+                                                    <div class="d-flex align-items-center">
+                                                        <div>
+                                                            <h5 class="mb-0 font-14 fw-semibold">
+                                                                <?php echo htmlspecialchars($service->name) ?>
+                                                            </h5>
+                                                            <?php if(!empty($service->description)): ?>
+                                                            <small class="text-muted text-truncate d-block" style="max-width: 250px;">
+                                                                <?php echo htmlspecialchars(substr($service->description, 0, 50)) . (strlen($service->description) > 50 ? '...' : ''); ?>
+                                                            </small>
+                                                            <?php endif; ?>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <?php if($service->duration_minutes): ?>
+                                                    <span class="badge bg-soft-info text-info">
+                                                        <i class="mdi mdi-timer-outline me-1"></i>
+                                                        <?php echo htmlspecialchars($service->duration_minutes) ?> min
+                                                    </span>
+                                                    <?php else: ?>
+                                                    <span class="text-muted">No especificada</span>
+                                                    <?php endif; ?>
+                                                </td>
+                                                <td>
+                                                    <?php if($service->price): ?>
+                                                    <div class="fw-bold text-success">
+                                                        <i class="mdi mdi-cash-multiple me-1"></i>
+                                                        $<?php echo number_format($service->price, 0, ',', '.') ?> COP
+                                                    </div>
+                                                    <?php else: ?>
+                                                    <span class="text-muted">No especificado</span>
+                                                    <?php endif; ?>
+                                                </td>
+                                                <td>
+                                                    <?php if($service->category_name): ?>
+                                                    <span class="badge bg-soft-secondary text-secondary fs-6">
+                                                        <i class="mdi mdi-folder-outline me-1"></i>
+                                                        <?php echo htmlspecialchars($service->category_name) ?>
+                                                    </span>
+                                                    <?php else: ?>
+                                                    <span class="text-muted">Sin categoría</span>
+                                                    <?php endif; ?>
+                                                </td>
+                                                <td class="text-center">
+                                                    <?php 
+                                                        $statusClass = '';
+                                                        $statusIcon = '';
+                                                        $statusText = '';
+                                                        
+                                                        switch($service->status) {
+                                                            case 'active':
+                                                                $statusClass = 'bg-soft-success text-success';
+                                                                $statusIcon = 'mdi-check-circle';
+                                                                $statusText = 'Activo';
+                                                                break;
+                                                            case 'inactive':
+                                                                $statusClass = 'bg-soft-danger text-danger';
+                                                                $statusIcon = 'mdi-close-circle';
+                                                                $statusText = 'Inactivo';
+                                                                break;
+                                                            default:
+                                                                $statusClass = 'bg-soft-secondary text-secondary';
+                                                                $statusIcon = 'mdi-help-circle';
+                                                                $statusText = ucfirst($service->status);
+                                                        }
+                                                    ?>
+                                                    <span class="badge <?php echo $statusClass; ?>">
+                                                        <i class="mdi <?php echo $statusIcon; ?> me-1"></i>
+                                                        <?php echo $statusText; ?>
+                                                    </span>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="btn-group" role="group">
+                                                        <!-- Formulario para Editar -->
+                                                        <a href="pages-upd-service?id=<?php echo $service->id ?>"
+                                                            class="btn btn-sm btn-info"
+                                                            data-bs-toggle="tooltip"
+                                                            data-bs-placement="top"
+                                                            title="Editar servicio">
+                                                            <i class="mdi mdi-pencil"></i>
+                                                        </a>
 
-                                                    <form action="delete-service" method="POST"
-                                                        style="display:inline-block;"
-                                                        onsubmit="return confirm('¿Estás seguro de que deseas eliminar este médico?');">
-                                                        <input type="hidden" name="id"
-                                                            value="<?php echo $service->id; ?>">
-                                                        <button type="submit"
-                                                            class="btn btn-outline-danger rounded-pill">
-                                                            <i class="uil-trash-alt"></i>
-                                                        </button>
-                                                    </form>
+                                                        <form action="delete-service" method="POST"
+                                                            style="display:inline-block;"
+                                                            onsubmit="return confirm('⚠️ ¿Está seguro de eliminar este servicio?\n\nServicio: <?php echo htmlspecialchars($service->name); ?>\nPrecio: $<?php echo number_format($service->price, 0); ?> COP\n\n⚠️ ADVERTENCIA: Se eliminarán todas las citas asociadas a este servicio.\n\nEsta acción no se puede deshacer.');">
+                                                            <input type="hidden" name="id"
+                                                                value="<?php echo $service->id; ?>">
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-danger"
+                                                                data-bs-toggle="tooltip"
+                                                                data-bs-placement="top"
+                                                                title="Eliminar servicio">
+                                                                <i class="mdi mdi-delete"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <?php endforeach; ?>
@@ -195,6 +293,18 @@
 
         <!-- Datatable Custom js -->
         <script src="assets/admin/assets/js/pages/demo.datatable-init.js"></script>
+
+        <!-- Script personalizado para servicios -->
+        <script>
+            // Inicializar tooltips de Bootstrap
+            document.addEventListener('DOMContentLoaded', function() {
+                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+                var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl)
+                });
+
+            });
+        </script>
 
 </body>
 

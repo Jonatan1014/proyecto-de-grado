@@ -5,9 +5,9 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Datatables | Hyper - Responsive Bootstrap 5 Admin Dashboard</title>
+    <title>Gestión de Pacientes | Sistema Clínica Dental</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="Sistema de gestión de pacientes - Clínica Dental" name="description" />
     <meta content="Coderthemes" name="author" />
 
     <!-- App favicon -->
@@ -65,11 +65,14 @@
                             <div class="page-title-box">
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="/admin">Home</a></li>
-                                        <li class="breadcrumb-item active">Lista de Médicos</li>
+                                        <li class="breadcrumb-item"><a href="/admin">Inicio</a></li>
+                                        <li class="breadcrumb-item"><a href="pages-get-paciente">Pacientes</a></li>
+                                        <li class="breadcrumb-item active">Lista de Pacientes</li>
                                     </ol>
                                 </div>
-                                <h4 class="page-title">Lista de Médicos</h4>
+                                <h4 class="page-title">
+                                    <i class="mdi mdi-account-multiple me-1"></i> Gestión de Pacientes
+                                </h4>
                                 <!-- Mensajes de éxito o error -->
                                 <?php include 'includes/alertEvent.php'; ?>
 
@@ -82,76 +85,180 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="header-title">Basic Data Table</h4>
-                                    <p class="text-muted font-14 mb-4">
-                                        DataTables has most features enabled by default, so all you need to do to use it
-                                        with your own tables is to call the construction
-                                        function:
-                                        <code>$().DataTable();</code>. KeyTable provides Excel like cell navigation on
-                                        any table. Events (focus, blur, action etc) can be assigned to individual
-                                        cells, columns, rows or all cells.
-                                    </p>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-8">
+                                            <h4 class="header-title mb-1">
+                                                <i class="mdi mdi-account-group text-primary me-1"></i>
+                                                Registro de Pacientes
+                                            </h4>
+                                            <p class="text-muted font-13">
+                                                Administre la información de todos los pacientes registrados en la clínica.
+                                                Puede buscar, filtrar y exportar los datos.
+                                            </p>
+                                        </div>
+                                        <div class="col-sm-4 text-sm-end">
+                                            <a href="pages-add-paciente" class="btn btn-success mb-2">
+                                                <i class="mdi mdi-account-plus me-1"></i> Registrar Nuevo Paciente
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <!-- Estadísticas rápidas -->
+                                    <div class="row mb-3">
+                                        <div class="col-md-12">
+                                            <div class="alert alert-info bg-info text-white border-0 mb-0" role="alert">
+                                                <i class="mdi mdi-information-outline me-2"></i>
+                                                <strong>Total de pacientes registrados: <?php echo count($pacientes); ?></strong>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                     <table id="basic-datatable"
-                                        class="table table-striped dt-responsive nowrap w-100 mb-0">
-                                        <thead>
+                                        class="table table-striped table-hover dt-responsive nowrap w-100 mb-0">
+                                        <thead class="table-light">
                                             <tr>
-                                                <th>ID</th>
-                                                <th>Nombre</th>
-                                                <th># Identidad</th>
-                                                <th>Nacimiento</th>
-                                                <th>Género</th>
-                                                <th>Teléfono</th>
-                                                <th>Correo</th>
-                                                <th>Dirección</th>
-                                                <th>Contacto Emergencia</th>
-                                                <th>Fecha Registro</th>
-                                                <th>Acciones</th>
+                                                <th class="text-center">#</th>
+                                                <th><i class="mdi mdi-account me-1"></i>Paciente</th>
+                                                <th><i class="mdi mdi-card-account-details me-1"></i>Cédula/ID</th>
+                                                <th><i class="mdi mdi-cake-variant me-1"></i>Edad</th>
+                                                <th><i class="mdi mdi-gender-male-female me-1"></i>Género</th>
+                                                <th><i class="mdi mdi-phone me-1"></i>Contacto</th>
+                                                <th><i class="mdi mdi-email me-1"></i>Email</th>
+                                                <th><i class="mdi mdi-phone-alert me-1"></i>Emergencia</th>
+                                                <th class="text-center"><i class="mdi mdi-tools me-1"></i>Acciones</th>
                                             </tr>
                                         </thead>
 
                                         <tbody>
                                             <?php foreach($pacientes as $paciente): ?>
                                             <tr>
-
-                                                <td><?php echo htmlspecialchars($paciente->id) ?></td>
-                                                <td><?php echo htmlspecialchars($paciente->name. ' '.$paciente->lastname) ?>
+                                                <td class="text-center">
+                                                    <span class="badge badge-outline-primary"><?php echo htmlspecialchars($paciente->id) ?></span>
                                                 </td>
-                                                <td><?php echo htmlspecialchars($paciente->idnumber) ?></td>
-                                                <td><?php echo htmlspecialchars($paciente->birth_date) ?></td>
-                                                <td><?php echo htmlspecialchars($paciente->gender) ?></td>
-                                                <td><?php echo htmlspecialchars($paciente->phone) ?></td>
-                                                <td><?php echo htmlspecialchars($paciente->email) ?></td>
-                                                <td><?php echo htmlspecialchars($paciente->address) ?></td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        
+                                                        <div>
+                                                            <h5 class="mb-0 font-14">
+                                                                <?php echo htmlspecialchars($paciente->name. ' '.$paciente->lastname) ?>
+                                                            </h5>
+                                                            <?php if($paciente->birth_date): ?>
+                                                            <small class="text-muted">
+                                                                <i class="mdi mdi-calendar-blank me-1"></i>
+                                                                <?php echo date('d/m/Y', strtotime($paciente->birth_date)) ?>
+                                                            </small>
+                                                            <?php endif; ?>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="badge badge-soft-secondary">
+                                                        <?php echo htmlspecialchars($paciente->idnumber ?: 'No registrada') ?>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <?php
+                                                        if($paciente->birth_date) {
+                                                            $birthDate = new DateTime($paciente->birth_date);
+                                                            $today = new DateTime();
+                                                            $age = $today->diff($birthDate)->y;
+                                                            echo '<span class="badge badge-outline-info">' . $age . ' años</span>';
+                                                        } else {
+                                                            echo '<span class="text-muted">-</span>';
+                                                        }
+                                                    ?>
+                                                </td>
+                                                <td>
+                                                    <?php
+                                                        $genderIcon = '';
+                                                        $genderText = '';
+                                                        $genderClass = '';
+                                                        switch($paciente->gender) {
+                                                            case 'M':
+                                                                $genderIcon = 'mdi mdi-gender-male';
+                                                                $genderText = 'Masculino';
+                                                                $genderClass = 'text-primary';
+                                                                break;
+                                                            case 'F':
+                                                                $genderIcon = 'mdi mdi-gender-female';
+                                                                $genderText = 'Femenino';
+                                                                $genderClass = 'text-danger';
+                                                                break;
+                                                            default:
+                                                                $genderIcon = 'mdi mdi-help-circle';
+                                                                $genderText = 'Otro';
+                                                                $genderClass = 'text-secondary';
+                                                        }
+                                                    ?>
+                                                    <i class="<?php echo $genderIcon . ' ' . $genderClass; ?> me-1"></i>
+                                                    <span class="<?php echo $genderClass; ?>"><?php echo $genderText; ?></span>
+                                                </td>
+                                                <td>
+                                                    <?php if($paciente->phone): ?>
+                                                        <a href="tel:<?php echo htmlspecialchars($paciente->phone) ?>" class="text-decoration-none">
+                                                            <i class="mdi mdi-phone text-success me-1"></i>
+                                                            <?php echo htmlspecialchars($paciente->phone) ?>
+                                                        </a>
+                                                    <?php else: ?>
+                                                        <span class="text-muted">No registrado</span>
+                                                    <?php endif; ?>
+                                                </td>
+                                                <td>
+                                                    <?php if($paciente->email): ?>
+                                                        <a href="mailto:<?php echo htmlspecialchars($paciente->email) ?>" class="text-decoration-none">
+                                                            <i class="mdi mdi-email text-info me-1"></i>
+                                                            <?php echo htmlspecialchars($paciente->email) ?>
+                                                        </a>
+                                                    <?php else: ?>
+                                                        <span class="text-muted">No registrado</span>
+                                                    <?php endif; ?>
+                                                </td>
                                                 <!-- Contacto de Emergencia -->
                                                 <td>
                                                     <?php if (!empty($paciente->emergency_contact_name)): ?>
-                                                    <strong>Nombre:</strong>
-                                                    <?php echo htmlspecialchars($paciente->emergency_contact_name) ?><br>
-                                                    <strong>Teléfono:</strong>
-                                                    <?php echo htmlspecialchars($paciente->emergency_contact_phone) ?>
+                                                        <div class="d-flex align-items-start">
+                                                            <i class="mdi mdi-phone-alert text-warning me-1 mt-1"></i>
+                                                            <div>
+                                                                <div class="font-13">
+                                                                    <strong><?php echo htmlspecialchars($paciente->emergency_contact_name) ?></strong>
+                                                                </div>
+                                                                <?php if($paciente->emergency_contact_phone): ?>
+                                                                <small class="text-muted">
+                                                                    <?php echo htmlspecialchars($paciente->emergency_contact_phone) ?>
+                                                                </small>
+                                                                <?php endif; ?>
+                                                            </div>
+                                                        </div>
                                                     <?php else: ?>
-                                                    N/A
+                                                        <span class="text-muted">No registrado</span>
                                                     <?php endif; ?>
                                                 </td>
-                                                <td><?php echo htmlspecialchars($paciente->created_at) ?></td>
-                                                <td>
-                                                    <!-- Formulario para Editar -->
-                                                    <a href="pages-upd-paciente?id=<?php echo $paciente->id ?>"
-                                                        class="btn btn-outline-info rounded-pill">
-                                                        <i class="uil-edit"></i> Editar
-                                                    </a>
+                                                <td class="text-center">
+                                                    <div class="btn-group" role="group">
+                                                        <!-- Botón Ver/Editar -->
+                                                        <a href="pages-upd-paciente?id=<?php echo $paciente->id ?>"
+                                                            class="btn btn-sm btn-info"
+                                                            data-bs-toggle="tooltip"
+                                                            data-bs-placement="top"
+                                                            title="Editar paciente">
+                                                            <i class="mdi mdi-pencil"></i>
+                                                        </a>
 
-                                                    <form action="delete-paciente" method="POST"
-                                                        style="display:inline-block;"
-                                                        onsubmit="return confirm('¿Estás seguro de que deseas eliminar este paciente?');">
-                                                        <input type="hidden" name="id"
-                                                            value="<?php echo $paciente->id; ?>">
-                                                        <button type="submit"
-                                                            class="btn btn-outline-danger rounded-pill">
-                                                            <i class="uil-trash-alt"></i> Eliminar
-                                                        </button>
-                                                    </form>
+                                                        <!-- Botón Eliminar -->
+                                                        <form action="delete-paciente" method="POST"
+                                                            style="display:inline-block;"
+                                                            onsubmit="return confirm('⚠️ ¿Está seguro de eliminar este paciente?\n\nPaciente: <?php echo htmlspecialchars($paciente->name.' '.$paciente->lastname) ?>\nCédula: <?php echo htmlspecialchars($paciente->idnumber ?: 'No registrada') ?>\n\n⚠️ ADVERTENCIA: Se eliminarán todos los registros asociados:\n• Citas médicas\n• Historiales clínicos\n• Eventos del calendario\n\nEsta acción no se puede deshacer.');">
+                                                            <input type="hidden" name="id"
+                                                                value="<?php echo $paciente->id; ?>">
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-danger"
+                                                                data-bs-toggle="tooltip"
+                                                                data-bs-placement="top"
+                                                                title="Eliminar paciente">
+                                                                <i class="mdi mdi-delete"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
                                                 </td>
                                             </tr>
 

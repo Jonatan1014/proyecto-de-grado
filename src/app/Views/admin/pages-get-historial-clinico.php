@@ -5,9 +5,9 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Datatables | Hyper - Responsive Bootstrap 5 Admin Dashboard</title>
+    <title>Historiales Clínicos | Sistema Clínica Dental</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="Sistema de gestión de historiales clínicos dentales" name="description" />
     <meta content="Coderthemes" name="author" />
 
     <!-- App favicon -->
@@ -65,11 +65,15 @@
                             <div class="page-title-box">
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="/admin">Home</a></li>
-                                        <li class="breadcrumb-item active">Lista de Historial Clinico</li>
+                                        <li class="breadcrumb-item"><a href="/admin">Inicio</a></li>
+                                        <li class="breadcrumb-item"><a href="pages-get-historial-clinico">Historiales Clínicos</a></li>
+                                        <li class="breadcrumb-item active">Lista de Historiales</li>
                                     </ol>
                                 </div>
-                                <h4 class="page-title">Lista de Historial Clinico</h4>
+                                <h4 class="page-title">
+                                    <i class="mdi mdi-clipboard-text-multiple text-primary me-1"></i>
+                                    Gestión de Historiales Clínicos
+                                </h4>
                                 <!-- Mensajes de éxito o error -->
                                 <?php include 'includes/alertEvent.php'; ?>
 
@@ -82,168 +86,243 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="header-title">Basic Data Table</h4>
-                                    <p class="text-muted font-14 mb-4">
-                                        DataTables has most features enabled by default, so all you need to do to use it
-                                        with your own tables is to call the construction
-                                        function:
-                                        <code>$().DataTable();</code>. KeyTable provides Excel like cell navigation on
-                                        any table. Events (focus, blur, action etc) can be assigned to individual
-                                        cells, columns, rows or all cells.
-                                    </p>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-8">
+                                            <h4 class="header-title mb-1">
+                                                <i class="mdi mdi-folder-open text-primary me-1"></i>
+                                                Registro de Historiales Clínicos Dentales
+                                            </h4>
+                                            <p class="text-muted font-13">
+                                                Gestione los historiales médicos odontológicos de todos los pacientes.
+                                                Incluye diagnósticos, tratamientos y odontogramas.
+                                            </p>
+                                        </div>
+                                        <div class="col-sm-4 text-sm-end">
+                                            <a href="pages-add-historial-clinico" class="btn btn-success mb-2">
+                                                <i class="mdi mdi-plus-circle me-1"></i> Crear Nuevo Historial
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <!-- Estadísticas rápidas -->
+                                    <div class="row mb-3">
+                                        <div class="col-md-12">
+                                            <div class="alert alert-primary bg-primary text-white border-0 mb-0" role="alert">
+                                                <i class="mdi mdi-information-outline me-2"></i>
+                                                <strong>Total de historiales registrados: <?php echo count($historiales); ?></strong>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                     <!-- Tabla de historiales clínicos -->
                                     <table id="basic-datatable"
-                                        class="table table-striped dt-responsive nowrap w-100 mb-0">
-                                        <thead>
+                                        class="table table-striped table-hover dt-responsive nowrap w-100 mb-0">
+                                        <thead class="table-light">
                                             <tr>
-                                                <th>ID</th>
-                                                <th>Nº Historia</th>
-                                                <th>Paciente</th>
-                                                <th>Doctor</th>
-                                                <th>Fecha Registro</th>
-                                                <th>Diagnóstico Principal</th>
-                                                <th>Tratamientos</th>
-                                                <th>Estado Odontograma</th>
-                                                <th>Acciones</th>
+                                                <th class="text-center">#</th>
+                                                <th><i class="mdi mdi-folder-account me-1"></i>Nº Historia</th>
+                                                <th><i class="mdi mdi-account me-1"></i>Paciente</th>
+                                                <th><i class="mdi mdi-doctor me-1"></i>Doctor</th>
+                                                <th><i class="mdi mdi-calendar me-1"></i>Fecha</th>
+                                                <th><i class="mdi mdi-stethoscope me-1"></i>Diagnóstico</th>
+                                                <th><i class="mdi mdi-pill me-1"></i>Tratamientos</th>
+                                                <th><i class="mdi mdi-tooth me-1"></i>Odontograma</th>
+                                                <th class="text-center"><i class="mdi mdi-tools me-1"></i>Acciones</th>
                                             </tr>
                                         </thead>
 
                                         <tbody>
                                             <?php foreach($historiales as $historial): ?>
                                             <tr>
-                                                <td><?php echo htmlspecialchars($historial->id) ?></td>
+                                                <td class="text-center">
+                                                    <span class="badge badge-outline-primary"><?php echo htmlspecialchars($historial->id) ?></span>
+                                                </td>
                                                 <td>
-                                                    <span class="badge bg-primary">
+                                                    <span class="badge bg-soft-primary text-primary fs-6">
+                                                        <i class="mdi mdi-file-document me-1"></i>
                                                         <?php echo htmlspecialchars($historial->history_number ?? 'N/A') ?>
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <?php if (!empty($historial->patient_name) && !empty($historial->patient_lastname)): ?>
-                                                    <strong><?php echo htmlspecialchars($historial->patient_name . ' ' . $historial->patient_lastname) ?></strong>
-                                                    <br>
-                                                    <small class="text-muted">
-                                                        <?php echo htmlspecialchars($historial->patient_idnumber ?? '') ?>
-                                                    </small>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="avatar-sm me-2">
+                                                            <span class="avatar-title bg-soft-info text-info rounded-circle">
+                                                                <?php
+                                                                    $initials = strtoupper(substr($historial->patient_name, 0, 1) . substr($historial->patient_lastname, 0, 1));
+                                                                    echo $initials;
+                                                                ?>
+                                                            </span>
+                                                        </div>
+                                                        <div>
+                                                            <h5 class="mb-0 font-14">
+                                                                <?php echo htmlspecialchars($historial->patient_name . ' ' . $historial->patient_lastname) ?>
+                                                            </h5>
+                                                            <small class="text-muted">
+                                                                <i class="mdi mdi-card-account-details me-1"></i>
+                                                                <?php echo htmlspecialchars($historial->patient_idnumber ?? 'Sin cédula') ?>
+                                                            </small>
+                                                        </div>
+                                                    </div>
                                                     <?php else: ?>
                                                     <span class="text-muted">N/A</span>
                                                     <?php endif; ?>
                                                 </td>
                                                 <td>
                                                     <?php if (!empty($historial->doctor_name)): ?>
-                                                    <?php echo htmlspecialchars($historial->doctor_name) ?>
+                                                    <div>
+                                                        <i class="mdi mdi-doctor text-primary me-1"></i>
+                                                        <span class="fw-semibold"><?php echo htmlspecialchars($historial->doctor_name) ?></span>
+                                                    </div>
                                                     <?php else: ?>
                                                     <span class="text-muted">N/A</span>
                                                     <?php endif; ?>
                                                 </td>
                                                 <td>
                                                     <?php 
-                $fecha = $historial->registration_date ?? $historial->created_at;
-                if ($fecha) {
-                    $fechaObj = new DateTime($fecha);
-                    echo htmlspecialchars($fechaObj->format('d/m/Y'));
-                } else {
-                    echo 'N/A';
-                }
-                ?>
+                                                        $fecha = $historial->registration_date ?? $historial->created_at;
+                                                        if ($fecha) {
+                                                            $fechaObj = new DateTime($fecha);
+                                                            echo '<span class="text-muted">';
+                                                            echo '<i class="mdi mdi-calendar-clock me-1"></i>';
+                                                            echo htmlspecialchars($fechaObj->format('d/m/Y'));
+                                                            echo '</span>';
+                                                        } else {
+                                                            echo '<span class="text-muted">N/A</span>';
+                                                        }
+                                                    ?>
                                                 </td>
                                                 <td>
                                                     <?php if (!empty($historial->main_diagnosis)): ?>
-                                                    <div class="text-truncate" style="max-width: 200px;"
+                                                    <div class="text-truncate" style="max-width: 250px;"
+                                                        data-bs-toggle="tooltip" 
+                                                        data-bs-placement="top"
                                                         title="<?php echo htmlspecialchars($historial->main_diagnosis); ?>">
-                                                        <?php echo htmlspecialchars(substr($historial->main_diagnosis, 0, 60)) . (strlen($historial->main_diagnosis) > 60 ? '...' : '') ?>
+                                                        <i class="mdi mdi-file-document-outline text-info me-1"></i>
+                                                        <?php echo htmlspecialchars(substr($historial->main_diagnosis, 0, 50)) . (strlen($historial->main_diagnosis) > 50 ? '...' : '') ?>
                                                     </div>
                                                     <?php else: ?>
-                                                    <span class="text-muted">Sin diagnóstico</span>
-                                                    <?php endif; ?>
-                                                </td>
-                                                <td>
-                                                    <?php 
-                $treatmentPlan = $historial->treatment_plan;
-                // ✅ CORRECCIÓN: Asegurarse de que sea un array antes de usar count o foreach
-                if (!empty($treatmentPlan) && is_array($treatmentPlan)) {
-                    $totalTreatments = count($treatmentPlan);
-                    $totalCost = 0;
-                    foreach($treatmentPlan as $treatment) {
-                        // ✅ CORRECCIÓN: Verificar que $treatment sea un array/objeto y que tenga la clave 'cost'
-                        $cost = is_array($treatment) ? ($treatment['cost'] ?? 0) : (is_object($treatment) ? ($treatment->cost ?? 0) : 0);
-                        $totalCost += floatval($cost);
-                    }
-                    ?>
-                                                    <span class="badge bg-info">
-                                                        <?php echo $totalTreatments; ?>
-                                                        tratamiento<?php echo $totalTreatments > 1 ? 's' : ''; ?>
+                                                    <span class="text-muted">
+                                                        <i class="mdi mdi-alert-circle-outline me-1"></i>
+                                                        Sin diagnóstico
                                                     </span>
-                                                    <?php if ($totalCost > 0): ?>
-                                                    <br>
-                                                    <small class="text-success">
-                                                        <strong>$<?php echo number_format($totalCost, 2); ?></strong>
-                                                    </small>
                                                     <?php endif; ?>
+                                                </td>
+                                                <td>
+                                                    <?php 
+                                                        $treatmentPlan = $historial->treatment_plan;
+                                                        if (!empty($treatmentPlan) && is_array($treatmentPlan)) {
+                                                            $totalTreatments = count($treatmentPlan);
+                                                            $totalCost = 0;
+                                                            foreach($treatmentPlan as $treatment) {
+                                                                $cost = is_array($treatment) ? ($treatment['cost'] ?? 0) : (is_object($treatment) ? ($treatment->cost ?? 0) : 0);
+                                                                $totalCost += floatval($cost);
+                                                            }
+                                                    ?>
+                                                    <div>
+                                                        <span class="badge bg-soft-info text-info">
+                                                            <i class="mdi mdi-medical-bag me-1"></i>
+                                                            <?php echo $totalTreatments; ?>
+                                                            <?php echo $totalTreatments > 1 ? 'tratamientos' : 'tratamiento'; ?>
+                                                        </span>
+                                                        <?php if ($totalCost > 0): ?>
+                                                        <div class="mt-1">
+                                                            <span class="badge bg-soft-success text-success">
+                                                                <i class="mdi mdi-currency-usd"></i>
+                                                                <?php echo number_format($totalCost, 0); ?> COP
+                                                            </span>
+                                                        </div>
+                                                        <?php endif; ?>
+                                                    </div>
                                                     <?php } else { ?>
-                                                    <span class="text-muted">Sin tratamientos</span>
+                                                    <span class="text-muted">
+                                                        <i class="mdi mdi-close-circle-outline me-1"></i>
+                                                        Sin tratamientos
+                                                    </span>
                                                     <?php } ?>
                                                 </td>
                                                 <td>
                                                     <?php 
-                $odontogram = $historial->odontogram;
-                // ✅ CORRECCIÓN: Asegurarse de que sea un array antes de usar count o foreach
-                if (!empty($odontogram) && is_array($odontogram)) {
-                    $totalTeeth = count($odontogram);
-                    
-                    // Contar dientes por estado
-                    $withIssues = 0;
-                    $healthy = 0;
-                    foreach($odontogram as $tooth) {
-                        // ✅ CORRECCIÓN: Verificar que $tooth sea un array/objeto y que tenga la clave 'status'
-                        $status = is_array($tooth) ? ($tooth['status'] ?? '') : (is_object($tooth) ? ($tooth->status ?? '') : '');
-                        if ($status === 'Sano') {
-                            $healthy++;
-                        } elseif (!empty($status)) {
-                            $withIssues++;
-                        }
-                    }
-                    ?>
-                                                    <span class="badge bg-secondary"><?php echo $totalTeeth; ?>
-                                                        dientes</span>
-                                                    <?php if ($withIssues > 0): ?>
-                                                    <br>
-                                                    <small class="text-warning">
-                                                        <i class="uil-exclamation-triangle"></i>
-                                                        <?php echo $withIssues; ?> con problemas
-                                                    </small>
-                                                    <?php endif; ?>
+                                                        $odontogram = $historial->odontogram;
+                                                        if (!empty($odontogram) && is_array($odontogram)) {
+                                                            $totalTeeth = count($odontogram);
+                                                            
+                                                            // Contar dientes por estado
+                                                            $withIssues = 0;
+                                                            $healthy = 0;
+                                                            foreach($odontogram as $tooth) {
+                                                                $status = is_array($tooth) ? ($tooth['status'] ?? '') : (is_object($tooth) ? ($tooth->status ?? '') : '');
+                                                                if ($status === 'Sano') {
+                                                                    $healthy++;
+                                                                } elseif (!empty($status)) {
+                                                                    $withIssues++;
+                                                                }
+                                                            }
+                                                    ?>
+                                                    <div>
+                                                        <span class="badge bg-soft-secondary text-secondary">
+                                                            <i class="mdi mdi-tooth me-1"></i>
+                                                            <?php echo $totalTeeth; ?> dientes
+                                                        </span>
+                                                        <?php if ($healthy > 0): ?>
+                                                        <div class="mt-1">
+                                                            <span class="badge bg-soft-success text-success">
+                                                                <i class="mdi mdi-check-circle me-1"></i>
+                                                                <?php echo $healthy; ?> sanos
+                                                            </span>
+                                                        </div>
+                                                        <?php endif; ?>
+                                                        <?php if ($withIssues > 0): ?>
+                                                        <div class="mt-1">
+                                                            <span class="badge bg-soft-warning text-warning">
+                                                                <i class="mdi mdi-alert me-1"></i>
+                                                                <?php echo $withIssues; ?> con problemas
+                                                            </span>
+                                                        </div>
+                                                        <?php endif; ?>
+                                                    </div>
                                                     <?php } else { ?>
-                                                    <span class="text-muted">Sin datos</span>
+                                                    <span class="text-muted">
+                                                        <i class="mdi mdi-alert-circle-outline me-1"></i>
+                                                        Sin datos
+                                                    </span>
                                                     <?php } ?>
                                                 </td>
-                                                <td class="text-nowrap">
-                                                    <!-- Botón Ver/Editar -->
-                                                    <a href="pages-upd-historial-clinico?id=<?php echo $historial->id ?>"
-                                                        class="btn btn-sm btn-outline-info rounded-pill mb-1"
-                                                        title="Editar historial">
-                                                        <i class="uil-eye"></i> Ver
-                                                    </a>
+                                                <td class="text-center">
+                                                    <div class="btn-group-vertical" role="group">
+                                                        <!-- Botón Ver/Editar -->
+                                                        <a href="pages-upd-historial-clinico?id=<?php echo $historial->id ?>"
+                                                            class="btn btn-sm btn-info mb-1"
+                                                            data-bs-toggle="tooltip"
+                                                            data-bs-placement="top"
+                                                            title="Ver y editar historial">
+                                                            <i class="mdi mdi-eye"></i> Ver
+                                                        </a>
 
-                                                    <!-- Botón Eliminar -->
-                                                    <form action="delete-historial-clinico" method="POST"
-                                                        style="display:inline-block;"
-                                                        onsubmit="return confirm('¿Estás seguro de que deseas eliminar este historial clínico?\n\nPaciente: <?php echo htmlspecialchars($historial->patient_name . ' ' . $historial->patient_lastname); ?>\nNº Historia: <?php echo htmlspecialchars($historial->history_number ?? 'N/A'); ?>');">
-                                                        <input type="hidden" name="id"
-                                                            value="<?php echo $historial->id; ?>">
-                                                        <button type="submit"
-                                                            class="btn btn-sm btn-outline-danger rounded-pill mb-1"
-                                                            title="Eliminar historial">
-                                                            <i class="uil-trash-alt"></i> Eliminar
-                                                        </button>
-                                                    </form>
+                                                        <!-- Botón Descargar PDF -->
+                                                        <a href="download-historial-pdf?id=<?php echo $historial->id; ?>"
+                                                            class="btn btn-sm btn-success mb-1"
+                                                            data-bs-toggle="tooltip"
+                                                            data-bs-placement="top"
+                                                            title="Descargar historial en PDF">
+                                                            <i class="mdi mdi-download"></i> PDF
+                                                        </a>
 
-                                                    <!-- Botón Descargar PDF -->
-                                                    <a href="download-historial-pdf?id=<?php echo $historial->id; ?>"
-                                                        class="btn btn-sm btn-outline-success rounded-pill mb-1"
-                                                        title="Descargar historial en PDF">
-                                                        <i class="uil-download-alt"></i> Descargar
-                                                    </a>
+                                                        <!-- Botón Eliminar -->
+                                                        <form action="delete-historial-clinico" method="POST"
+                                                            style="display:inline-block;"
+                                                            onsubmit="return confirm('⚠️ ¿Está seguro de eliminar este historial clínico?\n\nPaciente: <?php echo htmlspecialchars($historial->patient_name . ' ' . $historial->patient_lastname); ?>\nNº Historia: <?php echo htmlspecialchars($historial->history_number ?? 'N/A'); ?>\n\n⚠️ ADVERTENCIA: Esta acción no se puede deshacer.');">
+                                                            <input type="hidden" name="id"
+                                                                value="<?php echo $historial->id; ?>">
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-danger"
+                                                                data-bs-toggle="tooltip"
+                                                                data-bs-placement="top"
+                                                                title="Eliminar historial">
+                                                                <i class="mdi mdi-delete"></i> Eliminar
+                                                            </button>
+                                                        </form>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <?php endforeach; ?>
@@ -251,18 +330,15 @@
                                     </table>
 
                                     <script>
-                                    // Función para ver detalles del historial (opcional)
-                                    function viewHistorialDetails(id) {
-                                        // Opción 1: Abrir en modal
-                                        // $('#historialModal').modal('show');
-                                        // cargarDatosHistorial(id);
+                                    // Inicializar tooltips de Bootstrap
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+                                        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                                            return new bootstrap.Tooltip(tooltipTriggerEl)
+                                        });
 
-                                        // Opción 2: Abrir en nueva pestaña (solo lectura)
-                                        window.open('view-historial-clinico?id=' + id, '_blank');
-
-                                        // Opción 3: Redirigir a página de detalles
-                                        // window.location.href = 'view-historial-clinico?id=' + id;
-                                    }
+                                        
+                                    });
                                     </script>
 
                                     <style>
