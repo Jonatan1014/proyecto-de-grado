@@ -1,156 +1,204 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" class="no-js">
 
 <head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>404 - MediNest Bootstrap Template</title>
+    <!-- Mobile Specific Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="img/fav.png">
+    <!-- Author Meta -->
+    <meta name="author" content="CodePixar">
+    <!-- Meta Description -->
     <meta name="description" content="">
+    <!-- Meta Keyword -->
     <meta name="keywords" content="">
-
-    <!-- Favicons -->
-    <link href="assets/img/favicon.png" rel="icon">
-    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com" rel="preconnect">
-    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
-        rel="stylesheet">
-
-    <!-- Vendor CSS Files -->
-    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-    <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
-    <!-- Main CSS File -->
-    <link href="assets/css/main.css" rel="stylesheet">
-
-    <!-- =======================================================
-  * Template Name: MediNest
-  * Template URL: https://bootstrapmade.com/medinest-bootstrap-hospital-template/
-  * Updated: Aug 11 2025 with Bootstrap v5.3.7
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+    <!-- meta character set -->
+    <meta charset="UTF-8">
+    <!-- Site Title -->
+    <title>Página No Encontrada - Karma Shop</title>
+    <!--
+		CSS
+		============================================= -->
+    <link rel="stylesheet" href="css/linearicons.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/themify-icons.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/owl.carousel.css">
+    <link rel="stylesheet" href="css/nice-select.css">
+    <link rel="stylesheet" href="css/nouislider.min.css">
+    <link rel="stylesheet" href="css/ion.rangeSlider.css" />
+    <link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css" />
+    <link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="css/main.css">
+    
+    <style>
+        .error-404-area {
+            padding: 100px 0;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+        }
+        .error-404-content {
+            text-align: center;
+        }
+        .error-404-content h1 {
+            font-size: 150px;
+            font-weight: 700;
+            color: #ffba00;
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+        .error-404-content h2 {
+            font-size: 36px;
+            font-weight: 600;
+            color: #222;
+            margin-bottom: 20px;
+        }
+        .error-404-content p {
+            font-size: 16px;
+            color: #777;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .error-404-links {
+            list-style: none;
+            padding: 0;
+            margin: 30px 0;
+        }
+        .error-404-links li {
+            display: inline-block;
+            margin: 0 15px;
+        }
+        .error-404-links li a {
+            color: #222;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .error-404-links li a:hover {
+            color: #ffba00;
+        }
+        .error-404-icon {
+            font-size: 80px;
+            color: #ffba00;
+            margin-bottom: 30px;
+        }
+        .primary-btn {
+            background: #ffba00;
+            color: #222;
+            padding: 12px 40px;
+            border-radius: 0;
+            font-weight: 600;
+            text-transform: uppercase;
+            display: inline-block;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .primary-btn:hover {
+            background: #222;
+            color: #fff;
+            text-decoration: none;
+        }
+        .secondary-btn {
+            background: #222;
+            color: #fff;
+            padding: 12px 40px;
+            border-radius: 0;
+            font-weight: 600;
+            text-transform: uppercase;
+            display: inline-block;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .secondary-btn:hover {
+            background: #ffba00;
+            color: #222;
+            text-decoration: none;
+        }
+    </style>
 </head>
 
-<body class="page-404">
+<body>
 
+    <!-- Start Header Area -->
     <?php include 'includes/header.php'; ?>
+    <!-- End Header Area -->
 
-    <main class="main">
+    <!-- Start Banner Area -->
+    <section class="banner-area organic-breadcrumb">
+        <div class="container">
+            <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+                <div class="col-first">
+                    <h1>Error 404</h1>
+                    <nav class="d-flex align-items-center">
+                        <a href="home">Inicio<span class="lnr lnr-arrow-right"></span></a>
+                        <a href="#">Página No Encontrada</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Banner Area -->
 
-        <!-- Page Title -->
-        <div class="page-title">
-            <div class="heading">
-                <div class="container">
-                    <div class="row d-flex justify-content-center text-center">
-                        <div class="col-lg-8">
-                            <h1 class="heading-title">404</h1>
-                            <p class="mb-0">
-                                Odio et unde deleniti. Deserunt numquam exercitationem. Officiis quo
-                                odio sint voluptas consequatur ut a odio voluptatem. Sit dolorum
-                                debitis veritatis natus dolores. Quasi ratione sint. Sit quaerat
-                                ipsum dolorem.
+    <!-- Start 404 Error Area -->
+    <section class="error-404-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="error-404-content">
+                        <div class="error-404-icon">
+                            <i class="fa fa-exclamation-triangle"></i>
+                        </div>
+                        <h1>404</h1>
+                        <h2>¡Oops! Página No Encontrada</h2>
+                        <p>
+                            Lo sentimos, la página que estás buscando no existe o ha sido movida.
+                            Puede que haya sido eliminada, el nombre haya cambiado o no esté disponible temporalmente.
+                        </p>
+                        
+                       
+
+                        <ul class="error-404-links">
+                            <li><a href="home"><i class="fa fa-home"></i> Inicio</a></li>
+                            <li><a href="category"><i class="fa fa-th"></i> Productos</a></li>
+                            <li><a href="contact"><i class="fa fa-envelope"></i> Contacto</a></li>
+                        </ul>
+
+                        <div style="margin-top: 40px;">
+                            <h5 style="color: #222; margin-bottom: 15px;">¿Necesitas ayuda?</h5>
+                            <p style="color: #777; font-size: 14px;">
+                                Si crees que esto es un error, por favor contáctanos o intenta buscar el producto que necesitas.
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
-            <nav class="breadcrumbs">
-                <div class="container">
-                    <ol>
-                        <li><a href="home">Home</a></li>
-                        <li class="current">404</li>
-                    </ol>
-                </div>
-            </nav>
-        </div><!-- End Page Title -->
+        </div>
+    </section>
+    <!-- End 404 Error Area -->
 
-        <!-- Error 404 Section -->
-        <section id="error-404" class="error-404 section">
-
-            <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-                <div class="error-wrapper">
-                    <div class="row align-items-center">
-                        <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
-                            <div class="error-illustration">
-                                <i class="bi bi-exclamation-triangle-fill"></i>
-                                <div class="circle circle-1"></div>
-                                <div class="circle circle-2"></div>
-                                <div class="circle circle-3"></div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6" data-aos="fade-left" data-aos-delay="300">
-                            <div class="error-content">
-                                <span class="error-badge" data-aos="zoom-in" data-aos-delay="400">Error</span>
-                                <h1 class="error-code" data-aos="fade-up" data-aos-delay="500">404</h1>
-                                <h2 class="error-title" data-aos="fade-up" data-aos-delay="600">Page Not Found</h2>
-                                <p class="error-description" data-aos="fade-up" data-aos-delay="700">
-                                    The page you are looking for might have been removed, had its name changed, or is
-                                    temporarily unavailable.
-                                </p>
-
-                                <div class="error-actions" data-aos="fade-up" data-aos-delay="800">
-                                    <a href="/" class="btn-home">
-                                        <i class="bi bi-house-door"></i> Back to Home
-                                    </a>
-                                    <a href="#" class="btn-help">
-                                        <i class="bi bi-question-circle"></i> Help Center
-                                    </a>
-                                </div>
-
-                                <div class="error-suggestions" data-aos="fade-up" data-aos-delay="900">
-                                    <h3>You might want to:</h3>
-                                    <ul>
-                                        <li><a href="#"><i class="bi bi-arrow-right-circle"></i> Check our sitemap</a>
-                                        </li>
-                                        <li><a href="#"><i class="bi bi-arrow-right-circle"></i> Contact support</a>
-                                        </li>
-                                        <li><a href="#"><i class="bi bi-arrow-right-circle"></i> Return to previous
-                                                page</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </section><!-- /Error 404 Section -->
-
-    </main>
-
+    <!-- Start Footer Area -->
     <?php include 'includes/footer.php'; ?>
+    <!-- End Footer Area -->
 
-
-    <!-- Scroll Top -->
-    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
-            class="bi bi-arrow-up-short"></i></a>
-
-    <!-- Preloader -->
-    <div id="preloader"></div>
-
-    <!-- Vendor JS Files -->
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
-    <script src="assets/vendor/aos/aos.js"></script>
-    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-    <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
-    <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-
-    <!-- Main JS File -->
-    <script src="assets/js/main.js"></script>
-
+    <script src="js/vendor/jquery-2.2.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+    <script src="js/vendor/bootstrap.min.js"></script>
+    <script src="js/jquery.ajaxchimp.min.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
+    <script src="js/jquery.sticky.js"></script>
+    <script src="js/nouislider.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <!--gmaps Js-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDV4HDjejU"></script>
+    <script src="js/gmaps.min.js"></script>
+    <script src="js/main.js"></script>
 </body>
 
 </html>

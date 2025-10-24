@@ -2,6 +2,7 @@
 // src/app/Services/AuthService.php
 
 require_once __DIR__ . '/../Models/User.php';
+require_once __DIR__ . '/../Models/Carrito.php';
 
 class AuthService {
 
@@ -12,12 +13,25 @@ class AuthService {
             if (session_status() === PHP_SESSION_NONE) {
                 session_start();
             }
+            
+            // Guardar carrito temporal si existe
+            $carritoTempId = $_SESSION['carrito_temp_id'] ?? null;
+            
             $_SESSION['user'] = [
                 'id' => $user->id,
                 'username' => $user->username,
                 'email' => $user->email,
                 'role' => $user->role
             ];
+            
+            $_SESSION['usuario_id'] = $user->id;
+            
+            // Migrar carrito temporal al usuario logueado
+            if ($carritoTempId) {
+                Carrito::migrarCarritoTemporal($carritoTempId, $user->id);
+                unset($_SESSION['carrito_temp_id']);
+            }
+            
             return true;
         }
 

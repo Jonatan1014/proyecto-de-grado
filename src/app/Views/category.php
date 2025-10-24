@@ -1,838 +1,651 @@
+<?php 
+
+// Función para verificar si un filtro está activo
+function filtroActivo($nombre, $valor) {
+    return isset($_GET[$nombre]) && $_GET[$nombre] == $valor;
+}
+
+// Función para construir URL con filtros
+function construirUrlFiltro($nuevosParams) {
+    $params = $_GET;
+    foreach ($nuevosParams as $key => $value) {
+        if ($value === null || $value === '') {
+            unset($params[$key]);
+        } else {
+            $params[$key] = $value;
+        }
+    }
+    return 'category' . (count($params) > 0 ? '?' . http_build_query($params) : '');
+}
+?>
 <!DOCTYPE html>
-<html lang="zxx" class="no-js">
+<html lang="es" class="no-js">
 
-
-<!-- Mirrored from themewagon.github.io/karma/category.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 23 Oct 2025 15:43:51 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 <head>
-	<!-- Mobile Specific Meta -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<!-- Favicon-->
-	<link rel="shortcut icon" href="img/fav.png">
-	<!-- Author Meta -->
-	<meta name="author" content="CodePixar">
-	<!-- Meta Description -->
-	<meta name="description" content="">
-	<!-- Meta Keyword -->
-	<meta name="keywords" content="">
-	<!-- meta character set -->
-	<meta charset="UTF-8">
-	<!-- Site Title -->
-	<title>Karma Shop</title>
+    <!-- Mobile Specific Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="img/fav.png">
+    <!-- Author Meta -->
+    <meta name="author" content="Tennis y Fragancias">
+    <!-- Meta Description -->
+    <meta name="description" content="Catálogo de calzado deportivo y casual">
+    <!-- Meta Keyword -->
+    <meta name="keywords" content="zapatos, tenis, calzado, deportivo">
+    <!-- meta character set -->
+    <meta charset="UTF-8">
+    <!-- Site Title -->
+    <title>Catálogo de Productos - Tennis y Fragancias</title>
 
-	<!--
+    <!--
             CSS
             ============================================= -->
-	<link rel="stylesheet" href="css/linearicons.css">
-	<link rel="stylesheet" href="css/owl.carousel.css">
-	<link rel="stylesheet" href="css/font-awesome.min.css">
-	<link rel="stylesheet" href="css/themify-icons.css">
-	<link rel="stylesheet" href="css/nice-select.css">
-	<link rel="stylesheet" href="css/nouislider.min.css">
-	<link rel="stylesheet" href="css/bootstrap.css">
-	<link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/linearicons.css">
+    <link rel="stylesheet" href="css/owl.carousel.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/themify-icons.css">
+    <link rel="stylesheet" href="css/nice-select.css">
+    <link rel="stylesheet" href="css/nouislider.min.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/main.css">
 </head>
 
 <body id="category">
 
-	<!-- Start Header Area -->
-	<header class="header_area sticky-header">
-		<div class="main_menu">
-			<nav class="navbar navbar-expand-lg navbar-light main_box">
-				<div class="container">
-					<!-- Brand and toggle get grouped for better mobile display -->
-					<a class="navbar-brand logo_h" href="index.html"><img src="img/logo.png" alt=""></a>
-					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-					 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<!-- Collect the nav links, forms, and other content for toggling -->
-					<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
-						<ul class="nav navbar-nav menu_nav ml-auto">
-							<li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-							<li class="nav-item submenu dropdown active">
-								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-								 aria-expanded="false">Shop</a>
-								<ul class="dropdown-menu">
-									<li class="nav-item active"><a class="nav-link" href="category.html">Shop Category</a></li>
-									<li class="nav-item"><a class="nav-link" href="single-product.html">Product Details</a></li>
-									<li class="nav-item"><a class="nav-link" href="checkout.html">Product Checkout</a></li>
-									<li class="nav-item"><a class="nav-link" href="cart.html">Shopping Cart</a></li>
-									<li class="nav-item"><a class="nav-link" href="confirmation.html">Confirmation</a></li>
-								</ul>
-							</li>
-							<li class="nav-item submenu dropdown">
-								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-								 aria-expanded="false">Blog</a>
-								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
-									<li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
-								</ul>
-							</li>
-							<li class="nav-item submenu dropdown">
-								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-								 aria-expanded="false">Pages</a>
-								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-									<li class="nav-item"><a class="nav-link" href="tracking.html">Tracking</a></li>
-									<li class="nav-item"><a class="nav-link" href="elements.html">Elements</a></li>
-								</ul>
-							</li>
-							<li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-						</ul>
-						<ul class="nav navbar-nav navbar-right">
-							<li class="nav-item"><a href="#" class="cart"><span class="ti-bag"></span></a></li>
-							<li class="nav-item">
-								<button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</nav>
-		</div>
-		<div class="search_input" id="search_input_box">
-			<div class="container">
-				<form class="d-flex justify-content-between">
-					<input type="text" class="form-control" id="search_input" placeholder="Search Here">
-					<button type="submit" class="btn"></button>
-					<span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
-				</form>
-			</div>
-		</div>
-	</header>
-	<!-- End Header Area -->
+    <!-- Start Header Area -->
+    <?php include 'includes/header.php'; ?>
+    <!-- End Header Area -->
 
-	<!-- Start Banner Area -->
-	<section class="banner-area organic-breadcrumb">
-		<div class="container">
-			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
-				<div class="col-first">
-					<h1>Shop Category page</h1>
-					<nav class="d-flex align-items-center">
-						<a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-						<a href="#">Shop<span class="lnr lnr-arrow-right"></span></a>
-						<a href="category.html">Fashon Category</a>
-					</nav>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- End Banner Area -->
-	<div class="container">
-		<div class="row">
-			<div class="col-xl-3 col-lg-4 col-md-5">
-				<div class="sidebar-categories">
-					<div class="head">Browse Categories</div>
-					<ul class="main-categories">
-						<li class="main-nav-list"><a data-toggle="collapse" href="#fruitsVegetable" aria-expanded="false" aria-controls="fruitsVegetable"><span
-								 class="lnr lnr-arrow-right"></span>Fruits and Vegetables<span class="number">(53)</span></a>
-							<ul class="collapse" id="fruitsVegetable" data-toggle="collapse" aria-expanded="false" aria-controls="fruitsVegetable">
-								<li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Meat<span class="number">(11)</span></a></li>
-							</ul>
-						</li>
+    <!-- Start Banner Area -->
+    <section class="banner-area organic-breadcrumb">
+        <div class="container">
+            <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+                <div class="col-first">
+                    <h1>Catálogo de Calzado</h1>
+                    <nav class="d-flex align-items-center">
+                        <a href="home">Inicio<span class="lnr lnr-arrow-right"></span></a>
+                        <a href="category">Catálogo</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Banner Area -->
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-3 col-lg-4 col-md-5">
+                <!-- Barra de Búsqueda -->
+                <div class="sidebar-categories mb-4">
+                    <div class="head">Buscar Productos</div>
+                    <form action="category" method="GET" class="search-form">
+                        <div class="input-group">
+                            <input type="text" name="q" class="form-control" placeholder="Buscar calzado..."
+                                value="<?php echo htmlspecialchars($filtros['busqueda'] ?? ''); ?>">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <?php foreach($_GET as $key => $value): ?>
+                        <?php if($key != 'q' && $key != 'pagina'): ?>
+                        <input type="hidden" name="<?php echo htmlspecialchars($key); ?>"
+                            value="<?php echo htmlspecialchars($value); ?>">
+                        <?php endif; ?>
+                        <?php endforeach; ?>
+                    </form>
+                </div>
 
-						<li class="main-nav-list"><a data-toggle="collapse" href="#meatFish" aria-expanded="false" aria-controls="meatFish"><span
-								 class="lnr lnr-arrow-right"></span>Meat and Fish<span class="number">(53)</span></a>
-							<ul class="collapse" id="meatFish" data-toggle="collapse" aria-expanded="false" aria-controls="meatFish">
-								<li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Meat<span class="number">(11)</span></a></li>
-							</ul>
-						</li>
-						<li class="main-nav-list"><a data-toggle="collapse" href="#cooking" aria-expanded="false" aria-controls="cooking"><span
-								 class="lnr lnr-arrow-right"></span>Cooking<span class="number">(53)</span></a>
-							<ul class="collapse" id="cooking" data-toggle="collapse" aria-expanded="false" aria-controls="cooking">
-								<li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Meat<span class="number">(11)</span></a></li>
-							</ul>
-						</li>
-						<li class="main-nav-list"><a data-toggle="collapse" href="#beverages" aria-expanded="false" aria-controls="beverages"><span
-								 class="lnr lnr-arrow-right"></span>Beverages<span class="number">(24)</span></a>
-							<ul class="collapse" id="beverages" data-toggle="collapse" aria-expanded="false" aria-controls="beverages">
-								<li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Meat<span class="number">(11)</span></a></li>
-							</ul>
-						</li>
-						<li class="main-nav-list"><a data-toggle="collapse" href="#homeClean" aria-expanded="false" aria-controls="homeClean"><span
-								 class="lnr lnr-arrow-right"></span>Home and Cleaning<span class="number">(53)</span></a>
-							<ul class="collapse" id="homeClean" data-toggle="collapse" aria-expanded="false" aria-controls="homeClean">
-								<li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Meat<span class="number">(11)</span></a></li>
-							</ul>
-						</li>
-						<li class="main-nav-list"><a href="#">Pest Control<span class="number">(24)</span></a></li>
-						<li class="main-nav-list"><a data-toggle="collapse" href="#officeProduct" aria-expanded="false" aria-controls="officeProduct"><span
-								 class="lnr lnr-arrow-right"></span>Office Products<span class="number">(77)</span></a>
-							<ul class="collapse" id="officeProduct" data-toggle="collapse" aria-expanded="false" aria-controls="officeProduct">
-								<li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Meat<span class="number">(11)</span></a></li>
-							</ul>
-						</li>
-						<li class="main-nav-list"><a data-toggle="collapse" href="#beauttyProduct" aria-expanded="false" aria-controls="beauttyProduct"><span
-								 class="lnr lnr-arrow-right"></span>Beauty Products<span class="number">(65)</span></a>
-							<ul class="collapse" id="beauttyProduct" data-toggle="collapse" aria-expanded="false" aria-controls="beauttyProduct">
-								<li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Meat<span class="number">(11)</span></a></li>
-							</ul>
-						</li>
-						<li class="main-nav-list"><a data-toggle="collapse" href="#healthProduct" aria-expanded="false" aria-controls="healthProduct"><span
-								 class="lnr lnr-arrow-right"></span>Health Products<span class="number">(29)</span></a>
-							<ul class="collapse" id="healthProduct" data-toggle="collapse" aria-expanded="false" aria-controls="healthProduct">
-								<li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Meat<span class="number">(11)</span></a></li>
-							</ul>
-						</li>
-						<li class="main-nav-list"><a href="#">Pet Care<span class="number">(29)</span></a></li>
-						<li class="main-nav-list"><a data-toggle="collapse" href="#homeAppliance" aria-expanded="false" aria-controls="homeAppliance"><span
-								 class="lnr lnr-arrow-right"></span>Home Appliances<span class="number">(15)</span></a>
-							<ul class="collapse" id="homeAppliance" data-toggle="collapse" aria-expanded="false" aria-controls="homeAppliance">
-								<li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Meat<span class="number">(11)</span></a></li>
-							</ul>
-						</li>
-						<li class="main-nav-list"><a class="border-bottom-0" data-toggle="collapse" href="#babyCare" aria-expanded="false"
-							 aria-controls="babyCare"><span class="lnr lnr-arrow-right"></span>Baby Care<span class="number">(48)</span></a>
-							<ul class="collapse" id="babyCare" data-toggle="collapse" aria-expanded="false" aria-controls="babyCare">
-								<li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-								<li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-								<li class="main-nav-list child"><a href="#" class="border-bottom-0">Meat<span class="number">(11)</span></a></li>
-							</ul>
-						</li>
-					</ul>
-				</div>
-				<div class="sidebar-filter mt-50">
-					<div class="top-filter-head">Product Filters</div>
-					<div class="common-filter">
-						<div class="head">Brands</div>
-						<form action="#">
-							<ul>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="apple" name="brand"><label for="apple">Apple<span>(29)</span></label></li>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="asus" name="brand"><label for="asus">Asus<span>(29)</span></label></li>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="gionee" name="brand"><label for="gionee">Gionee<span>(19)</span></label></li>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="micromax" name="brand"><label for="micromax">Micromax<span>(19)</span></label></li>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="samsung" name="brand"><label for="samsung">Samsung<span>(19)</span></label></li>
-							</ul>
-						</form>
-					</div>
-					<div class="common-filter">
-						<div class="head">Color</div>
-						<form action="#">
-							<ul>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="black" name="color"><label for="black">Black<span>(29)</span></label></li>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="balckleather" name="color"><label for="balckleather">Black
-										Leather<span>(29)</span></label></li>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="blackred" name="color"><label for="blackred">Black
-										with red<span>(19)</span></label></li>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="gold" name="color"><label for="gold">Gold<span>(19)</span></label></li>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="spacegrey" name="color"><label for="spacegrey">Spacegrey<span>(19)</span></label></li>
-							</ul>
-						</form>
-					</div>
-					<div class="common-filter">
-						<div class="head">Price</div>
-						<div class="price-range-area">
-							<div id="price-range"></div>
-							<div class="value-wrapper d-flex">
-								<div class="price">Price:</div>
-								<span>$</span>
-								<div id="lower-value"></div>
-								<div class="to">to</div>
-								<span>$</span>
-								<div id="upper-value"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-xl-9 col-lg-8 col-md-7">
-				<!-- Start Filter Bar -->
-				<div class="filter-bar d-flex flex-wrap align-items-center">
-					<div class="sorting">
-						<select>
-							<option value="1">Default sorting</option>
-							<option value="1">Default sorting</option>
-							<option value="1">Default sorting</option>
-						</select>
-					</div>
-					<div class="sorting mr-auto">
-						<select>
-							<option value="1">Show 12</option>
-							<option value="1">Show 12</option>
-							<option value="1">Show 12</option>
-						</select>
-					</div>
-					<div class="pagination">
-						<a href="#" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
-						<a href="#" class="active">1</a>
-						<a href="#">2</a>
-						<a href="#">3</a>
-						<a href="#" class="dot-dot"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a>
-						<a href="#">6</a>
-						<a href="#" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
-					</div>
-				</div>
-				<!-- End Filter Bar -->
-				<!-- Start Best Seller -->
-				<section class="lattest-product-area pb-40 category-list">
-					<div class="row">
-						<!-- single product -->
-						<div class="col-lg-4 col-md-6">
-							<div class="single-product">
-								<img class="img-fluid" src="img/product/p1.jpg" alt="">
-								<div class="product-details">
-									<h6>addidas New Hammer sole
-										for Sports person</h6>
-									<div class="price">
-										<h6>$150.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-									<div class="prd-bottom">
+                <!-- Categorías -->
+                <div class="sidebar-categories">
+                    <div class="head">Categorías</div>
+                    <ul class="main-categories">
+                        <li class="main-nav-list">
+                            <a href="<?php echo construirUrlFiltro(['categoria' => null, 'pagina' => null]); ?>"
+                                class="<?php echo !isset($filtros['categoria_id']) || $filtros['categoria_id'] === null ? 'active' : ''; ?>">
+                                Todas las categorías
+                            </a>
+                        </li>
+                        <?php if (!empty($categorias)): ?>
+                        <?php foreach($categorias as $categoria): ?>
+                        <li class="main-nav-list">
+                            <a href="<?php echo construirUrlFiltro(['categoria' => $categoria['id'], 'pagina' => null]); ?>"
+                                class="<?php echo filtroActivo('categoria', $categoria['id']) ? 'active' : ''; ?>">
+                                <?php echo htmlspecialchars($categoria['nombre']); ?>
+                                <span class="number">(<?php echo $categoria['total_productos'] ?? 0; ?>)</span>
+                            </a>
+                        </li>
+                        <?php endforeach; ?>
+                        <?php else: ?>
+                        <li class="main-nav-list">
+                            <a href="#">No hay categorías disponibles</a>
+                        </li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
 
-										<a href="#" class="social-info">
-											<span class="ti-bag"></span>
-											<p class="hover-text">add to bag</p>
-										</a>
-										<a href="#" class="social-info">
-											<span class="lnr lnr-heart"></span>
-											<p class="hover-text">Wishlist</p>
-										</a>
-										<a href="#" class="social-info">
-											<span class="lnr lnr-sync"></span>
-											<p class="hover-text">compare</p>
-										</a>
-										<a href="#" class="social-info">
-											<span class="lnr lnr-move"></span>
-											<p class="hover-text">view more</p>
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- single product -->
-						<div class="col-lg-4 col-md-6">
-							<div class="single-product">
-								<img class="img-fluid" src="img/product/p2.jpg" alt="">
-								<div class="product-details">
-									<h6>addidas New Hammer sole
-										for Sports person</h6>
-									<div class="price">
-										<h6>$150.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-									<div class="prd-bottom">
+                <!-- Filtros -->
+                <div class="sidebar-filter mt-50">
+                    <div class="top-filter-head">Filtros de Productos</div>
 
-										<a href="#" class="social-info">
-											<span class="ti-bag"></span>
-											<p class="hover-text">add to bag</p>
-										</a>
-										<a href="#" class="social-info">
-											<span class="lnr lnr-heart"></span>
-											<p class="hover-text">Wishlist</p>
-										</a>
-										<a href="#" class="social-info">
-											<span class="lnr lnr-sync"></span>
-											<p class="hover-text">compare</p>
-										</a>
-										<a href="#" class="social-info">
-											<span class="lnr lnr-move"></span>
-											<p class="hover-text">view more</p>
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- single product -->
-						<div class="col-lg-4 col-md-6">
-							<div class="single-product">
-								<img class="img-fluid" src="img/product/p3.jpg" alt="">
-								<div class="product-details">
-									<h6>addidas New Hammer sole
-										for Sports person</h6>
-									<div class="price">
-										<h6>$150.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-									<div class="prd-bottom">
+                    <!-- Marcas -->
+                    <?php if (!empty($marcas)): ?>
+                    <div class="common-filter">
+                        <div class="head">Marcas</div>
+                        <ul>
+                            <?php foreach($marcas as $marca): ?>
+                            <li class="filter-list">
+                                <a href="<?php echo construirUrlFiltro(['marca' => $marca['id'], 'pagina' => null]); ?>"
+                                    class="<?php echo filtroActivo('marca', $marca['id']) ? 'active' : ''; ?>">
+                                    <?php echo htmlspecialchars($marca['nombre']); ?>
+                                    <span class="badge badge-secondary"><?php echo $marca['total_productos'] ?? 0; ?></span>
+                                </a>
+                            </li>
+                            <?php endforeach; ?>
+                        </ul>
+                        <?php if(isset($filtros['marca_id']) && $filtros['marca_id']): ?>
+                        <a href="<?php echo construirUrlFiltro(['marca' => null, 'pagina' => null]); ?>"
+                            class="btn btn-sm btn-outline-secondary mt-2">
+                            <i class="fa fa-times"></i> Limpiar marca
+                        </a>
+                        <?php endif; ?>
+                    </div>
+                    <?php endif; ?>
 
-										<a href="#" class="social-info">
-											<span class="ti-bag"></span>
-											<p class="hover-text">add to bag</p>
-										</a>
-										<a href="#" class="social-info">
-											<span class="lnr lnr-heart"></span>
-											<p class="hover-text">Wishlist</p>
-										</a>
-										<a href="#" class="social-info">
-											<span class="lnr lnr-sync"></span>
-											<p class="hover-text">compare</p>
-										</a>
-										<a href="#" class="social-info">
-											<span class="lnr lnr-move"></span>
-											<p class="hover-text">view more</p>
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- single product -->
-						<div class="col-lg-4 col-md-6">
-							<div class="single-product">
-								<img class="img-fluid" src="img/product/p4.jpg" alt="">
-								<div class="product-details">
-									<h6>addidas New Hammer sole
-										for Sports person</h6>
-									<div class="price">
-										<h6>$150.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-									<div class="prd-bottom">
+                    <!-- Género -->
+                    <?php if (!empty($generos)): ?>
+                    <div class="common-filter">
+                        <div class="head">Género</div>
+                        <ul>
+                            <?php foreach($generos as $genero): ?>
+                            <li class="filter-list">
+                                <a href="<?php echo construirUrlFiltro(['genero' => $genero['id'], 'pagina' => null]); ?>"
+                                    class="<?php echo filtroActivo('genero', $genero['id']) ? 'active' : ''; ?>">
+                                    <?php echo htmlspecialchars($genero['nombre']); ?>
+                                    <span class="badge badge-secondary"><?php echo $genero['total_productos'] ?? 0; ?></span>
+                                </a>
+                            </li>
+                            <?php endforeach; ?>
+                        </ul>
+                        <?php if(isset($filtros['genero_id']) && $filtros['genero_id']): ?>
+                        <a href="<?php echo construirUrlFiltro(['genero' => null, 'pagina' => null]); ?>"
+                            class="btn btn-sm btn-outline-secondary mt-2">
+                            <i class="fa fa-times"></i> Limpiar género
+                        </a>
+                        <?php endif; ?>
+                    </div>
+                    <?php endif; ?>
 
-										<a href="#" class="social-info">
-											<span class="ti-bag"></span>
-											<p class="hover-text">add to bag</p>
-										</a>
-										<a href="#" class="social-info">
-											<span class="lnr lnr-heart"></span>
-											<p class="hover-text">Wishlist</p>
-										</a>
-										<a href="#" class="social-info">
-											<span class="lnr lnr-sync"></span>
-											<p class="hover-text">compare</p>
-										</a>
-										<a href="#" class="social-info">
-											<span class="lnr lnr-move"></span>
-											<p class="hover-text">view more</p>
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- single product -->
-						<div class="col-lg-4 col-md-6">
-							<div class="single-product">
-								<img class="img-fluid" src="img/product/p5.jpg" alt="">
-								<div class="product-details">
-									<h6>addidas New Hammer sole
-										for Sports person</h6>
-									<div class="price">
-										<h6>$150.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-									<div class="prd-bottom">
+                    <!-- Tallas -->
+                    <?php if (!empty($tallas)): ?>
+                    <div class="common-filter">
+                        <div class="head">Tallas</div>
+                        <ul class="tallas-grid">
+                            <?php foreach($tallas as $talla): ?>
+                            <li class="filter-list-inline">
+                                <a href="<?php echo construirUrlFiltro(['talla' => $talla['id'], 'pagina' => null]); ?>"
+                                    class="btn btn-sm <?php echo filtroActivo('talla', $talla['id']) ? 'btn-primary' : 'btn-outline-primary'; ?>"
+                                    title="<?php echo $talla['total_productos'] ?? 0; ?> producto(s) disponible(s)">
+                                    <?php echo htmlspecialchars($talla['nombre']); ?>
+                                    <?php if (filtroActivo('talla', $talla['id'])): ?>
+                                    <span class="badge badge-light ml-1"><?php echo $talla['total_productos'] ?? 0; ?></span>
+                                    <?php endif; ?>
+                                </a>
+                            </li>
+                            <?php endforeach; ?>
+                        </ul>
+                        <?php if(isset($filtros['talla_id']) && $filtros['talla_id']): ?>
+                        <a href="<?php echo construirUrlFiltro(['talla' => null, 'pagina' => null]); ?>"
+                            class="btn btn-sm btn-outline-secondary mt-2">
+                            <i class="fa fa-times"></i> Limpiar talla
+                        </a>
+                        <?php endif; ?>
+                    </div>
+                    <?php endif; ?>
 
-										<a href="#" class="social-info">
-											<span class="ti-bag"></span>
-											<p class="hover-text">add to bag</p>
-										</a>
-										<a href="#" class="social-info">
-											<span class="lnr lnr-heart"></span>
-											<p class="hover-text">Wishlist</p>
-										</a>
-										<a href="#" class="social-info">
-											<span class="lnr lnr-sync"></span>
-											<p class="hover-text">compare</p>
-										</a>
-										<a href="#" class="social-info">
-											<span class="lnr lnr-move"></span>
-											<p class="hover-text">view more</p>
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- single product -->
-						<div class="col-lg-4 col-md-6">
-							<div class="single-product">
-								<img class="img-fluid" src="img/product/p6.jpg" alt="">
-								<div class="product-details">
-									<h6>addidas New Hammer sole
-										for Sports person</h6>
-									<div class="price">
-										<h6>$150.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-									<div class="prd-bottom">
+                    <!-- Colores -->
+                    <?php if (!empty($colores)): ?>
+                    <div class="common-filter">
+                        <div class="head">Colores</div>
+                        <ul class="colores-grid">
+                            <?php foreach($colores as $color): ?>
+                            <li class="filter-list-inline">
+                                <a href="<?php echo construirUrlFiltro(['color' => $color['id'], 'pagina' => null]); ?>"
+                                    class="color-option <?php echo filtroActivo('color', $color['id']) ? 'active' : ''; ?>"
+                                    style="background-color: <?php echo htmlspecialchars($color['codigo_hex']); ?>;"
+                                    title="<?php echo htmlspecialchars($color['nombre']); ?> (<?php echo $color['total_productos'] ?? 0; ?> productos)">
+                                    <?php if(filtroActivo('color', $color['id'])): ?>
+                                    <i class="fa fa-check"></i>
+                                    <?php endif; ?>
+                                </a>
+                            </li>
+                            <?php endforeach; ?>
+                        </ul>
+                        <?php if(isset($filtros['color_id']) && $filtros['color_id']): ?>
+                        <a href="<?php echo construirUrlFiltro(['color' => null, 'pagina' => null]); ?>"
+                            class="btn btn-sm btn-outline-secondary mt-2">
+                            <i class="fa fa-times"></i> Limpiar color
+                        </a>
+                        <?php endif; ?>
+                    </div>
+                    <?php endif; ?>
 
-										<a href="#" class="social-info">
-											<span class="ti-bag"></span>
-											<p class="hover-text">add to bag</p>
-										</a>
-										<a href="#" class="social-info">
-											<span class="lnr lnr-heart"></span>
-											<p class="hover-text">Wishlist</p>
-										</a>
-										<a href="#" class="social-info">
-											<span class="lnr lnr-sync"></span>
-											<p class="hover-text">compare</p>
-										</a>
-										<a href="#" class="social-info">
-											<span class="lnr lnr-move"></span>
-											<p class="hover-text">view more</p>
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</section>
-				<!-- End Best Seller -->
-				<!-- Start Filter Bar -->
-				<div class="filter-bar d-flex flex-wrap align-items-center">
-					<div class="sorting mr-auto">
-						<select>
-							<option value="1">Show 12</option>
-							<option value="1">Show 12</option>
-							<option value="1">Show 12</option>
-						</select>
-					</div>
-					<div class="pagination">
-						<a href="#" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
-						<a href="#" class="active">1</a>
-						<a href="#">2</a>
-						<a href="#">3</a>
-						<a href="#" class="dot-dot"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a>
-						<a href="#">6</a>
-						<a href="#" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
-					</div>
-				</div>
-				<!-- End Filter Bar -->
-			</div>
-		</div>
-	</div>
+                    <!-- Rango de Precio -->
+                    <div class="common-filter">
+                        <div class="head">Rango de Precio</div>
+                        <form action="category" method="GET" class="price-filter-form">
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="number" name="precio_min" class="form-control form-control-sm"
+                                        placeholder="Min"
+                                        value="<?php echo htmlspecialchars($filtros['precio_min'] ?? ''); ?>">
+                                </div>
+                                <div class="col-6">
+                                    <input type="number" name="precio_max" class="form-control form-control-sm"
+                                        placeholder="Max"
+                                        value="<?php echo htmlspecialchars($filtros['precio_max'] ?? ''); ?>">
+                                </div>
+                            </div>
+                            <?php foreach($_GET as $key => $value): ?>
+                            <?php if($key != 'precio_min' && $key != 'precio_max' && $key != 'pagina'): ?>
+                            <input type="hidden" name="<?php echo htmlspecialchars($key); ?>"
+                                value="<?php echo htmlspecialchars($value); ?>">
+                            <?php endif; ?>
+                            <?php endforeach; ?>
+                            <button type="submit" class="btn btn-primary btn-sm mt-2 w-100">
+                                Aplicar Filtro
+                            </button>
+                        </form>
+                        <?php if(isset($filtros['precio_min']) || isset($filtros['precio_max'])): ?>
+                        <a href="<?php echo construirUrlFiltro(['precio_min' => null, 'precio_max' => null, 'pagina' => null]); ?>"
+                            class="btn btn-sm btn-outline-secondary mt-2 w-100">
+                            <i class="fa fa-times"></i> Limpiar precios
+                        </a>
+                        <?php endif; ?>
+                    </div>
 
-	<!-- Start related-product Area -->
-	<section class="related-product-area section_gap">
-		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-lg-6 text-center">
-					<div class="section-title">
-						<h1>Deals of the Week</h1>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
-							magna aliqua.</p>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-lg-9">
-					<div class="row">
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="img/r1.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="img/r2.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="img/r3.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="img/r5.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="img/r6.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="img/r7.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="img/r9.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="img/r10.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="img/r11.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3">
-					<div class="ctg-right">
-						<a href="#" target="_blank">
-							<img class="img-fluid d-block mx-auto" src="img/category/c5.jpg" alt="">
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- End related-product Area -->
+                    <!-- Limpiar todos los filtros -->
+                    <?php if(!empty(array_filter($filtros))): ?>
+                    <div class="mt-3">
+                        <a href="category" class="btn btn-danger btn-block">
+                            <i class="fa fa-trash"></i> Limpiar Todos los Filtros
+                        </a>
+                    </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <div class="col-xl-9 col-lg-8 col-md-7">
+                <!-- Start Filter Bar -->
+                <div class="filter-bar d-flex flex-wrap align-items-center mb-4">
+                    <div class="sorting">
+                        <form action="category" method="GET" id="ordenForm">
+                            <?php foreach($_GET as $key => $value): ?>
+                            <?php if($key != 'orden' && $key != 'pagina'): ?>
+                            <input type="hidden" name="<?php echo htmlspecialchars($key); ?>"
+                                value="<?php echo htmlspecialchars($value); ?>">
+                            <?php endif; ?>
+                            <?php endforeach; ?>
+                            <select name="orden" onchange="this.form.submit()">
+                                <option value="reciente"
+                                    <?php echo ($filtros['orden'] ?? 'reciente') == 'reciente' ? 'selected' : ''; ?>>
+                                    Más Recientes
+                                </option>
+                                <option value="precio_asc"
+                                    <?php echo ($filtros['orden'] ?? '') == 'precio_asc' ? 'selected' : ''; ?>>
+                                    Precio: Menor a Mayor
+                                </option>
+                                <option value="precio_desc"
+                                    <?php echo ($filtros['orden'] ?? '') == 'precio_desc' ? 'selected' : ''; ?>>
+                                    Precio: Mayor a Menor
+                                </option>
+                                <option value="nombre_asc"
+                                    <?php echo ($filtros['orden'] ?? '') == 'nombre_asc' ? 'selected' : ''; ?>>
+                                    Nombre: A-Z
+                                </option>
+                                <option value="nombre_desc"
+                                    <?php echo ($filtros['orden'] ?? '') == 'nombre_desc' ? 'selected' : ''; ?>>
+                                    Nombre: Z-A
+                                </option>
+                                <option value="popular"
+                                    <?php echo ($filtros['orden'] ?? '') == 'popular' ? 'selected' : ''; ?>>
+                                    Más Populares
+                                </option>
+                            </select>
+                        </form>
+                    </div>
+                    <div class="sorting mr-auto">
+                        <span class="text-muted">
+                            Mostrando <?php echo count($productos); ?> de <?php echo $totalProductos; ?> productos
+                        </span>
+                    </div>
 
-	<!-- start footer Area -->
-	<footer class="footer-area section_gap">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-3  col-md-6 col-sm-6">
-					<div class="single-footer-widget">
-						<h6>About Us</h6>
-						<p>
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore dolore
-							magna aliqua.
-						</p>
-					</div>
-				</div>
-				<div class="col-lg-4  col-md-6 col-sm-6">
-					<div class="single-footer-widget">
-						<h6>Newsletter</h6>
-						<p>Stay update with our latest</p>
-						<div class="" id="mc_embed_signup">
+                    <!-- Paginación Superior -->
+                    <?php if($totalPaginas > 1): ?>
+                    <div class="pagination">
+                        <?php if($paginaActual > 1): ?>
+                        <a href="<?php echo construirUrlFiltro(['pagina' => $paginaActual - 1]); ?>" class="prev-arrow">
+                            <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+                        </a>
+                        <?php endif; ?>
 
-							<form target="_blank" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-							 method="get" class="form-inline">
+                        <?php
+                        $rangoInicio = max(1, $paginaActual - 2);
+                        $rangoFin = min($totalPaginas, $paginaActual + 2);
+                        
+                        if($rangoInicio > 1): ?>
+                        <a href="<?php echo construirUrlFiltro(['pagina' => 1]); ?>">1</a>
+                        <?php if($rangoInicio > 2): ?>
+                        <span class="dot-dot">...</span>
+                        <?php endif; ?>
+                        <?php endif; ?>
 
-								<div class="d-flex flex-row">
+                        <?php for($i = $rangoInicio; $i <= $rangoFin; $i++): ?>
+                        <a href="<?php echo construirUrlFiltro(['pagina' => $i]); ?>"
+                            class="<?php echo $i == $paginaActual ? 'active' : ''; ?>">
+                            <?php echo $i; ?>
+                        </a>
+                        <?php endfor; ?>
 
-									<input class="form-control" name="EMAIL" placeholder="Enter Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email '"
-									 required="" type="email">
+                        <?php if($rangoFin < $totalPaginas): ?>
+                        <?php if($rangoFin < $totalPaginas - 1): ?>
+                        <span class="dot-dot">...</span>
+                        <?php endif; ?>
+                        <a href="<?php echo construirUrlFiltro(['pagina' => $totalPaginas]); ?>">
+                            <?php echo $totalPaginas; ?>
+                        </a>
+                        <?php endif; ?>
 
+                        <?php if($paginaActual < $totalPaginas): ?>
+                        <a href="<?php echo construirUrlFiltro(['pagina' => $paginaActual + 1]); ?>" class="next-arrow">
+                            <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                        </a>
+                        <?php endif; ?>
+                    </div>
+                    <?php endif; ?>
+                </div>
+                <!-- End Filter Bar -->
 
-									<button class="click-btn btn btn-default"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
-									<div style="position: absolute; left: -5000px;">
-										<input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
-									</div>
+                <!-- Start Best Seller -->
+                <section class="lattest-product-area pb-40 category-list">
+                    <div class="row">
+                        <?php if (!empty($productos)): ?>
+                        <?php foreach($productos as $producto): ?>
+                        <!-- single product -->
+                        <div class="col-lg-4 col-md-6">
+                            <div class="single-product">
+                                <img class="img-fluid" src="img/product/<?php echo obtenerImagenProducto($producto); ?>"
+                                    alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
+                                <div class="product-details">
+                                    <h6>
+                                        <a href="producto/<?php echo $producto['id']; ?>">
+                                            <?php echo truncarTexto($producto['nombre'], 50); ?>
+                                        </a>
+                                    </h6>
 
-									<!-- <div class="col-lg-4 col-md-4">
-													<button class="bb-btn btn"><span class="lnr lnr-arrow-right"></span></button>
-												</div>  -->
-								</div>
-								<div class="info"></div>
-							</form>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3  col-md-6 col-sm-6">
-					<div class="single-footer-widget mail-chimp">
-						<h6 class="mb-20">Instragram Feed</h6>
-						<ul class="instafeed d-flex flex-wrap">
-							<li><img src="img/i1.jpg" alt=""></li>
-							<li><img src="img/i2.jpg" alt=""></li>
-							<li><img src="img/i3.jpg" alt=""></li>
-							<li><img src="img/i4.jpg" alt=""></li>
-							<li><img src="img/i5.jpg" alt=""></li>
-							<li><img src="img/i6.jpg" alt=""></li>
-							<li><img src="img/i7.jpg" alt=""></li>
-							<li><img src="img/i8.jpg" alt=""></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-lg-2 col-md-6 col-sm-6">
-					<div class="single-footer-widget">
-						<h6>Follow Us</h6>
-						<p>Let us be social</p>
-						<div class="footer-social d-flex align-items-center">
-							<a href="#"><i class="fa fa-facebook"></i></a>
-							<a href="#"><i class="fa fa-twitter"></i></a>
-							<a href="#"><i class="fa fa-dribbble"></i></a>
-							<a href="#"><i class="fa fa-behance"></i></a>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
-				<p class="footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com/" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-</p>
-			</div>
-		</div>
-	</footer>
-	<!-- End footer Area -->
+                                    <!-- Información adicional -->
+                                    <div class="product-meta mb-2">
+                                        <small class="text-muted">
+                                            <?php if(!empty($producto['marca_nombre'])): ?>
+                                            <span class="badge badge-secondary">
+                                                <?php echo htmlspecialchars($producto['marca_nombre']); ?>
+                                            </span>
+                                            <?php endif; ?>
+                                            <?php if(!empty($producto['genero_nombre'])): ?>
+                                            <span class="badge badge-info">
+                                                <?php echo htmlspecialchars($producto['genero_nombre']); ?>
+                                            </span>
+                                            <?php endif; ?>
+                                        </small>
+                                    </div>
 
-	<!-- Modal Quick Product View -->
-	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="container relative">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<div class="product-quick-view">
-					<div class="row align-items-center">
-						<div class="col-lg-6">
-							<div class="quick-view-carousel">
-								<div class="item" style="background: url(img/organic-food/q1.jpg);">
+                                    <!-- Precio -->
+                                    <div class="price">
+                                        <?php if(tieneDescuento($producto)): ?>
+                                        <h6><?php echo formatearPrecio($producto['precio_oferta']); ?></h6>
+                                        <h6 class="l-through"><?php echo formatearPrecio($producto['precio']); ?></h6>
+                                        <?php else: ?>
+                                        <h6><?php echo formatearPrecio($producto['precio']); ?></h6>
+                                        <?php endif; ?>
+                                    </div>
 
-								</div>
-								<div class="item" style="background: url(img/organic-food/q1.jpg);">
+                                    <!-- Acciones -->
+                                    <div class="prd-bottom">
+                                        <a href="#" class="social-info btn-add-to-cart"
+                                            data-producto-id="<?php echo $producto['id']; ?>" data-cantidad="1">
+                                            <span class="ti-bag"></span>
+                                            <p class="hover-text">Agregar al Carrito</p>
+                                        </a>
+                                        <a href="producto/<?php echo $producto['id']; ?>" class="social-info">
+                                            <span class="lnr lnr-move"></span>
+                                            <p class="hover-text">Ver Detalles</p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
+                        <?php else: ?>
+                        <!-- No hay productos -->
+                        <div class="col-12">
+                            <div class="alert alert-info text-center">
+                                <h4><i class="fa fa-info-circle"></i> No se encontraron productos</h4>
+                                <p>Intenta cambiar los filtros o realiza una búsqueda diferente.</p>
+                                <a href="category" class="btn btn-primary mt-3">
+                                    <i class="fa fa-refresh"></i> Ver Todos los Productos
+                                </a>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                </section>
+                <!-- End Best Seller -->
 
-								</div>
-								<div class="item" style="background: url(img/organic-food/q1.jpg);">
+                <!-- Start Filter Bar (Bottom Pagination) -->
+                <?php if($totalPaginas > 1): ?>
+                <div class="filter-bar d-flex flex-wrap align-items-center">
+                    <div class="sorting mr-auto">
+                        <span class="text-muted">
+                            Página <?php echo $paginaActual; ?> de <?php echo $totalPaginas; ?>
+                        </span>
+                    </div>
+                    <div class="pagination">
+                        <?php if($paginaActual > 1): ?>
+                        <a href="<?php echo construirUrlFiltro(['pagina' => $paginaActual - 1]); ?>" class="prev-arrow">
+                            <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+                        </a>
+                        <?php endif; ?>
 
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-6">
-							<div class="quick-view-content">
-								<div class="top">
-									<h3 class="head">Mill Oil 1000W Heater, White</h3>
-									<div class="price d-flex align-items-center"><span class="lnr lnr-tag"></span> <span class="ml-10">$149.99</span></div>
-									<div class="category">Category: <span>Household</span></div>
-									<div class="available">Availibility: <span>In Stock</span></div>
-								</div>
-								<div class="middle">
-									<p class="content">Mill Oil is an innovative oil filled radiator with the most modern technology. If you are
-										looking for something that can make your interior look awesome, and at the same time give you the pleasant
-										warm feeling during the winter.</p>
-									<a href="#" class="view-full">View full Details <span class="lnr lnr-arrow-right"></span></a>
-								</div>
-								<div class="bottom">
-									<div class="color-picker d-flex align-items-center">Color:
-										<span class="single-pick"></span>
-										<span class="single-pick"></span>
-										<span class="single-pick"></span>
-										<span class="single-pick"></span>
-										<span class="single-pick"></span>
-									</div>
-									<div class="quantity-container d-flex align-items-center mt-15">
-										Quantity:
-										<input type="text" class="quantity-amount ml-15" value="1" />
-										<div class="arrow-btn d-inline-flex flex-column">
-											<button class="increase arrow" type="button" title="Increase Quantity"><span class="lnr lnr-chevron-up"></span></button>
-											<button class="decrease arrow" type="button" title="Decrease Quantity"><span class="lnr lnr-chevron-down"></span></button>
-										</div>
+                        <?php
+                        $rangoInicio = max(1, $paginaActual - 2);
+                        $rangoFin = min($totalPaginas, $paginaActual + 2);
+                        
+                        if($rangoInicio > 1): ?>
+                        <a href="<?php echo construirUrlFiltro(['pagina' => 1]); ?>">1</a>
+                        <?php if($rangoInicio > 2): ?>
+                        <span class="dot-dot">...</span>
+                        <?php endif; ?>
+                        <?php endif; ?>
 
-									</div>
-									<div class="d-flex mt-20">
-										<a href="#" class="view-btn color-2"><span>Add to Cart</span></a>
-										<a href="#" class="like-btn"><span class="lnr lnr-layers"></span></a>
-										<a href="#" class="like-btn"><span class="lnr lnr-heart"></span></a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                        <?php for($i = $rangoInicio; $i <= $rangoFin; $i++): ?>
+                        <a href="<?php echo construirUrlFiltro(['pagina' => $i]); ?>"
+                            class="<?php echo $i == $paginaActual ? 'active' : ''; ?>">
+                            <?php echo $i; ?>
+                        </a>
+                        <?php endfor; ?>
+
+                        <?php if($rangoFin < $totalPaginas): ?>
+                        <?php if($rangoFin < $totalPaginas - 1): ?>
+                        <span class="dot-dot">...</span>
+                        <?php endif; ?>
+                        <a href="<?php echo construirUrlFiltro(['pagina' => $totalPaginas]); ?>">
+                            <?php echo $totalPaginas; ?>
+                        </a>
+                        <?php endif; ?>
+
+                        <?php if($paginaActual < $totalPaginas): ?>
+                        <a href="<?php echo construirUrlFiltro(['pagina' => $paginaActual + 1]); ?>" class="next-arrow">
+                            <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                        </a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <?php endif; ?>
+                <!-- End Filter Bar -->
+            </div>
+        </div>
+    </div>
 
 
 
-	<script src="js/vendor/jquery-2.2.4.min.js"></script>
-	<script src="../../cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
-	 crossorigin="anonymous"></script>
-	<script src="js/vendor/bootstrap.min.js"></script>
-	<script src="js/jquery.ajaxchimp.min.js"></script>
-	<script src="js/jquery.nice-select.min.js"></script>
-	<script src="js/jquery.sticky.js"></script>
-	<script src="js/nouislider.min.js"></script>
-	<script src="js/jquery.magnific-popup.min.js"></script>
-	<script src="js/owl.carousel.min.js"></script>
-	<!--gmaps Js-->
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
-	<script src="js/gmaps.min.js"></script>
-	<script src="js/main.js"></script>
+    <!-- start footer Area -->
+    <?php include 'includes/footer.php'; ?>
+    <!-- End footer Area -->
+
+    <script src="js/vendor/jquery-2.2.4.min.js"></script>
+    <script src="../../cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous">
+    </script>
+    <script src="js/vendor/bootstrap.min.js"></script>
+    <script src="js/jquery.ajaxchimp.min.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
+    <script src="js/jquery.sticky.js"></script>
+    <script src="js/nouislider.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <!--gmaps Js-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
+    <script src="js/gmaps.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/carrito.js"></script>
+
+    <style>
+    /* Estilos para filtros de tallas */
+    .tallas-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        list-style: none;
+        padding: 0;
+    }
+
+    .filter-list-inline {
+        display: inline-block;
+    }
+
+    .tallas-grid .btn {
+        min-width: 45px;
+        padding: 5px 10px;
+    }
+
+    /* Estilos para filtros de colores */
+    .colores-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        list-style: none;
+        padding: 0;
+    }
+
+    .color-option {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        border: 2px solid #ddd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+        color: #fff;
+        text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+        cursor: pointer;
+    }
+
+    .color-option:hover {
+        transform: scale(1.1);
+        border-color: #ffba00;
+    }
+
+    .color-option.active {
+        border-width: 3px;
+        border-color: #ffba00;
+        box-shadow: 0 0 10px rgba(255, 186, 0, 0.5);
+    }
+
+    /* Filtros activos */
+    .filter-list a.active {
+        color: #ffba00;
+        font-weight: bold;
+    }
+
+    .main-nav-list a.active {
+        color: #ffba00;
+    }
+
+    /* Badges de producto */
+    .product-meta .badge {
+        font-size: 10px;
+        padding: 3px 6px;
+        margin-right: 3px;
+    }
+
+    /* Badges en filtros */
+    .filter-list a .badge {
+        float: right;
+        background-color: #6c757d;
+        color: white;
+        font-size: 11px;
+        padding: 2px 6px;
+        border-radius: 10px;
+        margin-left: 5px;
+    }
+
+    .filter-list a.active .badge {
+        background-color: #ffba00;
+        color: #222;
+    }
+
+    /* Talla con contador */
+    .tallas-grid .btn .badge {
+        font-size: 9px;
+        padding: 1px 4px;
+    }
+
+    /* Búsqueda */
+    .search-form .input-group {
+        margin-bottom: 0;
+    }
+
+    .search-form .btn {
+        border-radius: 0 3px 3px 0;
+    }
+
+    /* Paginación mejorada */
+    .pagination .dot-dot {
+        padding: 5px 10px;
+        color: #666;
+    }
+
+    /* Tooltip mejorado para tallas */
+    .tallas-grid .btn:hover::after {
+        content: attr(title);
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #333;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 3px;
+        white-space: nowrap;
+        font-size: 11px;
+        z-index: 1000;
+        margin-bottom: 5px;
+    }
+
+    .filter-list-inline {
+        position: relative;
+    }
+    </style>
 </body>
 
-
-<!-- Mirrored from themewagon.github.io/karma/category.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 23 Oct 2025 15:43:51 GMT -->
 </html>

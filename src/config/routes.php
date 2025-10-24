@@ -2,52 +2,56 @@
 // src/config/routes.php
 
 return [
-    '/' => '../app/Views/home.php',
-    '/home' => '../app/Views/home.php',
-    '/about' => '../app/Views/about.php',
-    '/departments' => '../app/Views/departments.php',
-    '/services' => '../app/Views/services.php',
-    '/doctors' => '../app/Views/doctors.php',
+    // Rutas principales con controladores
+    '/' => ['controller' => 'ProductoController', 'action' => 'index'],
+    '/home' => ['controller' => 'ProductoController', 'action' => 'index'],
     '/contact' => '../app/Views/contact.php',
-    '/appointment' => '../app/Views/appointment.php',
-    '/department-details' => '../app/Views/department-details.php',
-    '/service-details' => '../app/Views/service-details.php',
-    '/testimonials' => '../app/Views/testimonials.php',
-    '/faq' => '../app/Views/faq.php',
-    '/gallery' => '../app/Views/gallery.php',
-    '/terms' => '../app/Views/terms.php',
-    '/privacy' => '../app/Views/privacy.php',
     '/404' => '../app/Views/404.php',
-    '/login' => '../app/Views/login.php',
-    '/citas' => '../app/Views/citas.php',
-    '/pacientes' => '../app/Views/pacientes.php',
-    '/historial' => '../app/Views/historial.php',
-    '/404' => '../app/Views/404.php', // Agrega esta línea
-    
 
-    // rutas de admin    
+    // Rutas de productos con controladores
+    '/productos' => ['controller' => 'ProductoController', 'action' => 'catalogo'],
+    '/category' => ['controller' => 'ProductoController', 'action' => 'catalogo'],
+    '/producto' => ['controller' => 'ProductoController', 'action' => 'detalle'],
+    '/single-product' => ['controller' => 'ProductoController', 'action' => 'detalle'],
+    '/buscar' => ['controller' => 'ProductoController', 'action' => 'buscar'],
+
+    // API de productos
+    '/api/productos' => ['controller' => 'ProductoController', 'action' => 'apiObtenerProductos'],
+    '/api/producto' => ['controller' => 'ProductoController', 'action' => 'apiObtenerProducto'],
+    '/api/verificar-stock' => ['controller' => 'ProductoController', 'action' => 'apiVerificarStock'],
+
+    // Rutas de tienda/ecommerce (vistas estáticas por ahora)
+    '/blog' => '../app/Views/blog.php',
+    '/blog-details' => '../app/Views/blog-details.php',
+    '/cart' => ['controller' => 'CarritoController', 'action' => 'ver'],
+    '/checkout' => ['controller' => 'CheckoutController', 'action' => 'ver'],
+    '/confirmation' => '../app/Views/confirmation.php',
+    '/elements' => '../app/Views/elements.php',
+    '/tracking' => '../app/Views/tracking.php',
+
+    // API de carrito
+    '/api/carrito/agregar' => ['controller' => 'CarritoController', 'action' => 'agregar'],
+    '/api/carrito/actualizar' => ['controller' => 'CarritoController', 'action' => 'actualizar'],
+    '/api/carrito/eliminar' => ['controller' => 'CarritoController', 'action' => 'eliminar'],
+    '/api/carrito/vaciar' => ['controller' => 'CarritoController', 'action' => 'vaciar'],
+    '/api/carrito/contar' => ['controller' => 'CarritoController', 'action' => 'contarItems'],
+
+    // Rutas de autenticación
+    '/login' => '../app/Views/login.php',
+    '/registration' => '../app/Views/registration.php',
+
+    // Rutas de admin con controladores
     '/apps-calendar' => ['controller' => 'AdminController', 'action' => 'appsCalendar'],
     '/apps-tasks' => ['controller' => 'AdminController', 'action' => 'appsTasks'],
     '/pages-profile' => ['controller' => 'AdminController', 'action' => 'pagesProfile'],
     '/pages-add-medico' => ['controller' => 'AdminController', 'action' => 'pagesAddMedico'],
     '/add-medico' => ['controller' => 'AdminController', 'action' => 'addMedico'],
     '/pages-get-medico' => ['controller' => 'AdminController', 'action' => 'readMedico'],
-
     '/pages-upd-medico' => ['controller' => 'AdminController', 'action' => 'editMedico'],
     '/update-medico' => ['controller' => 'AdminController', 'action' => 'updateMedico'],
 
-   
-
-
-
-    
-
-
-
-
-    // Agrega más rutas aquí según necesites
-    // Rutas dinámicas (controladores)
-    '/login' => ['controller' => 'AuthController', 'action' => 'handleLogin'],
+    // Rutas dinámicas con controladores
+    '/auth/login' => ['controller' => 'AuthController', 'action' => 'handleLogin'],
     '/admin' => ['controller' => 'AdminController', 'action' => 'index'],
     '/index' => ['controller' => 'AdminController', 'action' => 'index'],
     '/logout' => ['controller' => 'AuthController', 'action' => 'logout'],

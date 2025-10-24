@@ -10,7 +10,7 @@ $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $method = $_SERVER['REQUEST_METHOD'];
 
 // Eliminar el prefijo base si es necesario
-$base = '/proyecto-de-grado/src/public';
+$base = '/mayra/src/public';
 if (strpos($uri, $base) === 0) {
     $uri = substr($uri, strlen($base));
 }

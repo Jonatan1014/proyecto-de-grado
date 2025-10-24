@@ -8,10 +8,10 @@ class Database {
 
     public static function getConnection() {
         if (!self::$connection) {
-            $host = $_ENV['DB_HOST'] ?? 'systemautomatic.xyz:3307';
-            $db_name = $_ENV['DB_NAME'] ?? 'clinic_db';
+            $host = $_ENV['DB_HOST'] ?? 'localhost:3306';
+            $db_name = $_ENV['DB_NAME'] ?? 'tennisyzapatos_db';
             $username = $_ENV['DB_USER'] ?? 'root';
-            $password = $_ENV['DB_PASS'] ?? 'Balon100.';
+            $password = $_ENV['DB_PASS'] ?? '';
 
             try {
                 self::$connection = new PDO(
