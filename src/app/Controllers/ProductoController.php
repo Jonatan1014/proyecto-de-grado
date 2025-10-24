@@ -416,26 +416,40 @@ class ProductoController {
      */
     public function detalle() {
         try {
+            error_log("=== INICIO ProductoController::detalle ===");
+            
             $id = $_GET['id'] ?? null;
+            error_log("ID recibido: " . ($id ?? 'NULL'));
 
             if (!$id) {
-                header('Location: /404');
+                error_log("ERROR: No se proporcionó ID de producto");
+                header('Location: 404');
                 exit();
             }
 
+            error_log("Intentando obtener producto con ID: " . $id);
             $producto = Producto::obtenerPorId($id);
 
             if (!$producto) {
-                header('Location: /404');
+                error_log("ERROR: Producto no encontrado con ID: " . $id);
+                header('Location: 404');
                 exit();
             }
 
+            error_log("Producto encontrado: " . $producto['nombre']);
+            error_log("Categoría ID: " . ($producto['categoria_id'] ?? 'NULL'));
+
+            error_log("Obteniendo imágenes del producto...");
             $imagenes = Producto::obtenerImagenes($id);
+            error_log("Total de imágenes encontradas: " . count($imagenes));
+
+            error_log("Obteniendo productos relacionados...");
             $productosRelacionados = Producto::obtenerRelacionados(
                 $id,
                 $producto['categoria_id'],
                 4
             );
+            error_log("Total de productos relacionados: " . count($productosRelacionados));
 
             $data = [
                 'producto' => $producto,
@@ -445,10 +459,31 @@ class ProductoController {
 
             extract($data);
 
-            include __DIR__ . '/../Views/single-product.php';
+            $vistaPath = __DIR__ . '/../Views/producto-detalle.php';
+            error_log("Intentando cargar vista: " . $vistaPath);
+            error_log("¿Vista existe?: " . (file_exists($vistaPath) ? 'SÍ' : 'NO'));
+
+            if (!file_exists($vistaPath)) {
+                error_log("ERROR CRÍTICO: La vista producto-detalle.php no existe!");
+                error_log("Buscando vista alternativa single-product.php...");
+                $vistaAlternativa = __DIR__ . '/../Views/single-product.php';
+                if (file_exists($vistaAlternativa)) {
+                    error_log("Vista alternativa encontrada: single-product.php");
+                    include $vistaAlternativa;
+                } else {
+                    error_log("ERROR: Ninguna vista de detalle encontrada");
+                    throw new Exception("Vista de detalle no encontrada");
+                }
+            } else {
+                error_log("Cargando vista producto-detalle.php");
+                include $vistaPath;
+            }
+            
+            error_log("=== FIN ProductoController::detalle ===");
         } catch (Exception $e) {
-            error_log("Error en ProductoController::detalle: " . $e->getMessage());
-            header('Location: /404');
+            error_log("ERROR en ProductoController::detalle: " . $e->getMessage());
+            error_log("Stack trace: " . $e->getTraceAsString());
+            header('Location: 404');
             exit();
         }
     }

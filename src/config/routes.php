@@ -10,9 +10,9 @@ return [
 
     // Rutas de productos con controladores
     '/productos' => ['controller' => 'ProductoController', 'action' => 'catalogo'],
+    '/catalogo' => ['controller' => 'ProductoController', 'action' => 'catalogo'],
     '/category' => ['controller' => 'ProductoController', 'action' => 'catalogo'],
-    '/producto' => ['controller' => 'ProductoController', 'action' => 'detalle'],
-    '/single-product' => ['controller' => 'ProductoController', 'action' => 'detalle'],
+    '/producto-detalle' => ['controller' => 'ProductoController', 'action' => 'detalle'],
     '/buscar' => ['controller' => 'ProductoController', 'action' => 'buscar'],
 
     // API de productos

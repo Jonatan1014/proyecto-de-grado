@@ -1,10 +1,11 @@
+<?php
+require_once __DIR__ . '/../Utils/Helpers.php';
+
+// Obtener datos del producto (ya vienen del controlador)
+// $producto, $imagenes, $productosRelacionados
+?>
 <!DOCTYPE html>
-<html lang="zxx" class="no-js">
-
-
-<!-- Mirrored from themewagon.github.io/karma/single-product by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 23 Oct 2025 15:43:51 GMT -->
-<!-- Added by HTTrack -->
-<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<html lang="es" class="no-js">
 
 <head>
     <!-- Mobile Specific Meta -->
@@ -12,15 +13,17 @@
     <!-- Favicon-->
     <link rel="shortcut icon" href="img/fav.png">
     <!-- Author Meta -->
-    <meta name="author" content="CodePixar">
+    <meta name="author" content="Tennis y Fragancias">
     <!-- Meta Description -->
-    <meta name="description" content="">
+    <meta name="description"
+        content="<?= htmlspecialchars($producto['nombre']) ?> - <?= htmlspecialchars($producto['marca']) ?>">
     <!-- Meta Keyword -->
-    <meta name="keywords" content="">
+    <meta name="keywords"
+        content="<?= htmlspecialchars($producto['nombre']) ?>, <?= htmlspecialchars($producto['marca']) ?>, <?= htmlspecialchars($producto['categoria']) ?>">
     <!-- meta character set -->
     <meta charset="UTF-8">
     <!-- Site Title -->
-    <title>Karma Shop</title>
+    <title><?= htmlspecialchars($producto['nombre']) ?> | Tennis y Fragancias</title>
     <!--
 			CSS
 			============================================= -->
@@ -34,6 +37,72 @@
     <link rel="stylesheet" href="css/ion.rangeSlider.css" />
     <link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css" />
     <link rel="stylesheet" href="css/main.css">
+
+    <style>
+    .s_Product_carousel .owl-item img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+
+    .product-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #ffba00;
+        color: #222;
+        padding: 5px 15px;
+        border-radius: 3px;
+        font-weight: 600;
+        font-size: 12px;
+        z-index: 1;
+    }
+
+    .size-selector {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 15px 0;
+    }
+
+    .size-option {
+        padding: 8px 16px;
+        border: 2px solid #ddd;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s;
+        background: white;
+    }
+
+    .size-option:hover,
+    .size-option.active {
+        border-color: #ffba00;
+        background: #ffba00;
+        color: #222;
+    }
+
+    .size-option.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .stock-info {
+        margin: 10px 0;
+        font-size: 14px;
+    }
+
+    .stock-info.in-stock {
+        color: #28a745;
+    }
+
+    .stock-info.low-stock {
+        color: #ffc107;
+    }
+
+    .stock-info.out-stock {
+        color: #dc3545;
+    }
+    </style>
 </head>
 
 <body>
@@ -47,11 +116,13 @@
         <div class="container">
             <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
                 <div class="col-first">
-                    <h1>Product Details Page</h1>
+                    <h1><?= htmlspecialchars($producto['nombre']) ?></h1>
                     <nav class="d-flex align-items-center">
-                        <a href="home">Home<span class="lnr lnr-arrow-right"></span></a>
-                        <a href="#">Shop<span class="lnr lnr-arrow-right"></span></a>
-                        <a href="single-product">product-details</a>
+                        <a href="home">Inicio<span class="lnr lnr-arrow-right"></span></a>
+                        <a href="catalogo">Tienda<span class="lnr lnr-arrow-right"></span></a>
+                        <a href="catalogo?categoria=<?= $producto['categoria_id'] ?>"><?= htmlspecialchars($producto['categoria']) ?><span
+                                class="lnr lnr-arrow-right"></span></a>
+                        <a href="#"><?= htmlspecialchars(truncarTexto($producto['nombre'], 30)) ?></a>
                     </nav>
                 </div>
             </div>
@@ -65,46 +136,106 @@
             <div class="row s_product_inner">
                 <div class="col-lg-6">
                     <div class="s_Product_carousel">
+                        <?php if (!empty($imagenes)): ?>
+                        <?php foreach ($imagenes as $imagen): ?>
                         <div class="single-prd-item">
-                            <img class="img-fluid" src="img/category/s-p1.jpg" alt="">
+                            <img class="img-fluid" src="<?= htmlspecialchars($imagen['url']) ?>"
+                                alt="<?= htmlspecialchars($producto['nombre']) ?>">
                         </div>
+                        <?php endforeach; ?>
+                        <?php else: ?>
                         <div class="single-prd-item">
-                            <img class="img-fluid" src="img/category/s-p1.jpg" alt="">
+                            <img class="img-fluid" src="<?= obtenerImagenProducto($producto) ?>"
+                                alt="<?= htmlspecialchars($producto['nombre']) ?>">
                         </div>
-                        <div class="single-prd-item">
-                            <img class="img-fluid" src="img/category/s-p1.jpg" alt="">
-                        </div>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <div class="col-lg-5 offset-lg-1">
                     <div class="s_product_text">
-                        <h3>Faded SkyBlu Denim Jeans</h3>
-                        <h2>$149.99</h2>
+                        <h3><?= htmlspecialchars($producto['nombre']) ?></h3>
+
+                        <?php if (tieneDescuento($producto)): ?>
+                        <h2>
+                            <span style="text-decoration: line-through; color: #999; font-size: 0.8em;">
+                                <?= formatearPrecio(calcularPrecioOriginal($producto)) ?>
+                            </span>
+                            <span style="color: #ffba00;"><?= formatearPrecio($producto['precio']) ?></span>
+                            <span class="badge badge-warning ml-2" style="background: #ffba00; color: #222;">
+                                -<?= $producto['descuento'] ?>%
+                            </span>
+                        </h2>
+                        <?php else: ?>
+                        <h2><?= formatearPrecio($producto['precio']) ?></h2>
+                        <?php endif; ?>
+
                         <ul class="list">
-                            <li><a class="active" href="#"><span>Category</span> : Household</a></li>
-                            <li><a href="#"><span>Availibility</span> : In Stock</a></li>
+                            <li><a class="active" href="/catalogo?categoria=<?= $producto['categoria_id'] ?>">
+                                    <span>Categoría</span> : <?= htmlspecialchars($producto['categoria']) ?>
+                                </a></li>
+                            <li><a href="catalogo?marca=<?= $producto['marca_id'] ?>">
+                                    <span>Marca</span> : <?= htmlspecialchars($producto['marca']) ?>
+                                </a></li>
+                            <?php if (!empty($producto['genero'])): ?>
+                            <li><a href="catalogo?genero=<?= $producto['genero_id'] ?>">
+                                    <span>Género</span> : <?= htmlspecialchars($producto['genero']) ?>
+                                </a></li>
+                            <?php endif; ?>
+                            <li>
+                                <?php
+                                $stock = intval($producto['stock'] ?? 0);
+                                $stockClass = 'out-stock';
+                                $stockText = 'Agotado';
+                                
+                                if ($stock > 10) {
+                                    $stockClass = 'in-stock';
+                                    $stockText = 'En Stock (' . $stock . ' disponibles)';
+                                } elseif ($stock > 0) {
+                                    $stockClass = 'low-stock';
+                                    $stockText = 'Últimas unidades (' . $stock . ' disponibles)';
+                                }
+                                ?>
+                                <span class="stock-info <?= $stockClass ?>">
+                                    <span>Disponibilidad</span> : <?= $stockText ?>
+                                </span>
+                            </li>
                         </ul>
-                        <p>Mill Oil is an innovative oil filled radiator with the most modern technology. If you are
-                            looking for
-                            something that can make your interior look awesome, and at the same time give you the
-                            pleasant warm feeling
-                            during the winter.</p>
+
+                        <?php if (!empty($producto['descripcion'])): ?>
+                        <p><?= nl2br(htmlspecialchars($producto['descripcion'])) ?></p>
+                        <?php endif; ?>
+
+                        <?php if (!empty($producto['talla'])): ?>
+                        <div class="size-selector">
+                            <label style="width: 100%; font-weight: 600; margin-bottom: 10px;">Talla:</label>
+                            <button class="size-option active" data-talla="<?= htmlspecialchars($producto['talla']) ?>">
+                                <?= htmlspecialchars($producto['talla']) ?>
+                            </button>
+                        </div>
+                        <?php endif; ?>
+
+                        <?php if ($stock > 0): ?>
                         <div class="product_count">
-                            <label for="qty">Quantity:</label>
+                            <label for="qty">Cantidad:</label>
                             <input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:"
-                                class="input-text qty">
-                            <button
-                                onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                                class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
-                            <button
-                                onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-                                class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
+                                class="input-text qty" data-max="<?= $stock ?>">
+                            <button onclick="incrementarCantidad()" class="increase items-count" type="button"><i
+                                    class="lnr lnr-chevron-up"></i></button>
+                            <button onclick="decrementarCantidad()" class="reduced items-count" type="button"><i
+                                    class="lnr lnr-chevron-down"></i></button>
                         </div>
+
                         <div class="card_area d-flex align-items-center">
-                            <a class="primary-btn" href="#">Add to Cart</a>
-                            <a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
-                            <a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
+                            <a class="primary-btn" href="#" onclick="agregarAlCarritoDetalle(event)">Agregar al
+                                Carrito</a>
+                            <a class="icon_btn" href="favoritos" title="Agregar a favoritos"><i
+                                    class="lnr lnr lnr-heart"></i></a>
                         </div>
+                        <?php else: ?>
+                        <div class="alert alert-danger mt-3">
+                            <i class="fa fa-exclamation-triangle"></i> Este producto está temporalmente agotado.
+                        </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -490,131 +621,45 @@
             <div class="row justify-content-center">
                 <div class="col-lg-6 text-center">
                     <div class="section-title">
-                        <h1>Deals of the Week</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore
-                            magna aliqua.</p>
+                        <h1>Productos Relacionados</h1>
+                        <p>Descubre otros productos similares que podrían interesarte</p>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-9">
+                <div class="col-lg-12">
                     <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
+                        <?php if (!empty($productosRelacionados)): ?>
+                        <?php foreach ($productosRelacionados as $relacionado): ?>
+                        <div class="col-lg-3 col-md-4 col-sm-6 mb-20">
                             <div class="single-related-product d-flex">
-                                <a href="#"><img src="img/r1.jpg" alt=""></a>
+                                <a href="producto/detalle?id=<?= $relacionado['id'] ?>">
+                                    <img src="<?= obtenerImagenProducto($relacionado) ?>"
+                                        alt="<?= htmlspecialchars($relacionado['nombre']) ?>"
+                                        style="width: 70px; height: 70px; object-fit: cover;">
+                                </a>
                                 <div class="desc">
-                                    <a href="#" class="title">Black lace Heels</a>
+                                    <a href="producto/detalle?id=<?= $relacionado['id'] ?>" class="title">
+                                        <?= htmlspecialchars(truncarTexto($relacionado['nombre'], 40)) ?>
+                                    </a>
                                     <div class="price">
-                                        <h6>$189.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
+                                        <?php if (tieneDescuento($relacionado)): ?>
+                                        <h6><?= formatearPrecio($relacionado['precio']) ?></h6>
+                                        <h6 class="l-through">
+                                            <?= formatearPrecio(calcularPrecioOriginal($relacionado)) ?></h6>
+                                        <?php else: ?>
+                                        <h6><?= formatearPrecio($relacionado['precio']) ?></h6>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-                            <div class="single-related-product d-flex">
-                                <a href="#"><img src="img/r2.jpg" alt=""></a>
-                                <div class="desc">
-                                    <a href="#" class="title">Black lace Heels</a>
-                                    <div class="price">
-                                        <h6>$189.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
-                                </div>
-                            </div>
+                        <?php endforeach; ?>
+                        <?php else: ?>
+                        <div class="col-12 text-center">
+                            <p>No hay productos relacionados disponibles en este momento.</p>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-                            <div class="single-related-product d-flex">
-                                <a href="#"><img src="img/r3.jpg" alt=""></a>
-                                <div class="desc">
-                                    <a href="#" class="title">Black lace Heels</a>
-                                    <div class="price">
-                                        <h6>$189.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-                            <div class="single-related-product d-flex">
-                                <a href="#"><img src="img/r5.jpg" alt=""></a>
-                                <div class="desc">
-                                    <a href="#" class="title">Black lace Heels</a>
-                                    <div class="price">
-                                        <h6>$189.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-                            <div class="single-related-product d-flex">
-                                <a href="#"><img src="img/r6.jpg" alt=""></a>
-                                <div class="desc">
-                                    <a href="#" class="title">Black lace Heels</a>
-                                    <div class="price">
-                                        <h6>$189.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-                            <div class="single-related-product d-flex">
-                                <a href="#"><img src="img/r7.jpg" alt=""></a>
-                                <div class="desc">
-                                    <a href="#" class="title">Black lace Heels</a>
-                                    <div class="price">
-                                        <h6>$189.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6">
-                            <div class="single-related-product d-flex">
-                                <a href="#"><img src="img/r9.jpg" alt=""></a>
-                                <div class="desc">
-                                    <a href="#" class="title">Black lace Heels</a>
-                                    <div class="price">
-                                        <h6>$189.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6">
-                            <div class="single-related-product d-flex">
-                                <a href="#"><img src="img/r10.jpg" alt=""></a>
-                                <div class="desc">
-                                    <a href="#" class="title">Black lace Heels</a>
-                                    <div class="price">
-                                        <h6>$189.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6">
-                            <div class="single-related-product d-flex">
-                                <a href="#"><img src="img/r11.jpg" alt=""></a>
-                                <div class="desc">
-                                    <a href="#" class="title">Black lace Heels</a>
-                                    <div class="price">
-                                        <h6>$189.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="ctg-right">
-                        <a href="#" target="_blank">
-                            <img class="img-fluid d-block mx-auto" src="img/category/c5.jpg" alt="">
-                        </a>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -627,7 +672,7 @@
     <!-- End footer Area -->
 
     <script src="js/vendor/jquery-2.2.4.min.js"></script>
-    <script src="../../cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
         integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous">
     </script>
     <script src="js/vendor/bootstrap.min.js"></script>
@@ -637,14 +682,98 @@
     <script src="js/nouislider.min.js"></script>
     <script src="js/jquery.magnific-popup.min.js"></script>
     <script src="js/owl.carousel.min.js"></script>
-    <!--gmaps Js-->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
-    <script src="js/gmaps.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/carrito.js"></script>
+
+    <script>
+    // Inicializar el carousel de imágenes del producto
+    $(document).ready(function() {
+        $('.s_Product_carousel').owlCarousel({
+            items: 1,
+            loop: true,
+            nav: true,
+            dots: false,
+            navText: ['<i class="lnr lnr-chevron-left"></i>', '<i class="lnr lnr-chevron-right"></i>']
+        });
+    });
+
+    // Funciones para incrementar/decrementar cantidad
+    function incrementarCantidad() {
+        var result = document.getElementById('sst');
+        var sst = parseInt(result.value);
+        var max = parseInt(result.getAttribute('data-max'));
+
+        if (!isNaN(sst) && sst < max) {
+            result.value = sst + 1;
+        } else if (sst >= max) {
+            mostrarNotificacion('No hay más stock disponible', 'warning');
+        }
+        return false;
+    }
+
+    function decrementarCantidad() {
+        var result = document.getElementById('sst');
+        var sst = parseInt(result.value);
+
+        if (!isNaN(sst) && sst > 1) {
+            result.value = sst - 1;
+        }
+        return false;
+    }
+
+    // Función para agregar al carrito desde la página de detalles
+    function agregarAlCarritoDetalle(event) {
+        event.preventDefault();
+
+        var cantidad = parseInt(document.getElementById('sst').value);
+        var productoId = <?= $producto['id'] ?>;
+        var stock = <?= $producto['stock'] ?? 0 ?>;
+
+        // Validar cantidad
+        if (isNaN(cantidad) || cantidad < 1) {
+            mostrarNotificacion('Por favor ingresa una cantidad válida', 'error');
+            return;
+        }
+
+        if (cantidad > stock) {
+            mostrarNotificacion('No hay suficiente stock disponible', 'error');
+            return;
+        }
+
+        // Agregar al carrito
+        agregarAlCarrito(productoId, cantidad);
+    }
+
+    // Mostrar notificación (si no está en carrito.js)
+    function mostrarNotificacion(mensaje, tipo = 'success') {
+        var icono = tipo === 'success' ? '✓' : tipo === 'warning' ? '⚠' : '✗';
+        var color = tipo === 'success' ? '#28a745' : tipo === 'warning' ? '#ffc107' : '#dc3545';
+
+        var notificacion = $('<div class="notificacion-carrito">')
+            .html(icono + ' ' + mensaje)
+            .css({
+                'position': 'fixed',
+                'top': '20px',
+                'right': '20px',
+                'background': color,
+                'color': 'white',
+                'padding': '15px 25px',
+                'border-radius': '4px',
+                'box-shadow': '0 2px 5px rgba(0,0,0,0.2)',
+                'z-index': '9999',
+                'font-weight': 'bold'
+            });
+
+        $('body').append(notificacion);
+
+        setTimeout(function() {
+            notificacion.fadeOut(function() {
+                $(this).remove();
+            });
+        }, 3000);
+    }
+    </script>
 
 </body>
-
-
-<!-- Mirrored from themewagon.github.io/karma/single-product by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 23 Oct 2025 15:43:52 GMT -->
 
 </html>

@@ -138,7 +138,8 @@ function construirUrlFiltro($nuevosParams) {
                                 <a href="<?php echo construirUrlFiltro(['marca' => $marca['id'], 'pagina' => null]); ?>"
                                     class="<?php echo filtroActivo('marca', $marca['id']) ? 'active' : ''; ?>">
                                     <?php echo htmlspecialchars($marca['nombre']); ?>
-                                    <span class="badge badge-secondary"><?php echo $marca['total_productos'] ?? 0; ?></span>
+                                    <span
+                                        class="badge badge-secondary"><?php echo $marca['total_productos'] ?? 0; ?></span>
                                 </a>
                             </li>
                             <?php endforeach; ?>
@@ -162,7 +163,8 @@ function construirUrlFiltro($nuevosParams) {
                                 <a href="<?php echo construirUrlFiltro(['genero' => $genero['id'], 'pagina' => null]); ?>"
                                     class="<?php echo filtroActivo('genero', $genero['id']) ? 'active' : ''; ?>">
                                     <?php echo htmlspecialchars($genero['nombre']); ?>
-                                    <span class="badge badge-secondary"><?php echo $genero['total_productos'] ?? 0; ?></span>
+                                    <span
+                                        class="badge badge-secondary"><?php echo $genero['total_productos'] ?? 0; ?></span>
                                 </a>
                             </li>
                             <?php endforeach; ?>
@@ -188,7 +190,8 @@ function construirUrlFiltro($nuevosParams) {
                                     title="<?php echo $talla['total_productos'] ?? 0; ?> producto(s) disponible(s)">
                                     <?php echo htmlspecialchars($talla['nombre']); ?>
                                     <?php if (filtroActivo('talla', $talla['id'])): ?>
-                                    <span class="badge badge-light ml-1"><?php echo $talla['total_productos'] ?? 0; ?></span>
+                                    <span
+                                        class="badge badge-light ml-1"><?php echo $talla['total_productos'] ?? 0; ?></span>
                                     <?php endif; ?>
                                 </a>
                             </li>
@@ -377,8 +380,8 @@ function construirUrlFiltro($nuevosParams) {
                                     alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
                                 <div class="product-details">
                                     <h6>
-                                        <a href="producto/<?php echo $producto['id']; ?>">
-                                            <?php echo truncarTexto($producto['nombre'], 50); ?>
+                                        <a href="producto-detalle?id=<?php echo $producto['id']; ?>"
+                                            class="social-info"> <?php echo truncarTexto($producto['nombre'], 50); ?>
                                         </a>
                                     </h6>
 
@@ -415,8 +418,8 @@ function construirUrlFiltro($nuevosParams) {
                                             <span class="ti-bag"></span>
                                             <p class="hover-text">Agregar al Carrito</p>
                                         </a>
-                                        <a href="producto/<?php echo $producto['id']; ?>" class="social-info">
-                                            <span class="lnr lnr-move"></span>
+                                        <a href="producto-detalle?id=<?php echo $producto['id']; ?>"
+                                            class="social-info"> <span class="lnr lnr-move"></span>
                                             <p class="hover-text">Ver Detalles</p>
                                         </a>
                                     </div>
