@@ -17,13 +17,15 @@ class AuthService {
             // Guardar carrito temporal si existe
             $carritoTempId = $_SESSION['carrito_temp_id'] ?? null;
             
-            $_SESSION['user'] = [
+            $userData = [
                 'id' => $user->id,
-                'username' => $user->username,
+                'nombre' => $user->nombre,
+                'apellido' => $user->apellido,
                 'email' => $user->email,
-                'role' => $user->role
+                'rol' => $user->rol
             ];
             
+            $_SESSION['user'] = $userData;
             $_SESSION['usuario_id'] = $user->id;
             
             // Migrar carrito temporal al usuario logueado
@@ -32,7 +34,7 @@ class AuthService {
                 unset($_SESSION['carrito_temp_id']);
             }
             
-            return true;
+            return $userData;
         }
 
         return false;

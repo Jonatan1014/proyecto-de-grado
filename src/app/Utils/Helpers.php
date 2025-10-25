@@ -36,6 +36,27 @@ function obtenerImagenProducto($producto, $porDefecto = 'img/product/default.jpg
     return $porDefecto;
 }
 
+// En src/app/Utils/Helpers.php
+/**
+ * Calcular el porcentaje de descuento
+ */
+function calcularPorcentajeDescuento($producto) {
+    if (is_array($producto)) {
+        $precioOriginal = $producto['precio'] ?? 0;
+        $precioOferta = $producto['precio_oferta'] ?? 0;
+    } else {
+        // Si recibes solo los valores, ajusta la llamada
+        // Por ejemplo, si defines la función para recibir $precioOriginal, $precioOferta
+        return 0; // o manejar según tu estructura
+    }
+
+    if ($precioOriginal > 0 && $precioOferta > 0 && $precioOriginal > $precioOferta) {
+        return (($precioOriginal - $precioOferta) / $precioOriginal) * 100;
+    }
+    return 0;
+}
+
+// Asegúrate también de que 'tieneDescuento' funcione correctamente con tu estructura de array
 /**
  * Verificar si un producto tiene descuento
  */
@@ -45,6 +66,9 @@ function tieneDescuento($producto) {
     }
     return false;
 }
+
+
+
 
 /**
  * Calcular precio original cuando hay descuento

@@ -68,6 +68,45 @@ class Carrito {
     }
 
     /**
+     * Obtener items del carrito (alias para checkout y vistas)
+     */
+    public static function obtenerItems($carritoId) {
+        $db = Database::getConnection();
+
+        $sql = "SELECT c.*, 
+                       p.id as producto_id,
+                       p.nombre as producto_nombre,
+                       p.descripcion,
+                       p.imagen_principal,
+                       p.imagen_2,
+                       p.imagen_3,
+                       p.stock,
+                       p.precio,
+                       p.precio_oferta,
+                       p.codigo_sku,
+                       m.nombre as marca_nombre,
+                       cat.nombre as categoria_nombre,
+                       t.nombre as talla_nombre,
+                       col.nombre as color_nombre,
+                       gen.nombre as genero_nombre
+                FROM carrito c
+                INNER JOIN productos p ON c.producto_id = p.id
+                LEFT JOIN marcas m ON p.marca_id = m.id
+                LEFT JOIN categorias cat ON p.categoria_id = cat.id
+                LEFT JOIN tallas t ON p.talla_id = t.id
+                LEFT JOIN colores col ON p.color_id = col.id
+                LEFT JOIN generos gen ON p.genero_id = gen.id
+                WHERE c.usuario_id = :carrito_id
+                ORDER BY c.fecha_agregado DESC";
+
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':carrito_id', $carritoId, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
      * Actualizar cantidad de un item
      */
     public static function actualizarCantidad($carritoId, $cantidad) {
@@ -110,6 +149,13 @@ class Carrito {
         $stmt->bindValue(':carrito_id', $carritoId, PDO::PARAM_STR);
 
         return $stmt->execute();
+    }
+
+    /**
+     * Vaciar carrito del usuario (alias)
+     */
+    public static function vaciarCarrito($carritoId) {
+        return self::vaciar($carritoId);
     }
 
     /**

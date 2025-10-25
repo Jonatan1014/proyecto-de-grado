@@ -20,12 +20,12 @@ return [
     '/api/producto' => ['controller' => 'ProductoController', 'action' => 'apiObtenerProducto'],
     '/api/verificar-stock' => ['controller' => 'ProductoController', 'action' => 'apiVerificarStock'],
 
-    // Rutas de tienda/ecommerce (vistas estáticas por ahora)
+    // Rutas de tienda/ecommerce
     '/blog' => '../app/Views/blog.php',
     '/blog-details' => '../app/Views/blog-details.php',
     '/cart' => ['controller' => 'CarritoController', 'action' => 'ver'],
-    '/checkout' => ['controller' => 'CheckoutController', 'action' => 'ver'],
-    '/confirmation' => '../app/Views/confirmation.php',
+    '/checkout' => ['controller' => 'CheckoutController', 'action' => 'index'],
+    '/confirmation' => ['controller' => 'CheckoutController', 'action' => 'confirmacion'],
     '/elements' => '../app/Views/elements.php',
     '/tracking' => '../app/Views/tracking.php',
 
@@ -36,9 +36,17 @@ return [
     '/api/carrito/vaciar' => ['controller' => 'CarritoController', 'action' => 'vaciar'],
     '/api/carrito/contar' => ['controller' => 'CarritoController', 'action' => 'contarItems'],
 
+    // API de checkout y pedidos
+    '/api/actualizar-cantidad' => ['controller' => 'CheckoutController', 'action' => 'actualizarCantidad'],
+    '/api/eliminar-item' => ['controller' => 'CheckoutController', 'action' => 'eliminarItem'],
+    '/api/procesar-pedido' => ['controller' => 'CheckoutController', 'action' => 'procesarPedido'],
+    '/api/guardar-direccion' => ['controller' => 'CheckoutController', 'action' => 'guardarDireccion'],
+
     // Rutas de autenticación
-    '/login' => '../app/Views/login.php',
+    '/login' => ['controller' => 'AuthController', 'action' => 'handleLogin'],
+    '/logout' => ['controller' => 'AuthController', 'action' => 'logout'],
     '/registration' => '../app/Views/registration.php',
+    '/registro' => ['controller' => 'RegistroController', 'action' => 'index'],
 
     // Rutas de admin con controladores
     '/apps-calendar' => ['controller' => 'AdminController', 'action' => 'appsCalendar'],
@@ -53,6 +61,5 @@ return [
     // Rutas dinámicas con controladores
     '/auth/login' => ['controller' => 'AuthController', 'action' => 'handleLogin'],
     '/admin' => ['controller' => 'AdminController', 'action' => 'index'],
-    '/index' => ['controller' => 'AdminController', 'action' => 'index'],
-    '/logout' => ['controller' => 'AuthController', 'action' => 'logout'],
+    '/index' => ['controller' => 'AdminController', 'action' => 'index']
 ];

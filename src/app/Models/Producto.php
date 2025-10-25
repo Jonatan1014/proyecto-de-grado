@@ -224,22 +224,46 @@ class Producto {
     }
 
     /**
-     * Obtener imágenes de un producto
+     * Obtener imágenes del producto desde la tabla productos
+     * @param int $productoId
+     * @return array
      */
     public static function obtenerImagenes($productoId) {
         $db = Database::getConnection();
 
-        $sql = "SELECT * FROM imagenes_productos
-                WHERE producto_id = :producto_id
-                ORDER BY orden ASC";
+        // Obtener solo las columnas de imagen del producto específico
+        $sql = "SELECT imagen_principal, imagen_2, imagen_3, imagen_4, imagen_5
+                FROM productos
+                WHERE id = :producto_id";
 
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':producto_id', $productoId, PDO::PARAM_INT);
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+        $producto = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        if (!$producto) {
+            return []; // Si no se encuentra el producto, devolver array vacío
+        }
+
+        // Filtrar las imágenes que existan (no nulas ni vacías) y construir un array
+        // compatible con lo que espera la vista, si es necesario.
+        // Suponiendo que la vista espera un array de arrays con una clave 'url'.
+        $imagenes = [];
+        for ($i = 1; $i <= 5; $i++) {
+            $nombreCampo = ($i === 1) ? 'imagen_principal' : "imagen_$i";
+            if (!empty($producto[$nombreCampo])) {
+                // Opcional: puedes agregar un campo 'orden' si es relevante
+                $imagenes[] = [
+                    'url' => $producto[$nombreCampo],
+                    'orden' => $i // Opcional
+                ];
+            }
+        }
+
+        return $imagenes; // Devuelve el array de imágenes con estructura ['url' => '...']
+    }
+    
     /**
      * Contar total de productos
      */
@@ -573,4 +597,3 @@ class Producto {
         return $stmt->execute([':id' => $id, ':cantidad' => $cantidad]);
     }
 }
-

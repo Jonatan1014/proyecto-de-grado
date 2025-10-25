@@ -1,8 +1,14 @@
 <?php
+// Incluir el archivo de helpers
 require_once __DIR__ . '/../Utils/Helpers.php';
-
-// Obtener datos del producto (ya vienen del controlador)
-// $producto, $imagenes, $productosRelacionados
+// Aseguramos que $producto, $imagenes y $productosRelacionados estén disponibles
+// (Estos datos vienen del controlador ProductoController::detalle)
+if (!isset($producto, $imagenes, $productosRelacionados)) {
+    // Manejar error si no se reciben los datos esperados
+    error_log("single-product.php: Variables \$producto, \$imagenes o \$productosRelacionados no definidas.");
+    header('Location: 404');
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="es" class="no-js">
@@ -16,91 +22,507 @@ require_once __DIR__ . '/../Utils/Helpers.php';
     <meta name="author" content="Tennis y Fragancias">
     <!-- Meta Description -->
     <meta name="description"
-        content="<?= htmlspecialchars($producto['nombre']) ?> - <?= htmlspecialchars($producto['marca']) ?>">
+        content="<?= htmlspecialchars($producto['nombre']) ?> - <?= htmlspecialchars($producto['descripcion'] ?? '') ?>">
     <!-- Meta Keyword -->
     <meta name="keywords"
-        content="<?= htmlspecialchars($producto['nombre']) ?>, <?= htmlspecialchars($producto['marca']) ?>, <?= htmlspecialchars($producto['categoria']) ?>">
+        content="calzado, <?= htmlspecialchars($producto['nombre']) ?>, <?= htmlspecialchars($producto['marca_nombre'] ?? '') ?>">
     <!-- meta character set -->
     <meta charset="UTF-8">
     <!-- Site Title -->
-    <title><?= htmlspecialchars($producto['nombre']) ?> | Tennis y Fragancias</title>
-    <!--
-			CSS
-			============================================= -->
+    <title><?= htmlspecialchars($producto['nombre']) ?> - Tennis y Fragancias</title>
+
+    <!-- CSS -->
     <link rel="stylesheet" href="css/linearicons.css">
+    <link rel="stylesheet" href="css/owl.carousel.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/themify-icons.css">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/owl.carousel.css">
     <link rel="stylesheet" href="css/nice-select.css">
     <link rel="stylesheet" href="css/nouislider.min.css">
-    <link rel="stylesheet" href="css/ion.rangeSlider.css" />
-    <link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css" />
+    <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/main.css">
 
     <style>
-    .s_Product_carousel .owl-item img {
+    /* Diseño profesional para página de producto */
+    .product-detail-section {
+        padding: 60px 0;
+        background: #f8f9fa;
+    }
+
+    .product-image-wrapper {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+        position: sticky;
+        top: 100px;
+    }
+
+    .product-image-wrapper img {
+        border-radius: 8px;
         width: 100%;
         height: auto;
-        object-fit: cover;
+        object-fit: contain;
     }
 
-    .product-badge {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: #ffba00;
-        color: #222;
-        padding: 5px 15px;
-        border-radius: 3px;
-        font-weight: 600;
-        font-size: 12px;
-        z-index: 1;
-    }
-
-    .size-selector {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin: 15px 0;
-    }
-
-    .size-option {
-        padding: 8px 16px;
-        border: 2px solid #ddd;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: all 0.3s;
+    .product-info-wrapper {
         background: white;
+        border-radius: 12px;
+        padding: 40px;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
     }
 
-    .size-option:hover,
-    .size-option.active {
-        border-color: #ffba00;
-        background: #ffba00;
+    .product-title {
+        font-size: 32px;
+        font-weight: 700;
         color: #222;
+        margin-bottom: 15px;
+        line-height: 1.3;
     }
 
-    .size-option.disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
+    .product-brand {
+        display: inline-block;
+        background: #f0f0f0;
+        padding: 8px 20px;
+        border-radius: 25px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #666;
+        margin-bottom: 20px;
     }
 
-    .stock-info {
-        margin: 10px 0;
+    .product-rating {
+        margin-bottom: 20px;
+    }
+
+    .product-rating .stars {
+        color: #ffba00;
+        font-size: 18px;
+        margin-right: 10px;
+    }
+
+    .product-rating .reviews {
+        color: #999;
         font-size: 14px;
     }
 
-    .stock-info.in-stock {
-        color: #28a745;
+    .price-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 25px;
+        border-radius: 10px;
+        margin: 25px 0;
     }
 
-    .stock-info.low-stock {
-        color: #ffc107;
+    .price-section.discount {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
     }
 
-    .stock-info.out-stock {
-        color: #dc3545;
+    .current-price {
+        font-size: 42px;
+        font-weight: 800;
+        color: white;
+        margin: 0;
+        line-height: 1;
+    }
+
+    .original-price {
+        font-size: 24px;
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: line-through;
+        margin-right: 15px;
+    }
+
+    .discount-badge {
+        display: inline-block;
+        background: #ff4444;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 25px;
+        font-size: 16px;
+        font-weight: 700;
+        margin-top: 10px;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+        0%,
+        100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.05);
+        }
+    }
+
+    .product-features {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 25px 0;
+    }
+
+    .feature-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .feature-item:last-child {
+        border-bottom: none;
+    }
+
+    .feature-icon {
+        width: 40px;
+        height: 40px;
+        background: #ffba00;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        flex-shrink: 0;
+    }
+
+    .feature-icon i {
+        color: white;
+        font-size: 18px;
+    }
+
+    .feature-label {
+        font-weight: 600;
+        color: #666;
+        margin-right: 10px;
+        min-width: 100px;
+    }
+
+    .feature-value {
+        color: #222;
+        font-weight: 500;
+    }
+
+    .feature-value a {
+        color: #667eea;
+        text-decoration: none;
+        transition: all 0.3s;
+    }
+
+    .feature-value a:hover {
+        color: #764ba2;
+        text-decoration: underline;
+    }
+
+    .stock-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 10px 20px;
+        border-radius: 25px;
+        font-weight: 600;
+        font-size: 14px;
+        margin: 20px 0;
+    }
+
+    .stock-badge.in-stock {
+        background: #d4edda;
+        color: #155724;
+        border: 2px solid #c3e6cb;
+    }
+
+    .stock-badge.low-stock {
+        background: #fff3cd;
+        color: #856404;
+        border: 2px solid #ffeaa7;
+    }
+
+    .stock-badge.out-stock {
+        background: #f8d7da;
+        color: #721c24;
+        border: 2px solid #f5c6cb;
+    }
+
+    .stock-badge i {
+        margin-right: 8px;
+        font-size: 16px;
+    }
+
+    .quantity-selector {
+        display: flex;
+        align-items: center;
+        margin: 25px 0;
+    }
+
+    .quantity-label {
+        font-weight: 600;
+        font-size: 16px;
+        margin-right: 20px;
+        color: #222;
+    }
+
+    .quantity-controls {
+        display: flex;
+        align-items: center;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .quantity-btn {
+        background: white;
+        border: none;
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+        cursor: pointer;
+        transition: all 0.3s;
+        color: #666;
+    }
+
+    .quantity-btn:hover {
+        background: #ffba00;
+        color: white;
+    }
+
+    .quantity-input {
+        border: none;
+        border-left: 2px solid #e0e0e0;
+        border-right: 2px solid #e0e0e0;
+        width: 70px;
+        height: 45px;
+        text-align: center;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    .cta-buttons {
+        display: flex;
+        gap: 15px;
+        margin: 30px 0;
+    }
+
+    .btn-add-cart {
+        flex: 1;
+        background: linear-gradient(135deg, #ffba00 0%, #ff9900 100%);
+        color: white;
+        padding: 18px 35px;
+        border: none;
+        border-radius: 8px;
+        font-size: 18px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 4px 15px rgba(255, 186, 0, 0.3);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .btn-add-cart:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 186, 0, 0.4);
+    }
+
+    .btn-add-cart i {
+        margin-right: 10px;
+    }
+
+    .btn-wishlist {
+        width: 60px;
+        height: 60px;
+        background: white;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .btn-wishlist:hover {
+        border-color: #ff4444;
+        background: #ff4444;
+        color: white;
+    }
+
+    .btn-wishlist i {
+        font-size: 24px;
+    }
+
+    .product-description {
+        background: white;
+        border-radius: 12px;
+        padding: 40px;
+        margin-top: 40px;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .section-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #222;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 3px solid #ffba00;
+        display: inline-block;
+    }
+
+    .description-text {
+        color: #666;
+        font-size: 16px;
+        line-height: 1.8;
+    }
+
+    .specifications-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-top: 25px;
+    }
+
+    .spec-item {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        border-left: 4px solid #ffba00;
+    }
+
+    .spec-label {
+        font-weight: 600;
+        color: #666;
+        font-size: 14px;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .spec-value {
+        font-size: 18px;
+        color: #222;
+        font-weight: 600;
+    }
+
+    .related-products {
+        background: white;
+        border-radius: 12px;
+        padding: 40px;
+        margin-top: 40px;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .related-product-card {
+        background: #f8f9fa;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.3s;
+        cursor: pointer;
+        height: 100%;
+    }
+
+    .related-product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .related-product-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .related-product-info {
+        padding: 20px;
+    }
+
+    .related-product-name {
+        font-size: 16px;
+        font-weight: 600;
+        color: #222;
+        margin-bottom: 10px;
+        line-height: 1.4;
+    }
+
+    .related-product-price {
+        font-size: 20px;
+        font-weight: 700;
+        color: #667eea;
+    }
+
+    .trust-badges {
+        display: flex;
+        gap: 20px;
+        margin: 30px 0;
+        padding: 25px;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+
+    .trust-badge {
+        flex: 1;
+        text-align: center;
+    }
+
+    .trust-badge i {
+        font-size: 32px;
+        color: #ffba00;
+        margin-bottom: 10px;
+    }
+
+    .trust-badge-text {
+        font-size: 13px;
+        color: #666;
+        font-weight: 600;
+    }
+
+    /* Breadcrumb mejorado */
+    .banner-area.organic-breadcrumb {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 40px 0;
+    }
+
+    .breadcrumb-banner h1 {
+        color: white;
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    .breadcrumb-banner nav a {
+        color: rgba(255, 255, 255, 0.8);
+        font-weight: 500;
+    }
+
+    .breadcrumb-banner nav a:hover {
+        color: white;
+    }
+
+    /* Responsive */
+    @media (max-width: 991px) {
+        .product-image-wrapper {
+            position: relative;
+            top: 0;
+            margin-bottom: 30px;
+        }
+
+        .product-info-wrapper {
+            padding: 30px 20px;
+        }
+
+        .product-title {
+            font-size: 24px;
+        }
+
+        .current-price {
+            font-size: 32px;
+        }
+
+        .cta-buttons {
+            flex-direction: column;
+        }
+
+        .trust-badges {
+            flex-direction: column;
+            gap: 15px;
+        }
     }
     </style>
 </head>
@@ -118,11 +540,10 @@ require_once __DIR__ . '/../Utils/Helpers.php';
                 <div class="col-first">
                     <h1><?= htmlspecialchars($producto['nombre']) ?></h1>
                     <nav class="d-flex align-items-center">
-                        <a href="home">Inicio<span class="lnr lnr-arrow-right"></span></a>
-                        <a href="catalogo">Tienda<span class="lnr lnr-arrow-right"></span></a>
-                        <a href="catalogo?categoria=<?= $producto['categoria_id'] ?>"><?= htmlspecialchars($producto['categoria']) ?><span
-                                class="lnr lnr-arrow-right"></span></a>
-                        <a href="#"><?= htmlspecialchars(truncarTexto($producto['nombre'], 30)) ?></a>
+                        <a href="/">Inicio<span class="lnr lnr-arrow-right"></span></a>
+                        <a href="/category">Catálogo<span class="lnr lnr-arrow-right"></span></a>
+                        <a
+                            href="/category?categoria=<?= $producto['categoria_id'] ?>"><?= htmlspecialchars($producto['categoria_nombre'] ?? 'Sin Categoría') ?></a>
                     </nav>
                 </div>
             </div>
@@ -131,546 +552,312 @@ require_once __DIR__ . '/../Utils/Helpers.php';
     <!-- End Banner Area -->
 
     <!--================Single Product Area =================-->
-    <div class="product_image_area">
+    <section class="product-detail-section">
         <div class="container">
-            <div class="row s_product_inner">
-                <div class="col-lg-6">
-                    <div class="s_Product_carousel">
-                        <?php if (!empty($imagenes)): ?>
-                        <?php foreach ($imagenes as $imagen): ?>
-                        <div class="single-prd-item">
-                            <img class="img-fluid" src="<?= htmlspecialchars($imagen['url']) ?>"
-                                alt="<?= htmlspecialchars($producto['nombre']) ?>">
+            <div class="row">
+                <!-- Columna de Imagen -->
+                <div class="col-lg-6 mb-4">
+                    <div class="product-image-wrapper">
+                        <div class="owl-carousel s_Product_carousel">
+                            <?php if (!empty($imagenes)): ?>
+                            <?php foreach ($imagenes as $imagen): ?>
+                            <div class="single-prd-item">
+                                <img src="img/product/<?= htmlspecialchars($imagen['url']) ?>"
+                                    alt="<?= htmlspecialchars($producto['nombre']) ?>">
+                            </div>
+                            <?php endforeach; ?>
+                            <?php else: ?>
+                            <div class="single-prd-item">
+                                <img src="img/product/<?= obtenerImagenProducto($producto) ?>"
+                                    alt="<?= htmlspecialchars($producto['nombre']) ?>">
+                            </div>
+                            <?php endif; ?>
                         </div>
-                        <?php endforeach; ?>
-                        <?php else: ?>
-                        <div class="single-prd-item">
-                            <img class="img-fluid" src="<?= obtenerImagenProducto($producto) ?>"
-                                alt="<?= htmlspecialchars($producto['nombre']) ?>">
-                        </div>
-                        <?php endif; ?>
                     </div>
                 </div>
-                <div class="col-lg-5 offset-lg-1">
-                    <div class="s_product_text">
-                        <h3><?= htmlspecialchars($producto['nombre']) ?></h3>
 
-                        <?php if (tieneDescuento($producto)): ?>
-                        <h2>
-                            <span style="text-decoration: line-through; color: #999; font-size: 0.8em;">
-                                <?= formatearPrecio(calcularPrecioOriginal($producto)) ?>
-                            </span>
-                            <span style="color: #ffba00;"><?= formatearPrecio($producto['precio']) ?></span>
-                            <span class="badge badge-warning ml-2" style="background: #ffba00; color: #222;">
-                                -<?= $producto['descuento'] ?>%
-                            </span>
-                        </h2>
-                        <?php else: ?>
-                        <h2><?= formatearPrecio($producto['precio']) ?></h2>
+                <!-- Columna de Información del Producto -->
+                <div class="col-lg-6">
+                    <div class="product-info-wrapper">
+                        <!-- Marca -->
+                        <?php if (!empty($producto['marca_nombre'])): ?>
+                        <span class="product-brand">
+                            <i class="fa fa-tag"></i> <?= htmlspecialchars($producto['marca_nombre']) ?>
+                        </span>
                         <?php endif; ?>
 
-                        <ul class="list">
-                            <li><a class="active" href="/catalogo?categoria=<?= $producto['categoria_id'] ?>">
-                                    <span>Categoría</span> : <?= htmlspecialchars($producto['categoria']) ?>
-                                </a></li>
-                            <li><a href="catalogo?marca=<?= $producto['marca_id'] ?>">
-                                    <span>Marca</span> : <?= htmlspecialchars($producto['marca']) ?>
-                                </a></li>
-                            <?php if (!empty($producto['genero'])): ?>
-                            <li><a href="catalogo?genero=<?= $producto['genero_id'] ?>">
-                                    <span>Género</span> : <?= htmlspecialchars($producto['genero']) ?>
-                                </a></li>
-                            <?php endif; ?>
-                            <li>
-                                <?php
-                                $stock = intval($producto['stock'] ?? 0);
-                                $stockClass = 'out-stock';
-                                $stockText = 'Agotado';
-                                
-                                if ($stock > 10) {
-                                    $stockClass = 'in-stock';
-                                    $stockText = 'En Stock (' . $stock . ' disponibles)';
-                                } elseif ($stock > 0) {
-                                    $stockClass = 'low-stock';
-                                    $stockText = 'Últimas unidades (' . $stock . ' disponibles)';
-                                }
-                                ?>
-                                <span class="stock-info <?= $stockClass ?>">
-                                    <span>Disponibilidad</span> : <?= $stockText ?>
-                                </span>
-                            </li>
-                        </ul>
+                        <!-- Título -->
+                        <h1 class="product-title"><?= htmlspecialchars($producto['nombre']) ?></h1>
 
-                        <?php if (!empty($producto['descripcion'])): ?>
-                        <p><?= nl2br(htmlspecialchars($producto['descripcion'])) ?></p>
-                        <?php endif; ?>
-
-                        <?php if (!empty($producto['talla'])): ?>
-                        <div class="size-selector">
-                            <label style="width: 100%; font-weight: 600; margin-bottom: 10px;">Talla:</label>
-                            <button class="size-option active" data-talla="<?= htmlspecialchars($producto['talla']) ?>">
-                                <?= htmlspecialchars($producto['talla']) ?>
-                            </button>
+                        <!-- Rating (simulado por ahora) -->
+                        <div class="product-rating">
+                            <span class="stars">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-half-o"></i>
+                            </span>
+                            <span class="reviews">(4.5 - 128 valoraciones)</span>
                         </div>
-                        <?php endif; ?>
+
+                        <!-- Precio -->
+                        <div class="price-section <?= tieneDescuento($producto) ? 'discount' : '' ?>">
+                            <?php if (tieneDescuento($producto)): ?>
+                            <div>
+                                <span class="original-price"><?= formatearPrecio($producto['precio']) ?></span>
+                                <h2 class="current-price"><?= formatearPrecio($producto['precio_oferta']) ?></h2>
+                                <span class="discount-badge">
+                                    <i class="fa fa-bolt"></i>
+                                    ¡AHORRA <?= number_format(calcularPorcentajeDescuento($producto), 0) ?>%!
+                                </span>
+                            </div>
+                            <?php else: ?>
+                            <h2 class="current-price"><?= formatearPrecio($producto['precio']) ?></h2>
+                            <?php endif; ?>
+                        </div>
+
+                        <!-- Estado de Stock -->
+                        <?php
+                        $stock = intval($producto['stock'] ?? 0);
+                        $stockClass = 'out-stock';
+                        $stockText = 'Agotado';
+                        $stockIcon = 'fa-times-circle';
+                        
+                        if ($stock > 10) {
+                            $stockClass = 'in-stock';
+                            $stockText = 'Disponible - ' . $stock . ' unidades';
+                            $stockIcon = 'fa-check-circle';
+                        } elseif ($stock > 0) {
+                            $stockClass = 'low-stock';
+                            $stockText = '¡Últimas ' . $stock . ' unidades!';
+                            $stockIcon = 'fa-exclamation-circle';
+                        }
+                        ?>
+                        <div class="stock-badge <?= $stockClass ?>">
+                            <i class="fa <?= $stockIcon ?>"></i>
+                            <?= $stockText ?>
+                        </div>
+
+                        <!-- Características Principales -->
+                        <div class="product-features">
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fa fa-list-alt"></i>
+                                </div>
+                                <span class="feature-label">Categoría:</span>
+                                <span class="feature-value">
+                                    <a href="/category?categoria=<?= $producto['categoria_id'] ?>">
+                                        <?= htmlspecialchars($producto['categoria_nombre'] ?? 'Sin Categoría') ?>
+                                    </a>
+                                </span>
+                            </div>
+
+                            <?php if (!empty($producto['genero_nombre'])): ?>
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fa fa-user"></i>
+                                </div>
+                                <span class="feature-label">Género:</span>
+                                <span class="feature-value">
+                                    <a href="/category?genero=<?= $producto['genero_id'] ?>">
+                                        <?= htmlspecialchars($producto['genero_nombre']) ?>
+                                    </a>
+                                </span>
+                            </div>
+                            <?php endif; ?>
+
+                            <?php if (!empty($producto['talla_nombre'])): ?>
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fa fa-expand"></i>
+                                </div>
+                                <span class="feature-label">Talla:</span>
+                                <span class="feature-value"><?= htmlspecialchars($producto['talla_nombre']) ?></span>
+                            </div>
+                            <?php endif; ?>
+
+                            <?php if (!empty($producto['color_nombre'])): ?>
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fa fa-paint-brush"></i>
+                                </div>
+                                <span class="feature-label">Color:</span>
+                                <span class="feature-value"><?= htmlspecialchars($producto['color_nombre']) ?></span>
+                            </div>
+                            <?php endif; ?>
+
+                            <?php if (!empty($producto['codigo_sku'])): ?>
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fa fa-barcode"></i>
+                                </div>
+                                <span class="feature-label">SKU:</span>
+                                <span class="feature-value"><?= htmlspecialchars($producto['codigo_sku']) ?></span>
+                            </div>
+                            <?php endif; ?>
+                        </div>
 
                         <?php if ($stock > 0): ?>
-                        <div class="product_count">
-                            <label for="qty">Cantidad:</label>
-                            <input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:"
-                                class="input-text qty" data-max="<?= $stock ?>">
-                            <button onclick="incrementarCantidad()" class="increase items-count" type="button"><i
-                                    class="lnr lnr-chevron-up"></i></button>
-                            <button onclick="decrementarCantidad()" class="reduced items-count" type="button"><i
-                                    class="lnr lnr-chevron-down"></i></button>
+                        <!-- Selector de Cantidad -->
+                        <div class="quantity-selector">
+                            <span class="quantity-label">Cantidad:</span>
+                            <div class="quantity-controls">
+                                <button type="button" class="quantity-btn btn-decrease">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                                <input type="number" id="qty" class="quantity-input" value="1" min="1"
+                                    max="<?= $stock ?>" readonly>
+                                <button type="button" class="quantity-btn btn-increase">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
                         </div>
 
-                        <div class="card_area d-flex align-items-center">
-                            <a class="primary-btn" href="#" onclick="agregarAlCarritoDetalle(event)">Agregar al
-                                Carrito</a>
-                            <a class="icon_btn" href="favoritos" title="Agregar a favoritos"><i
-                                    class="lnr lnr lnr-heart"></i></a>
+                        <!-- Botones de Acción -->
+                        <div class="cta-buttons">
+                            <button type="button" class="btn-add-cart" id="btn-add-to-cart"
+                                data-producto-id="<?= $producto['id'] ?>" data-stock="<?= $stock ?>">
+                                <i class="fa fa-shopping-cart"></i>
+                                Agregar al Carrito
+                            </button>
+                            <button type="button" class="btn-wishlist" title="Agregar a favoritos">
+                                <i class="fa fa-heart-o"></i>
+                            </button>
                         </div>
                         <?php else: ?>
-                        <div class="alert alert-danger mt-3">
-                            <i class="fa fa-exclamation-triangle"></i> Este producto está temporalmente agotado.
+                        <!-- Producto Agotado -->
+                        <div class="alert alert-danger" style="border-radius: 8px; padding: 20px; margin-top: 20px;">
+                            <h5><i class="fa fa-exclamation-triangle"></i> Producto Agotado</h5>
+                            <p class="mb-0">Este producto no está disponible en este momento. ¡Vuelve pronto!</p>
                         </div>
                         <?php endif; ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--================End Single Product Area =================-->
 
-    <!--================Product Description Area =================-->
-    <section class="product_description_area">
-        <div class="container">
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
-                        aria-selected="true">Description</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
-                        aria-controls="profile" aria-selected="false">Specification</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
-                        aria-controls="contact" aria-selected="false">Comments</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" id="review-tab" data-toggle="tab" href="#review" role="tab"
-                        aria-controls="review" aria-selected="false">Reviews</a>
-                </li>
-            </ul>
-            <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <p>Beryl Cook is one of Britain’s most talented and amusing artists .Beryl’s pictures feature women
-                        of all shapes
-                        and sizes enjoying themselves .Born between the two world wars, Beryl Cook eventually left
-                        Kendrick School in
-                        Reading at the age of 15, where she went to secretarial school and then into an insurance
-                        office. After moving to
-                        London and then Hampton, she eventually married her next door neighbour from Reading, John Cook.
-                        He was an
-                        officer in the Merchant Navy and after he left the sea in 1956, they bought a pub for a year
-                        before John took a
-                        job in Southern Rhodesia with a motor company. Beryl bought their young son a box of
-                        watercolours, and when
-                        showing him how to use it, she decided that she herself quite enjoyed painting. John
-                        subsequently bought her a
-                        child’s painting set for her birthday and it was with this that she produced her first
-                        significant work, a
-                        half-length portrait of a dark-skinned lady with a vacant expression and large drooping breasts.
-                        It was aptly
-                        named ‘Hangover’ by Beryl’s husband and</p>
-                    <p>It is often frustrating to attempt to plan meals that are designed for one. Despite this fact, we
-                        are seeing
-                        more and more recipe books and Internet websites that are dedicated to the act of cooking for
-                        one. Divorce and
-                        the death of spouses or grown children leaving for college are all reasons that someone
-                        accustomed to cooking for
-                        more than one would suddenly need to learn how to adjust all the cooking practices utilized
-                        before into a
-                        streamlined plan of cooking that is more efficient for one person creating less</p>
-                </div>
-                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <h5>Width</h5>
-                                    </td>
-                                    <td>
-                                        <h5>128mm</h5>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <h5>Height</h5>
-                                    </td>
-                                    <td>
-                                        <h5>508mm</h5>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <h5>Depth</h5>
-                                    </td>
-                                    <td>
-                                        <h5>85mm</h5>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <h5>Weight</h5>
-                                    </td>
-                                    <td>
-                                        <h5>52gm</h5>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <h5>Quality checking</h5>
-                                    </td>
-                                    <td>
-                                        <h5>yes</h5>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <h5>Freshness Duration</h5>
-                                    </td>
-                                    <td>
-                                        <h5>03days</h5>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <h5>When packeting</h5>
-                                    </td>
-                                    <td>
-                                        <h5>Without touch of hand</h5>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <h5>Each Box contains</h5>
-                                    </td>
-                                    <td>
-                                        <h5>60pcs</h5>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="comment_list">
-                                <div class="review_item">
-                                    <div class="media">
-                                        <div class="d-flex">
-                                            <img src="img/product/review-1.png" alt="">
-                                        </div>
-                                        <div class="media-body">
-                                            <h4>Blake Ruiz</h4>
-                                            <h5>12th Feb, 2018 at 05:56 pm</h5>
-                                            <a class="reply_btn" href="#">Reply</a>
-                                        </div>
-                                    </div>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et
-                                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                                        laboris nisi ut aliquip ex ea
-                                        commodo</p>
-                                </div>
-                                <div class="review_item reply">
-                                    <div class="media">
-                                        <div class="d-flex">
-                                            <img src="img/product/review-2.png" alt="">
-                                        </div>
-                                        <div class="media-body">
-                                            <h4>Blake Ruiz</h4>
-                                            <h5>12th Feb, 2018 at 05:56 pm</h5>
-                                            <a class="reply_btn" href="#">Reply</a>
-                                        </div>
-                                    </div>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et
-                                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                                        laboris nisi ut aliquip ex ea
-                                        commodo</p>
-                                </div>
-                                <div class="review_item">
-                                    <div class="media">
-                                        <div class="d-flex">
-                                            <img src="img/product/review-3.png" alt="">
-                                        </div>
-                                        <div class="media-body">
-                                            <h4>Blake Ruiz</h4>
-                                            <h5>12th Feb, 2018 at 05:56 pm</h5>
-                                            <a class="reply_btn" href="#">Reply</a>
-                                        </div>
-                                    </div>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et
-                                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                                        laboris nisi ut aliquip ex ea
-                                        commodo</p>
-                                </div>
+                        <!-- Badges de Confianza -->
+                        <div class="trust-badges">
+                            <div class="trust-badge">
+                                <i class="fa fa-truck"></i>
+                                <div class="trust-badge-text">Envío Gratis<br>a partir de $50.000</div>
                             </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="review_box">
-                                <h4>Post a comment</h4>
-                                <form class="row contact_form"
-                                    action="https://themewagon.github.io/karma/contact_process.php" method="post"
-                                    id="contactForm" novalidate="novalidate">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="name" name="name"
-                                                placeholder="Your Full name">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <input type="email" class="form-control" id="email" name="email"
-                                                placeholder="Email Address">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="number" name="number"
-                                                placeholder="Phone Number">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <textarea class="form-control" name="message" id="message" rows="1"
-                                                placeholder="Message"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 text-right">
-                                        <button type="submit" value="submit" class="btn primary-btn">Submit Now</button>
-                                    </div>
-                                </form>
+                            <div class="trust-badge">
+                                <i class="fa fa-shield"></i>
+                                <div class="trust-badge-text">Compra<br>Segura</div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="row total_rate">
-                                <div class="col-6">
-                                    <div class="box_total">
-                                        <h5>Overall</h5>
-                                        <h4>4.0</h4>
-                                        <h6>(03 Reviews)</h6>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="rating_list">
-                                        <h3>Based on 3 Reviews</h3>
-                                        <ul class="list">
-                                            <li><a href="#">5 Star <i class="fa fa-star"></i><i
-                                                        class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                                        class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-                                            <li><a href="#">4 Star <i class="fa fa-star"></i><i
-                                                        class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                                        class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-                                            <li><a href="#">3 Star <i class="fa fa-star"></i><i
-                                                        class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                                        class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-                                            <li><a href="#">2 Star <i class="fa fa-star"></i><i
-                                                        class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                                        class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-                                            <li><a href="#">1 Star <i class="fa fa-star"></i><i
-                                                        class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                                        class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="review_list">
-                                <div class="review_item">
-                                    <div class="media">
-                                        <div class="d-flex">
-                                            <img src="img/product/review-1.png" alt="">
-                                        </div>
-                                        <div class="media-body">
-                                            <h4>Blake Ruiz</h4>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                    </div>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et
-                                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                                        laboris nisi ut aliquip ex ea
-                                        commodo</p>
-                                </div>
-                                <div class="review_item">
-                                    <div class="media">
-                                        <div class="d-flex">
-                                            <img src="img/product/review-2.png" alt="">
-                                        </div>
-                                        <div class="media-body">
-                                            <h4>Blake Ruiz</h4>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                    </div>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et
-                                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                                        laboris nisi ut aliquip ex ea
-                                        commodo</p>
-                                </div>
-                                <div class="review_item">
-                                    <div class="media">
-                                        <div class="d-flex">
-                                            <img src="img/product/review-3.png" alt="">
-                                        </div>
-                                        <div class="media-body">
-                                            <h4>Blake Ruiz</h4>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                    </div>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et
-                                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                                        laboris nisi ut aliquip ex ea
-                                        commodo</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="review_box">
-                                <h4>Add a Review</h4>
-                                <p>Your Rating:</p>
-                                <ul class="list">
-                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                </ul>
-                                <p>Outstanding</p>
-                                <form class="row contact_form"
-                                    action="https://themewagon.github.io/karma/contact_process.php" method="post"
-                                    id="contactForm" novalidate="novalidate">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="name" name="name"
-                                                placeholder="Your Full name" onfocus="this.placeholder = ''"
-                                                onblur="this.placeholder = 'Your Full name'">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <input type="email" class="form-control" id="email" name="email"
-                                                placeholder="Email Address" onfocus="this.placeholder = ''"
-                                                onblur="this.placeholder = 'Email Address'">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="number" name="number"
-                                                placeholder="Phone Number" onfocus="this.placeholder = ''"
-                                                onblur="this.placeholder = 'Phone Number'">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <textarea class="form-control" name="message" id="message" rows="1"
-                                                placeholder="Review" onfocus="this.placeholder = ''"
-                                                onblur="this.placeholder = 'Review'"></textarea></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 text-right">
-                                        <button type="submit" value="submit" class="primary-btn">Submit Now</button>
-                                    </div>
-                                </form>
+                            <div class="trust-badge">
+                                <i class="fa fa-refresh"></i>
+                                <div class="trust-badge-text">Garantía<br>de Satisfacción</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <!--================End Product Description Area =================-->
 
-    <!-- Start related-product Area -->
-    <section class="related-product-area section_gap_bottom">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-6 text-center">
-                    <div class="section-title">
-                        <h1>Productos Relacionados</h1>
-                        <p>Descubre otros productos similares que podrían interesarte</p>
-                    </div>
-                </div>
-            </div>
+            <!-- Descripción y Especificaciones -->
             <div class="row">
-                <div class="col-lg-12">
-                    <div class="row">
-                        <?php if (!empty($productosRelacionados)): ?>
-                        <?php foreach ($productosRelacionados as $relacionado): ?>
-                        <div class="col-lg-3 col-md-4 col-sm-6 mb-20">
-                            <div class="single-related-product d-flex">
-                                <a href="producto/detalle?id=<?= $relacionado['id'] ?>">
-                                    <img src="<?= obtenerImagenProducto($relacionado) ?>"
-                                        alt="<?= htmlspecialchars($relacionado['nombre']) ?>"
-                                        style="width: 70px; height: 70px; object-fit: cover;">
-                                </a>
-                                <div class="desc">
-                                    <a href="producto/detalle?id=<?= $relacionado['id'] ?>" class="title">
-                                        <?= htmlspecialchars(truncarTexto($relacionado['nombre'], 40)) ?>
-                                    </a>
-                                    <div class="price">
-                                        <?php if (tieneDescuento($relacionado)): ?>
-                                        <h6><?= formatearPrecio($relacionado['precio']) ?></h6>
-                                        <h6 class="l-through">
-                                            <?= formatearPrecio(calcularPrecioOriginal($relacionado)) ?></h6>
-                                        <?php else: ?>
-                                        <h6><?= formatearPrecio($relacionado['precio']) ?></h6>
-                                        <?php endif; ?>
-                                    </div>
+                <div class="col-12">
+                    <div class="product-description">
+                        <h2 class="section-title">Descripción del Producto</h2>
+                        <div class="description-text">
+                            <?php if (!empty($producto['descripcion'])): ?>
+                            <?= nl2br(htmlspecialchars($producto['descripcion'])) ?>
+                            <?php else: ?>
+                            <p>Este producto de alta calidad de
+                                <?= htmlspecialchars($producto['marca_nombre'] ?? 'nuestra marca') ?>
+                                es perfecto para tu estilo de vida activo. Diseñado con los mejores materiales y
+                                la última tecnología en calzado deportivo.</p>
+                            <?php endif; ?>
+                        </div>
+
+                        <h3 class="section-title mt-5">Especificaciones Técnicas</h3>
+                        <div class="specifications-grid">
+                            <div class="spec-item">
+                                <div class="spec-label"><i class="fa fa-list-alt"></i> Categoría</div>
+                                <div class="spec-value"><?= htmlspecialchars($producto['categoria_nombre'] ?? 'N/A') ?>
                                 </div>
                             </div>
+                            <div class="spec-item">
+                                <div class="spec-label"><i class="fa fa-tag"></i> Marca</div>
+                                <div class="spec-value"><?= htmlspecialchars($producto['marca_nombre'] ?? 'N/A') ?>
+                                </div>
+                            </div>
+                            <?php if (!empty($producto['genero_nombre'])): ?>
+                            <div class="spec-item">
+                                <div class="spec-label"><i class="fa fa-user"></i> Género</div>
+                                <div class="spec-value"><?= htmlspecialchars($producto['genero_nombre']) ?></div>
+                            </div>
+                            <?php endif; ?>
+                            <?php if (!empty($producto['talla_nombre'])): ?>
+                            <div class="spec-item">
+                                <div class="spec-label"><i class="fa fa-expand"></i> Talla</div>
+                                <div class="spec-value"><?= htmlspecialchars($producto['talla_nombre']) ?></div>
+                            </div>
+                            <?php endif; ?>
+                            <?php if (!empty($producto['color_nombre'])): ?>
+                            <div class="spec-item">
+                                <div class="spec-label"><i class="fa fa-paint-brush"></i> Color</div>
+                                <div class="spec-value"><?= htmlspecialchars($producto['color_nombre']) ?></div>
+                            </div>
+                            <?php endif; ?>
+                            <div class="spec-item">
+                                <div class="spec-label"><i class="fa fa-cubes"></i> Disponibilidad</div>
+                                <div class="spec-value"><?= $stock ?> unidades</div>
+                            </div>
                         </div>
-                        <?php endforeach; ?>
-                        <?php else: ?>
-                        <div class="col-12 text-center">
-                            <p>No hay productos relacionados disponibles en este momento.</p>
-                        </div>
-                        <?php endif; ?>
                     </div>
                 </div>
             </div>
+
+            <!-- Productos Relacionados -->
+            <?php if (!empty($productosRelacionados)): ?>
+            <div class="row">
+                <div class="col-12">
+                    <div class="related-products">
+                        <h2 class="section-title">También te puede interesar</h2>
+                        <p class="mb-4" style="color: #666;">Descubre otros productos similares que nuestros clientes
+                            también compraron</p>
+
+                        <div class="row">
+                            <?php foreach ($productosRelacionados as $relacionado): ?>
+                            <div class="col-lg-3 col-md-6 mb-4">
+                                <a href="producto-detalle?id=<?= $relacionado['id'] ?>" style="text-decoration: none;">
+                                    <div class="related-product-card">
+                                        <img src="img/product/<?= obtenerImagenProducto($relacionado) ?>"
+                                            alt="<?= htmlspecialchars($relacionado['nombre']) ?>"
+                                            class="related-product-image">
+                                        <div class="related-product-info">
+                                            <div class="related-product-name">
+                                                <?= htmlspecialchars(truncarTexto($relacionado['nombre'], 50)) ?>
+                                            </div>
+                                            <div class="related-product-price">
+                                                <?php if (tieneDescuento($relacionado)): ?>
+                                                <?= formatearPrecio($relacionado['precio_oferta']) ?>
+                                                <small
+                                                    style="text-decoration: line-through; color: #999; font-size: 14px; display: block;">
+                                                    <?= formatearPrecio($relacionado['precio']) ?>
+                                                </small>
+                                                <?php else: ?>
+                                                <?= formatearPrecio($relacionado['precio']) ?>
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php endif; ?>
         </div>
     </section>
-    <!-- End related-product Area -->
+    <!--================End Single Product Area =================-->
 
     <!-- start footer Area -->
     <?php include 'includes/footer.php'; ?>
     <!-- End footer Area -->
 
+    <!-- Scripts -->
     <script src="js/vendor/jquery-2.2.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
         integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous">
@@ -683,97 +870,187 @@ require_once __DIR__ . '/../Utils/Helpers.php';
     <script src="js/jquery.magnific-popup.min.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
-    <script src="js/carrito.js"></script>
+    <script src="js/carrito.js"></script> <!-- Asegúrate de que este archivo gestione el carrito -->
 
     <script>
-    // Inicializar el carousel de imágenes del producto
     $(document).ready(function() {
+        // Inicializar el carousel de imágenes del producto
         $('.s_Product_carousel').owlCarousel({
             items: 1,
             loop: true,
             nav: true,
-            dots: false,
-            navText: ['<i class="lnr lnr-chevron-left"></i>', '<i class="lnr lnr-chevron-right"></i>']
+            dots: true,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            autoplayHoverPause: true,
+            navText: ['<i class="fa fa-chevron-left"></i>', '<i class="fa fa-chevron-right"></i>']
         });
+
+        // Control de cantidad - Botón Decrementar
+        $('.btn-decrease').on('click', function() {
+            const input = $('#qty');
+            const currentVal = parseInt(input.val());
+            if (currentVal > 1) {
+                input.val(currentVal - 1);
+            }
+        });
+
+        // Control de cantidad - Botón Incrementar
+        $('.btn-increase').on('click', function() {
+            const input = $('#qty');
+            const currentVal = parseInt(input.val());
+            const maxStock = parseInt(input.attr('max'));
+            if (currentVal < maxStock) {
+                input.val(currentVal + 1);
+            }
+        });
+
+        // Manejo del botón "Agregar al Carrito"
+        $('#btn-add-to-cart').on('click', function(e) {
+            e.preventDefault();
+            const btn = $(this);
+            const productoId = btn.data('producto-id');
+            const cantidad = parseInt($('#qty').val());
+            const stock = parseInt(btn.data('stock'));
+
+            // Validar cantidad
+            if (isNaN(cantidad) || cantidad < 1) {
+                mostrarNotificacion('Por favor, ingresa una cantidad válida.', 'error');
+                return;
+            }
+
+            if (cantidad > stock) {
+                mostrarNotificacion('La cantidad solicitada excede el stock disponible (' + stock +
+                    ' unidades).', 'error');
+                return;
+            }
+
+            // Deshabilitar botón temporalmente
+            btn.prop('disabled', true);
+            const originalText = btn.html();
+            btn.html('<i class="fa fa-spinner fa-spin"></i> Agregando...');
+
+            // Llamar a la función del carrito
+            if (typeof agregarAlCarrito === 'function') {
+                agregarAlCarrito(productoId, cantidad, function(success) {
+                    if (success) {
+                        // Resetear cantidad a 1
+                        $('#qty').val(1);
+
+                        // Mostrar mensaje de éxito personalizado
+                        mostrarNotificacion('¡Producto agregado al carrito exitosamente!',
+                            'success');
+                    }
+
+                    // Rehabilitar botón
+                    btn.prop('disabled', false);
+                    btn.html(originalText);
+                });
+            } else {
+                // Fallback: llamada AJAX directa si carrito.js no está disponible
+                $.ajax({
+                    url: '/carrito/agregar',
+                    method: 'POST',
+                    data: {
+                        producto_id: productoId,
+                        cantidad: cantidad
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            mostrarNotificacion('¡Producto agregado al carrito!',
+                                'success');
+
+                            // Actualizar contador del carrito
+                            if (response.totalItems) {
+                                $('.cart-count').text(response.totalItems);
+                            }
+
+                            // Resetear cantidad
+                            $('#qty').val(1);
+                        } else {
+                            mostrarNotificacion('Error: ' + (response.message ||
+                                'No se pudo agregar el producto'), 'error');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error AJAX:', error);
+                        mostrarNotificacion(
+                            'Error al agregar al carrito. Por favor intenta nuevamente.',
+                            'error');
+                    },
+                    complete: function() {
+                        btn.prop('disabled', false);
+                        btn.html(originalText);
+                    }
+                });
+            }
+        });
+
+        // Botón de favoritos
+        $('.btn-wishlist').on('click', function(e) {
+            e.preventDefault();
+            const icon = $(this).find('i');
+
+            if (icon.hasClass('fa-heart-o')) {
+                icon.removeClass('fa-heart-o').addClass('fa-heart');
+                $(this).css('color', '#e74c3c');
+                mostrarNotificacion('Producto agregado a favoritos', 'success');
+            } else {
+                icon.removeClass('fa-heart').addClass('fa-heart-o');
+                $(this).css('color', '');
+                mostrarNotificacion('Producto eliminado de favoritos', 'info');
+            }
+        });
+
+        // Función para mostrar notificaciones
+        function mostrarNotificacion(mensaje, tipo) {
+            const colores = {
+                'success': '#28a745',
+                'error': '#dc3545',
+                'info': '#17a2b8',
+                'warning': '#ffc107'
+            };
+
+            const iconos = {
+                'success': 'fa-check-circle',
+                'error': 'fa-times-circle',
+                'info': 'fa-info-circle',
+                'warning': 'fa-exclamation-triangle'
+            };
+
+            const toast = $('<div class="custom-toast"></div>')
+                .html('<i class="fa ' + iconos[tipo] + '"></i> ' + mensaje)
+                .css({
+                    position: 'fixed',
+                    top: '20px',
+                    right: '20px',
+                    backgroundColor: colores[tipo],
+                    color: 'white',
+                    padding: '15px 25px',
+                    borderRadius: '8px',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                    zIndex: 9999,
+                    fontSize: '16px',
+                    fontWeight: '500',
+                    minWidth: '250px',
+                    animation: 'slideInRight 0.3s ease-out'
+                })
+                .appendTo('body')
+                .fadeIn()
+                .delay(3000)
+                .fadeOut(function() {
+                    $(this).remove();
+                });
+        }
+
+        // Agregar animación CSS
+        if (!$('#toast-animation-style').length) {
+            $('<style id="toast-animation-style">@keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }</style>')
+                .appendTo('head');
+        }
     });
-
-    // Funciones para incrementar/decrementar cantidad
-    function incrementarCantidad() {
-        var result = document.getElementById('sst');
-        var sst = parseInt(result.value);
-        var max = parseInt(result.getAttribute('data-max'));
-
-        if (!isNaN(sst) && sst < max) {
-            result.value = sst + 1;
-        } else if (sst >= max) {
-            mostrarNotificacion('No hay más stock disponible', 'warning');
-        }
-        return false;
-    }
-
-    function decrementarCantidad() {
-        var result = document.getElementById('sst');
-        var sst = parseInt(result.value);
-
-        if (!isNaN(sst) && sst > 1) {
-            result.value = sst - 1;
-        }
-        return false;
-    }
-
-    // Función para agregar al carrito desde la página de detalles
-    function agregarAlCarritoDetalle(event) {
-        event.preventDefault();
-
-        var cantidad = parseInt(document.getElementById('sst').value);
-        var productoId = <?= $producto['id'] ?>;
-        var stock = <?= $producto['stock'] ?? 0 ?>;
-
-        // Validar cantidad
-        if (isNaN(cantidad) || cantidad < 1) {
-            mostrarNotificacion('Por favor ingresa una cantidad válida', 'error');
-            return;
-        }
-
-        if (cantidad > stock) {
-            mostrarNotificacion('No hay suficiente stock disponible', 'error');
-            return;
-        }
-
-        // Agregar al carrito
-        agregarAlCarrito(productoId, cantidad);
-    }
-
-    // Mostrar notificación (si no está en carrito.js)
-    function mostrarNotificacion(mensaje, tipo = 'success') {
-        var icono = tipo === 'success' ? '✓' : tipo === 'warning' ? '⚠' : '✗';
-        var color = tipo === 'success' ? '#28a745' : tipo === 'warning' ? '#ffc107' : '#dc3545';
-
-        var notificacion = $('<div class="notificacion-carrito">')
-            .html(icono + ' ' + mensaje)
-            .css({
-                'position': 'fixed',
-                'top': '20px',
-                'right': '20px',
-                'background': color,
-                'color': 'white',
-                'padding': '15px 25px',
-                'border-radius': '4px',
-                'box-shadow': '0 2px 5px rgba(0,0,0,0.2)',
-                'z-index': '9999',
-                'font-weight': 'bold'
-            });
-
-        $('body').append(notificacion);
-
-        setTimeout(function() {
-            notificacion.fadeOut(function() {
-                $(this).remove();
-            });
-        }, 3000);
-    }
     </script>
-
 </body>
 
 </html>
