@@ -155,6 +155,7 @@ class User {
             return false;
         }
     }
+}    }
     
     /**
      * Actualizar información del usuario

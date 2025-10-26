@@ -48,6 +48,15 @@ return [
     '/registration' => '../app/Views/registration.php',
     '/registro' => ['controller' => 'RegistroController', 'action' => 'index'],
 
+    // Rutas de perfil de usuario
+    '/perfil' => ['controller' => 'PerfilController', 'action' => 'index'],
+    '/perfil/actualizar-informacion' => ['controller' => 'PerfilController', 'action' => 'actualizarInformacion'],
+    '/perfil/cambiar-password' => ['controller' => 'PerfilController', 'action' => 'cambiarPassword'],
+    '/perfil/agregar-direccion' => ['controller' => 'PerfilController', 'action' => 'agregarDireccion'],
+    '/perfil/actualizar-direccion' => ['controller' => 'PerfilController', 'action' => 'actualizarDireccion'],
+    '/perfil/eliminar-direccion' => ['controller' => 'PerfilController', 'action' => 'eliminarDireccion'],
+    '/perfil/establecer-principal' => ['controller' => 'PerfilController', 'action' => 'establecerPrincipal'],
+
     // Rutas de admin con controladores
     '/apps-calendar' => ['controller' => 'AdminController', 'action' => 'appsCalendar'],
     '/apps-tasks' => ['controller' => 'AdminController', 'action' => 'appsTasks'],
