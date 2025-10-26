@@ -70,6 +70,12 @@ return [
     '/admin-categorias-api' => ['controller' => 'AdminController', 'action' => 'categoriasApi'],
     '/admin-marcas' => ['controller' => 'AdminController', 'action' => 'marcas'],
     '/admin-marcas-api' => ['controller' => 'AdminController', 'action' => 'marcasApi'],
+    '/admin-pedidos' => ['controller' => 'AdminController', 'action' => 'pedidos'],
+    '/admin-pedidos-api' => ['controller' => 'AdminController', 'action' => 'pedidosApi'],
+    '/admin-clientes' => ['controller' => 'AdminController', 'action' => 'clientes'],
+    '/admin-clientes-api' => ['controller' => 'AdminController', 'action' => 'clientesApi'],
+    '/admin-usuarios' => ['controller' => 'AdminController', 'action' => 'usuarios'],
+    '/admin-usuarios-api' => ['controller' => 'AdminController', 'action' => 'usuariosApi'],
 
     // Rutas dinámicas con controladores
     '/auth/login' => ['controller' => 'AuthController', 'action' => 'handleLogin'],
