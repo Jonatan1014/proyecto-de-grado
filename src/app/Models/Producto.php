@@ -33,21 +33,15 @@ class Producto {
     /**
      * Obtener todos los productos activos con filtros
      */
-    public static function obtenerTodos($search = '', $categoriaFilter = '', $estadoFilter = '') {
+    public static function obtenerTodos($limite = null, $search = '', $categoriaFilter = '', $estadoFilter = '') {
         $db = Database::getConnection();
 
         $sql = "SELECT p.*,
                        c.nombre as categoria_nombre,
-                       m.nombre as marca_nombre,
-                       t.nombre as talla_nombre,
-                       co.nombre as color_nombre,
-                       g.nombre as genero_nombre
+                       m.nombre as marca_nombre
                 FROM productos p
                 LEFT JOIN categorias c ON p.categoria_id = c.id
                 LEFT JOIN marcas m ON p.marca_id = m.id
-                LEFT JOIN tallas t ON p.talla_id = t.id
-                LEFT JOIN colores co ON p.color_id = co.id
-                LEFT JOIN generos g ON p.genero_id = g.id
                 WHERE 1=1";
 
         $params = [];
@@ -69,13 +63,30 @@ class Producto {
             $sql .= " AND p.estado = :estado";
             $params[':estado'] = $estadoFilter;
         } else {
-            // Por defecto mostrar todos
+            // Por defecto mostrar activos
+            $sql .= " AND p.estado = 'activo'";
         }
 
         $sql .= " ORDER BY p.fecha_creacion DESC";
 
+        // Aplicar límite si se proporciona
+        if ($limite !== null) {
+            $sql .= " LIMIT :limite";
+            $params[':limite'] = (int)$limite;
+        }
+
         $stmt = $db->prepare($sql);
-        $stmt->execute($params);
+        
+        // Bind de parámetros
+        foreach ($params as $key => $value) {
+            if ($key === ':limite') {
+                $stmt->bindValue($key, $value, PDO::PARAM_INT);
+            } else {
+                $stmt->bindValue($key, $value);
+            }
+        }
+        
+        $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -116,16 +127,10 @@ class Producto {
 
         $sql = "SELECT p.*,
                        c.nombre as categoria_nombre,
-                       m.nombre as marca_nombre,
-                       t.nombre as talla_nombre,
-                       co.nombre as color_nombre,
-                       g.nombre as genero_nombre
+                       m.nombre as marca_nombre
                 FROM productos p
                 LEFT JOIN categorias c ON p.categoria_id = c.id
                 LEFT JOIN marcas m ON p.marca_id = m.id
-                LEFT JOIN tallas t ON p.talla_id = t.id
-                LEFT JOIN colores co ON p.color_id = co.id
-                LEFT JOIN generos g ON p.genero_id = g.id
                 WHERE p.id = :id AND p.estado = 'activo'";
 
         $stmt = $db->prepare($sql);
@@ -143,16 +148,10 @@ class Producto {
 
         $sql = "SELECT p.*,
                        c.nombre as categoria_nombre,
-                       m.nombre as marca_nombre,
-                       t.nombre as talla_nombre,
-                       co.nombre as color_nombre,
-                       g.nombre as genero_nombre
+                       m.nombre as marca_nombre
                 FROM productos p
                 LEFT JOIN categorias c ON p.categoria_id = c.id
                 LEFT JOIN marcas m ON p.marca_id = m.id
-                LEFT JOIN tallas t ON p.talla_id = t.id
-                LEFT JOIN colores co ON p.color_id = co.id
-                LEFT JOIN generos g ON p.genero_id = g.id
                 WHERE p.estado = 'activo' AND p.categoria_id = :categoria_id
                 ORDER BY p.fecha_creacion DESC";
 
@@ -285,7 +284,7 @@ class Producto {
     public static function contarTotal($filtros = []) {
         $db = Database::getConnection();
 
-        $sql = "SELECT COUNT(*) as total 
+        $sql = "SELECT COUNT(*) as total
                 FROM productos p
                 LEFT JOIN marcas m ON p.marca_id = m.id
                 WHERE p.estado = 'activo'";
@@ -299,21 +298,6 @@ class Producto {
         if (!empty($filtros['marca_id'])) {
             $sql .= " AND p.marca_id = :marca_id";
             $params[':marca_id'] = $filtros['marca_id'];
-        }
-
-        if (!empty($filtros['genero_id'])) {
-            $sql .= " AND p.genero_id = :genero_id";
-            $params[':genero_id'] = $filtros['genero_id'];
-        }
-
-        if (!empty($filtros['talla_id'])) {
-            $sql .= " AND p.talla_id = :talla_id";
-            $params[':talla_id'] = $filtros['talla_id'];
-        }
-
-        if (!empty($filtros['color_id'])) {
-            $sql .= " AND p.color_id = :color_id";
-            $params[':color_id'] = $filtros['color_id'];
         }
 
         if (!empty($filtros['busqueda'])) {
@@ -398,16 +382,10 @@ class Producto {
 
         $sql = "SELECT p.*,
                        c.nombre as categoria_nombre,
-                       m.nombre as marca_nombre,
-                       t.nombre as talla_nombre,
-                       co.nombre as color_nombre,
-                       g.nombre as genero_nombre
+                       m.nombre as marca_nombre
                 FROM productos p
                 LEFT JOIN categorias c ON p.categoria_id = c.id
                 LEFT JOIN marcas m ON p.marca_id = m.id
-                LEFT JOIN tallas t ON p.talla_id = t.id
-                LEFT JOIN colores co ON p.color_id = co.id
-                LEFT JOIN generos g ON p.genero_id = g.id
                 WHERE p.estado = 'activo'";
 
         $params = [];
@@ -420,21 +398,6 @@ class Producto {
         if (!empty($filtros['marca_id'])) {
             $sql .= " AND p.marca_id = :marca_id";
             $params[':marca_id'] = $filtros['marca_id'];
-        }
-
-        if (!empty($filtros['genero_id'])) {
-            $sql .= " AND p.genero_id = :genero_id";
-            $params[':genero_id'] = $filtros['genero_id'];
-        }
-
-        if (!empty($filtros['talla_id'])) {
-            $sql .= " AND p.talla_id = :talla_id";
-            $params[':talla_id'] = $filtros['talla_id'];
-        }
-
-        if (!empty($filtros['color_id'])) {
-            $sql .= " AND p.color_id = :color_id";
-            $params[':color_id'] = $filtros['color_id'];
         }
 
         if (!empty($filtros['busqueda'])) {
