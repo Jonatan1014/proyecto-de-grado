@@ -57,15 +57,19 @@ return [
     '/perfil/eliminar-direccion' => ['controller' => 'PerfilController', 'action' => 'eliminarDireccion'],
     '/perfil/establecer-principal' => ['controller' => 'PerfilController', 'action' => 'establecerPrincipal'],
 
-    // Rutas de admin con controladores
-    '/apps-calendar' => ['controller' => 'AdminController', 'action' => 'appsCalendar'],
-    '/apps-tasks' => ['controller' => 'AdminController', 'action' => 'appsTasks'],
-    '/pages-profile' => ['controller' => 'AdminController', 'action' => 'pagesProfile'],
-    '/pages-add-medico' => ['controller' => 'AdminController', 'action' => 'pagesAddMedico'],
-    '/add-medico' => ['controller' => 'AdminController', 'action' => 'addMedico'],
-    '/pages-get-medico' => ['controller' => 'AdminController', 'action' => 'readMedico'],
-    '/pages-upd-medico' => ['controller' => 'AdminController', 'action' => 'editMedico'],
-    '/update-medico' => ['controller' => 'AdminController', 'action' => 'updateMedico'],
+    // Rutas de pedidos
+    '/detalle-pedido' => ['controller' => 'PedidoController', 'action' => 'detalle'],
+    '/pedido/cancelar' => ['controller' => 'PedidoController', 'action' => 'cancelar'],
+
+
+    // Rutas panel administrativo
+    '/admin-dashboard' => ['controller' => 'AdminController', 'action' => 'index'],
+    '/admin-productos' => ['controller' => 'AdminController', 'action' => 'productos'],
+    '/admin-productos-api' => ['controller' => 'AdminController', 'action' => 'productosApi'],
+    '/admin-categorias' => ['controller' => 'AdminController', 'action' => 'categorias'],
+    '/admin-categorias-api' => ['controller' => 'AdminController', 'action' => 'categoriasApi'],
+    '/admin-marcas' => ['controller' => 'AdminController', 'action' => 'marcas'],
+    '/admin-marcas-api' => ['controller' => 'AdminController', 'action' => 'marcasApi'],
 
     // Rutas dinámicas con controladores
     '/auth/login' => ['controller' => 'AuthController', 'action' => 'handleLogin'],

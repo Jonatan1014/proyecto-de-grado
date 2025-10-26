@@ -239,4 +239,29 @@ class Pedido {
             ':pedido_id' => $pedidoId
         ]);
     }
+   
+
+    /**
+     * Obtener pedidos recientes
+     */
+    public static function obtenerRecientes($limite = 10) {
+        $db = Database::getConnection();
+        
+        $sql = "SELECT p.*, 
+                       u.nombre as usuario_nombre,
+                       u.apellido as usuario_apellido,
+                       ep.nombre as estado_nombre,
+                       ep.color as estado_color
+                FROM pedidos p
+                LEFT JOIN usuarios u ON p.usuario_id = u.id
+                LEFT JOIN estados_pedido ep ON p.estado_pedido_id = ep.id
+                ORDER BY p.fecha_pedido DESC
+                LIMIT :limite";
+        
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(":limite", $limite, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

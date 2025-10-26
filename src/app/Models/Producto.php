@@ -31,9 +31,9 @@ class Producto {
     }
 
     /**
-     * Obtener todos los productos activos
+     * Obtener todos los productos activos con filtros
      */
-    public static function obtenerTodos($limite = null, $offset = 0) {
+    public static function obtenerTodos($search = '', $categoriaFilter = '', $estadoFilter = '') {
         $db = Database::getConnection();
 
         $sql = "SELECT p.*,
@@ -48,19 +48,34 @@ class Producto {
                 LEFT JOIN tallas t ON p.talla_id = t.id
                 LEFT JOIN colores co ON p.color_id = co.id
                 LEFT JOIN generos g ON p.genero_id = g.id
-                WHERE p.estado = 'activo'
-                ORDER BY p.fecha_creacion DESC";
+                WHERE 1=1";
 
-        if ($limite !== null) {
-            $sql .= " LIMIT :limite OFFSET :offset";
-            $stmt = $db->prepare($sql);
-            $stmt->bindValue(':limite', (int)$limite, PDO::PARAM_INT);
-            $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
-        } else {
-            $stmt = $db->prepare($sql);
+        $params = [];
+
+        // Filtro de búsqueda
+        if (!empty($search)) {
+            $sql .= " AND (p.nombre LIKE :search OR p.codigo_sku LIKE :search OR p.descripcion LIKE :search)";
+            $params[':search'] = '%' . $search . '%';
         }
 
-        $stmt->execute();
+        // Filtro de categoría
+        if (!empty($categoriaFilter)) {
+            $sql .= " AND p.categoria_id = :categoria_id";
+            $params[':categoria_id'] = $categoriaFilter;
+        }
+
+        // Filtro de estado
+        if (!empty($estadoFilter)) {
+            $sql .= " AND p.estado = :estado";
+            $params[':estado'] = $estadoFilter;
+        } else {
+            // Por defecto mostrar todos
+        }
+
+        $sql .= " ORDER BY p.fecha_creacion DESC";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -595,5 +610,120 @@ class Producto {
 
         $stmt = $db->prepare($sql);
         return $stmt->execute([':id' => $id, ':cantidad' => $cantidad]);
+    }
+
+    /**
+     * Crear un nuevo producto
+     */
+    public static function crear($datos) {
+        $db = Database::getConnection();
+
+        try {
+            $sql = "INSERT INTO productos (
+                        nombre, descripcion, precio, precio_oferta, categoria_id,
+                        marca_id, talla_id, color_id, genero_id, stock, stock_minimo,
+                        codigo_sku, imagen_principal, imagen_2, imagen_3, imagen_4, imagen_5,
+                        destacado, estado
+                    ) VALUES (
+                        :nombre, :descripcion, :precio, :precio_oferta, :categoria_id,
+                        :marca_id, :talla_id, :color_id, :genero_id, :stock, :stock_minimo,
+                        :codigo_sku, :imagen_principal, :imagen_2, :imagen_3, :imagen_4, :imagen_5,
+                        :destacado, :estado
+                    )";
+
+            $stmt = $db->prepare($sql);
+            $stmt->execute([
+                ':nombre' => $datos['nombre'],
+                ':descripcion' => $datos['descripcion'] ?? null,
+                ':precio' => $datos['precio'],
+                ':precio_oferta' => $datos['precio_oferta'] ?? null,
+                ':categoria_id' => $datos['categoria_id'],
+                ':marca_id' => $datos['marca_id'] ?? null,
+                ':talla_id' => $datos['talla_id'] ?? null,
+                ':color_id' => $datos['color_id'] ?? null,
+                ':genero_id' => $datos['genero_id'] ?? null,
+                ':stock' => $datos['stock'],
+                ':stock_minimo' => $datos['stock_minimo'] ?? 5,
+                ':codigo_sku' => $datos['codigo_sku'],
+                ':imagen_principal' => $datos['imagen_principal'] ?? null,
+                ':imagen_2' => $datos['imagen_2'] ?? null,
+                ':imagen_3' => $datos['imagen_3'] ?? null,
+                ':imagen_4' => $datos['imagen_4'] ?? null,
+                ':imagen_5' => $datos['imagen_5'] ?? null,
+                ':destacado' => $datos['destacado'] ?? 0,
+                ':estado' => $datos['estado'] ?? 'activo'
+            ]);
+
+            return [
+                'success' => true,
+                'producto_id' => $db->lastInsertId(),
+                'message' => 'Producto creado exitosamente'
+            ];
+        } catch (Exception $e) {
+            error_log("Error al crear producto: " . $e->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Error al crear el producto: ' . $e->getMessage()
+            ];
+        }
+    }
+
+    /**
+     * Actualizar un producto existente
+     */
+    public static function actualizar($id, $datos) {
+        $db = Database::getConnection();
+
+        try {
+            $campos = [];
+            $parametros = [':id' => $id];
+
+            foreach ($datos as $campo => $valor) {
+                if ($campo !== 'id') {
+                    $campos[] = "$campo = :$campo";
+                    $parametros[":$campo"] = $valor;
+                }
+            }
+
+            $sql = "UPDATE productos SET " . implode(', ', $campos) . " WHERE id = :id";
+
+            $stmt = $db->prepare($sql);
+            $stmt->execute($parametros);
+
+            return [
+                'success' => true,
+                'message' => 'Producto actualizado exitosamente'
+            ];
+        } catch (Exception $e) {
+            error_log("Error al actualizar producto: " . $e->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Error al actualizar el producto: ' . $e->getMessage()
+            ];
+        }
+    }
+
+    /**
+     * Eliminar un producto (cambiar estado a inactivo)
+     */
+    public static function eliminar($id) {
+        $db = Database::getConnection();
+
+        try {
+            $sql = "UPDATE productos SET estado = 'inactivo' WHERE id = :id";
+            $stmt = $db->prepare($sql);
+            $stmt->execute([':id' => $id]);
+
+            return [
+                'success' => true,
+                'message' => 'Producto eliminado exitosamente'
+            ];
+        } catch (Exception $e) {
+            error_log("Error al eliminar producto: " . $e->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Error al eliminar el producto'
+            ];
+        }
     }
 }
