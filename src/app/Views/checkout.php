@@ -1033,10 +1033,19 @@
                     btnFinalizar.innerHTML = '<i class="ti-check mr-2"></i> ¡Pedido Confirmado!';
                     btnFinalizar.style.background = '#28a745';
 
-                    // Redirigir a página de confirmación
+                    // Abrir WhatsApp con el mensaje del pedido
+                    if (data.whatsapp_url) {
+                        // Mostrar modal de confirmación antes de abrir WhatsApp
+                        if (confirm('¡Pedido registrado exitosamente! ¿Deseas enviar los detalles del pedido por WhatsApp para confirmar tu pago?')) {
+                            // Abrir WhatsApp en nueva pestaña
+                            window.open(data.whatsapp_url, '_blank');
+                        }
+                    }
+
+                    // Redirigir a página de confirmación después de 2 segundos
                     setTimeout(() => {
                         window.location.href = `confirmation?pedido=${data.numero_pedido}`;
-                    }, 1000);
+                    }, 2000);
                 } else {
                     alert(data.message || 'Error al procesar el pedido');
                     btnFinalizar.disabled = false;

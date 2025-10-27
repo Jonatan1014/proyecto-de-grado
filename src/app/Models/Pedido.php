@@ -25,16 +25,19 @@ class Pedido {
             // Insertar pedido
             $sql = "INSERT INTO pedidos (
                         numero_pedido, usuario_id, empleado_id, total, subtotal, 
-                        descuento, impuestos, metodo_pago_id, estado_pedido_id, 
+                        descuento, impuestos, costo_envio, metodo_pago_id, estado_pedido_id, 
                         tipo_pedido, observaciones
                     ) VALUES (
                         :numero_pedido, :usuario_id, :empleado_id, :total, :subtotal,
-                        :descuento, :impuestos, :metodo_pago_id, :estado_pedido_id,
+                        :descuento, :impuestos, :costo_envio, :metodo_pago_id, :estado_pedido_id,
                         :tipo_pedido, :observaciones
                     )";
-            
-            $stmt = $db->prepare($sql);
-            $stmt->execute([
+
+            // --- CÓDIGO DE DEPURACIÓN ---
+            error_log("=== Depuración Pedido::crear ===");
+            error_log("  - Datos recibidos: " . print_r($datos, true));
+
+            $executeArray = [
                 ':numero_pedido' => $numeroPedido,
                 ':usuario_id' => $datos['usuario_id'],
                 ':empleado_id' => $datos['empleado_id'] ?? null,
@@ -42,17 +45,37 @@ class Pedido {
                 ':subtotal' => $datos['subtotal'],
                 ':descuento' => $datos['descuento'] ?? 0,
                 ':impuestos' => $datos['impuestos'] ?? 0,
+                ':costo_envio' => $datos['envio'] ?? 0, // Asegúrate que sea 'envio'
                 ':metodo_pago_id' => $datos['metodo_pago_id'],
                 ':estado_pedido_id' => 1, // Pendiente por defecto
                 ':tipo_pedido' => $datos['tipo_pedido'] ?? 'online',
                 ':observaciones' => $datos['observaciones'] ?? null
-            ]);
+            ];
+
+            error_log("  - Array para execute: " . print_r($executeArray, true));
+            error_log("  - Número de marcadores en SQL: " . substr_count($sql, ':'));
+            error_log("  - Número de parámetros en array: " . count($executeArray));
+            // --- FIN CÓDIGO DE DEPURACIÓN ---
+
+            $stmt = $db->prepare($sql);
+            
+            // --- CÓDIGO DE DEPURACIÓN (ejecución) ---
+            try {
+                $stmt->execute($executeArray);
+                error_log("  - Ejecución de INSERT en 'pedidos' exitosa.");
+            } catch (PDOException $e) {
+                error_log("  - ERROR PDO en INSERT pedidos: " . $e->getMessage());
+                error_log("  - Código SQL: " . $sql);
+                error_log("  - Parámetros: " . print_r($executeArray, true));
+                throw $e; // Relanzar para que lo maneje el catch externo
+            }
+            // --- FIN CÓDIGO DE DEPURACIÓN (ejecución) ---
             
             $pedidoId = $db->lastInsertId();
             
             // Insertar detalles del pedido
             foreach ($datos['items'] as $item) {
-                self::agregarDetalle($pedidoId, $item);
+                self::agregarDetalle($pedidoId, $item); // Llamada a la función que también puede tener depuración
                 
                 // Reducir stock
                 self::reducirStock($item['producto_id'], $item['cantidad']);
@@ -71,11 +94,11 @@ class Pedido {
             error_log("Error al crear pedido: " . $e->getMessage());
             return [
                 'success' => false,
-                'message' => 'Error al procesar el pedido'
+                'message' => 'Error al procesar el pedido: ' . $e->getMessage() // Incluir el mensaje de error real para diagnóstico
             ];
         }
     }
-    
+
     /**
      * Agregar detalle al pedido
      */
@@ -87,59 +110,112 @@ class Pedido {
                 ) VALUES (
                     :pedido_id, :producto_id, :cantidad, :precio_unitario, :subtotal
                 )";
-        
-        $stmt = $db->prepare($sql);
-        $stmt->execute([
+
+        // --- CÓDIGO DE DEPURACIÓN para agregarDetalle ---
+        error_log("=== Depuración Pedido::agregarDetalle ===");
+        error_log("  - Item recibido: " . print_r($item, true));
+
+        $executeArray = [
             ':pedido_id' => $pedidoId,
             ':producto_id' => $item['producto_id'],
             ':cantidad' => $item['cantidad'],
-            ':precio_unitario' => $item['precio'],
+            ':precio_unitario' => $item['precio'], // Asegúrate que sea 'precio'
             ':subtotal' => $item['precio'] * $item['cantidad']
-        ]);
-    }
-    
-    /**
-     * Reducir stock del producto
-     */
-    private static function reducirStock($productoId, $cantidad) {
-        $db = Database::getConnection();
-        
-        // Actualizar stock
-        $sql = "UPDATE productos 
-                SET stock = stock - :cantidad 
-                WHERE id = :producto_id AND stock >= :cantidad";
-        
+        ];
+
+        error_log("  - Array para execute en detalle: " . print_r($executeArray, true));
+        error_log("  - Número de marcadores en SQL detalle: " . substr_count($sql, ':'));
+        error_log("  - Número de parámetros en array detalle: " . count($executeArray));
+        // --- FIN CÓDIGO DE DEPURACIÓN para agregarDetalle ---
+
         $stmt = $db->prepare($sql);
-        $result = $stmt->execute([
-            ':cantidad' => $cantidad,
-            ':producto_id' => $productoId
-        ]);
-        
+
+        // --- CÓDIGO DE DEPURACIÓN (ejecución detalle) ---
+        try {
+            $stmt->execute($executeArray);
+            error_log("  - Ejecución de INSERT en 'detalle_pedidos' exitosa para producto ID: {$item['producto_id']}");
+        } catch (PDOException $e) {
+            error_log("  - ERROR PDO en INSERT detalle_pedidos: " . $e->getMessage());
+            error_log("  - Código SQL: " . $sql);
+            error_log("  - Parámetros: " . print_r($executeArray, true));
+            // Cerrar el cursor antes de relanzar
+            if ($stmt) $stmt->closeCursor();
+            throw $e; // Relanzar para que lo maneje el catch externo
+        }
+        // Cerrar el cursor después de la ejecución exitosa
+        $stmt->closeCursor();
+        // --- FIN CÓDIGO DE DEPURACIÓN (ejecución detalle) ---
+    }
+
+
+/**
+ * Reducir stock del producto
+ */
+private static function reducirStock($productoId, $cantidad) {
+    $db = Database::getConnection();
+
+    // Actualizar stock: restar la cantidad pedida y verificar que haya suficiente
+    // Usamos :cantidad_restar para la resta y :cantidad_minima para la condición
+    $sql = "UPDATE productos
+            SET stock = stock - :cantidad_restar
+            WHERE id = :producto_id AND stock >= :cantidad_minima";
+
+    $stmt = $db->prepare($sql);
+    $executeArrayStock = [
+        ':cantidad_restar' => $cantidad, // <-- Renombrado
+        ':cantidad_minima' => $cantidad, // <-- Renombrado
+        ':producto_id' => $productoId
+    ];
+
+    try {
+        $result = $stmt->execute($executeArrayStock);
         if (!$result || $stmt->rowCount() === 0) {
+            // Cerrar cursor antes de lanzar la excepción
+            $stmt->closeCursor();
             throw new Exception("Stock insuficiente para el producto ID: $productoId");
         }
-        
-        // Registrar en historial
-        $sqlHistorial = "INSERT INTO historial_stock (
-                            producto_id, usuario_id, tipo, cantidad, 
-                            stock_anterior, stock_nuevo, motivo
-                        ) SELECT 
-                            :producto_id,
-                            NULL,
-                            'salida',
-                            :cantidad,
-                            stock + :cantidad,
-                            stock,
-                            'Venta online'
-                        FROM productos 
-                        WHERE id = :producto_id";
-        
-        $stmtHistorial = $db->prepare($sqlHistorial);
-        $stmtHistorial->execute([
-            ':producto_id' => $productoId,
-            ':cantidad' => $cantidad
-        ]);
+    } catch (PDOException $e) {
+        // Cerrar cursor antes de relanzar
+        $stmt->closeCursor();
+        throw $e;
     }
+    // Cerrar cursor después de la actualización exitosa
+    $stmt->closeCursor();
+
+    // Registrar en historial
+    // CORREGIDO: Renombrar el segundo :producto_id en la cláusula WHERE Y el segundo :cantidad
+    $sqlHistorial = "INSERT INTO historial_stock (
+                        producto_id, usuario_id, tipo, cantidad,
+                        stock_anterior, stock_nuevo, motivo
+                    ) SELECT
+                        :producto_id_insert, -- <-- Renombrado
+                        NULL, 
+                        'salida',
+                        :cantidad_insert, -- <-- Renombrado (era :cantidad)
+                        stock + :cantidad_anterior, -- stock_anterior (antes del update) - <-- Renombrado (era :cantidad)
+                        stock,             -- stock_nuevo (después del update)
+                        'Venta online'
+                    FROM productos
+                    WHERE id = :producto_id_where"; 
+
+    $stmtHistorial = $db->prepare($sqlHistorial);
+    $executeArrayHistorial = [
+        ':producto_id_insert' => $productoId, // <-- Renombrado
+        ':producto_id_where' => $productoId,  // <-- Renombrado
+        ':cantidad_insert' => $cantidad,      // <-- Renombrado
+        ':cantidad_anterior' => $cantidad    // <-- Renombrado
+    ];
+
+    try {
+        $stmtHistorial->execute($executeArrayHistorial);
+    } catch (PDOException $e) {
+        // Cerrar cursor antes de relanzar
+        $stmtHistorial->closeCursor();
+        throw $e;
+    }
+    // Cerrar cursor después de la inserción exitosa
+    $stmtHistorial->closeCursor();
+}
     
     /**
      * Generar número de pedido único

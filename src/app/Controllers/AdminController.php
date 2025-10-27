@@ -1049,3 +1049,76 @@ class AdminController {
     }
 
 }
+
+    /**
+     * Mostrar página de desencriptación
+     */
+    public function desencriptar() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION['usuario_id'])) {
+            header('Location: login');
+            exit();
+        }
+
+        $rol = $_SESSION['rol'] ?? '';
+        if ($rol !== 'administrador' && $rol !== 'empleado') {
+            header('Location: /');
+            exit();
+        }
+
+        include __DIR__ . '/../Views/admin/desencriptar.php';
+    }
+
+    /**
+     * API para desencriptar datos
+     */
+    public function desencriptarApi() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        header('Content-Type: application/json');
+
+        if (!isset($_SESSION['usuario_id'])) {
+            echo json_encode(['success' => false, 'message' => 'No autorizado']);
+            return;
+        }
+
+        $rol = $_SESSION['rol'] ?? '';
+        if ($rol !== 'administrador' && $rol !== 'empleado') {
+            echo json_encode(['success' => false, 'message' => 'No autorizado']);
+            return;
+        }
+
+        try {
+            require_once __DIR__ . '/../../config/whatsapp.php';
+            
+            $datosEncriptados = $_POST['datos'] ?? '';
+            
+            if (empty($datosEncriptados)) {
+                echo json_encode(['success' => false, 'message' => 'No se recibieron datos']);
+                return;
+            }
+
+            $datosDesencriptados = desencriptarDatos($datosEncriptados);
+
+            if ($datosDesencriptados === false || empty($datosDesencriptados)) {
+                echo json_encode(['success' => false, 'message' => 'Error al desencriptar. Verifica que los datos sean correctos.']);
+                return;
+            }
+
+            echo json_encode([
+                'success' => true,
+                'datos' => $datosDesencriptados
+            ]);
+
+        } catch (Exception $e) {
+            error_log("Error al desencriptar: " . $e->getMessage());
+            echo json_encode(['success' => false, 'message' => 'Error al procesar los datos']);
+        }
+    }
+}
+}

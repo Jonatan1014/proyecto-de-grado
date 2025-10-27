@@ -76,6 +76,8 @@ return [
     '/admin-clientes-api' => ['controller' => 'AdminController', 'action' => 'clientesApi'],
     '/admin-usuarios' => ['controller' => 'AdminController', 'action' => 'usuarios'],
     '/admin-usuarios-api' => ['controller' => 'AdminController', 'action' => 'usuariosApi'],
+    '/admin-desencriptar' => ['controller' => 'AdminController', 'action' => 'desencriptar'],
+    '/api/desencriptar-datos' => ['controller' => 'AdminController', 'action' => 'desencriptarApi'],
 
     // Rutas dinámicas con controladores
     '/auth/login' => ['controller' => 'AuthController', 'action' => 'handleLogin'],

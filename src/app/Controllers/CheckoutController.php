@@ -11,6 +11,7 @@ require_once __DIR__ . '/../Models/Pedido.php';
 require_once __DIR__ . '/../Models/Direccion.php';
 require_once __DIR__ . '/../Models/MetodoPago.php';
 require_once __DIR__ . '/../Utils/Helpers.php';
+require_once __DIR__ . '/../../config/whatsapp.php';
 
 class CheckoutController {
     
@@ -151,9 +152,14 @@ class CheckoutController {
                 return;
             }
             
+            // Obtener datos del usuario
+            require_once __DIR__ . '/../Models/User.php';
+            $usuario = User::obtenerPorId($usuarioId);
+            
             // Calcular totales
             $subtotal = 0;
             $items = [];
+            $productosDetalle = [];
             
             foreach ($itemsCarrito as $item) {
                 $precio = $item['precio_oferta'] ?? $item['precio'];
@@ -164,18 +170,27 @@ class CheckoutController {
                     'cantidad' => $item['cantidad'],
                     'precio' => $precio
                 ];
+                
+                // Guardar detalle para WhatsApp
+                $productosDetalle[] = [
+                    'nombre' => $item['producto_nombre'],
+                    'cantidad' => $item['cantidad'],
+                    'precio_unitario' => $precio,
+                    'subtotal' => $precio * $item['cantidad']
+                ];
             }
             
             $impuestos = $subtotal * 0.19;
             $envio = $subtotal >= 150000 ? 0 : 15000;
             $total = $subtotal + $impuestos + $envio;
             
-            // Crear pedido
+            // Crear pedido con estado PENDIENTE
             $datosPedido = [
                 'usuario_id' => $usuarioId,
                 'total' => $total,
                 'subtotal' => $subtotal,
                 'impuestos' => $impuestos,
+                'envio' => $envio,
                 'metodo_pago_id' => $metodoPagoId,
                 'tipo_pedido' => 'online',
                 'observaciones' => $observaciones,
@@ -185,6 +200,19 @@ class CheckoutController {
             $resultado = Pedido::crear($datosPedido);
             
             if ($resultado['success']) {
+                // Generar mensaje para WhatsApp con datos encriptados
+                $mensajeWhatsApp = $this->generarMensajeWhatsApp(
+                    $resultado['numero_pedido'],
+                    $usuario,
+                    $productosDetalle,
+                    $direccion,
+                    $metodoPago,
+                    $subtotal,
+                    $impuestos,
+                    $envio,
+                    $total
+                );
+                
                 // Vaciar carrito
                 Carrito::vaciarCarrito($usuarioId);
                 
@@ -192,7 +220,8 @@ class CheckoutController {
                     'success' => true,
                     'message' => 'Pedido creado exitosamente',
                     'pedido_id' => $resultado['pedido_id'],
-                    'numero_pedido' => $resultado['numero_pedido']
+                    'numero_pedido' => $resultado['numero_pedido'],
+                    'whatsapp_url' => $mensajeWhatsApp
                 ]);
             } else {
                 echo json_encode($resultado);
@@ -205,6 +234,98 @@ class CheckoutController {
                 'message' => 'Error al procesar el pedido'
             ]);
         }
+    }
+    
+    /**
+     * Generar mensaje de WhatsApp con datos encriptados
+     */
+    private function generarMensajeWhatsApp($numeroPedido, $usuario, $productos, $direccion, $metodoPago, $subtotal, $impuestos, $envio, $total) {
+        // Obtener número de WhatsApp desde configuración
+        $numeroWhatsApp = WHATSAPP_NUMERO;
+        
+        // Construir mensaje
+        $mensaje = "🛍️ *" . WHATSAPP_NOMBRE_NEGOCIO . "*\n";
+        $mensaje .= WHATSAPP_MENSAJE_BIENVENIDA . "\n\n";
+        $mensaje .= "━━━━━━━━━━━━━━━━\n";
+        $mensaje .= "📋 *PEDIDO: {$numeroPedido}*\n";
+        $mensaje .= "━━━━━━━━━━━━━━━━\n\n";
+        
+        // Datos del cliente (encriptados con AES-256)
+        $datosCliente = 
+            "Nombre: " . $usuario['nombre'] . ' ' . $usuario['apellido'] . "\n" .
+            "Email: " . $usuario['email'] . "\n" .
+            "Teléfono: " . ($usuario['telefono'] ?? 'No especificado');
+        
+        $clienteEncriptado = encriptarDatos($datosCliente);
+        
+        $mensaje .= "👤 *DATOS DEL CLIENTE*\n";
+        $mensaje .= "_(Datos encriptados por seguridad)_\n";
+        $mensaje .= "```{$clienteEncriptado}```\n\n";
+        
+        // Productos
+        $mensaje .= "📦 *PRODUCTOS SOLICITADOS*\n";
+        $mensaje .= "━━━━━━━━━━━━━━━━\n";
+        
+        foreach ($productos as $i => $producto) {
+            $num = $i + 1;
+            $mensaje .= "*{$num}.* {$producto['nombre']}\n";
+            $mensaje .= "   • Cantidad: *{$producto['cantidad']} unidad(es)*\n";
+            $mensaje .= "   • Precio unitario: " . formatearPrecioWhatsApp($producto['precio_unitario']) . "\n";
+            $mensaje .= "   • Subtotal: *" . formatearPrecioWhatsApp($producto['subtotal']) . "*\n\n";
+        }
+        
+        // Dirección de envío (encriptada)
+        $datosDir = 
+            $direccion['direccion'] . "\n" .
+            $direccion['ciudad'] . ", " . $direccion['departamento'];
+        
+        if (!empty($direccion['codigo_postal'])) {
+            $datosDir .= "\nCP: " . $direccion['codigo_postal'];
+        }
+        
+        $direccionEncriptada = encriptarDatos($datosDir);
+        
+        $mensaje .= "━━━━━━━━━━━━━━━━\n";
+        $mensaje .= "📍 *DIRECCIÓN DE ENVÍO*\n";
+        $mensaje .= "_(Datos encriptados por seguridad)_\n";
+        $mensaje .= "```{$direccionEncriptada}```\n\n";
+        
+        // Método de pago
+        $mensaje .= "━━━━━━━━━━━━━━━━\n";
+        $mensaje .= "💳 *MÉTODO DE PAGO*\n";
+        $mensaje .= "{$metodoPago['nombre']}\n\n";
+        
+        // Totales
+        $mensaje .= "━━━━━━━━━━━━━━━━\n";
+        $mensaje .= "💰 *RESUMEN DE PAGO*\n";
+        $mensaje .= "━━━━━━━━━━━━━━━━\n";
+        $mensaje .= "Subtotal: " . formatearPrecioWhatsApp($subtotal) . "\n";
+        $mensaje .= "IVA (19%): " . formatearPrecioWhatsApp($impuestos) . "\n";
+        $mensaje .= "Envío: " . ($envio == 0 ? '*GRATIS* ✅' : formatearPrecioWhatsApp($envio)) . "\n";
+        $mensaje .= "━━━━━━━━━━━━━━━━\n";
+        $mensaje .= "🏷️ *TOTAL A PAGAR*\n";
+        $mensaje .= "*" . formatearPrecioWhatsApp($total) . "*\n\n";
+        
+        $mensaje .= "━━━━━━━━━━━━━━━━\n";
+        $mensaje .= "⏳ *Estado:* PENDIENTE\n";
+        $mensaje .= "━━━━━━━━━━━━━━━━\n\n";
+        
+        $mensaje .= "📝 *INSTRUCCIONES:*\n";
+        $mensaje .= "1️⃣ Realiza el pago según el método seleccionado\n";
+        $mensaje .= "2️⃣ Envía el comprobante de pago\n";
+        $mensaje .= "3️⃣ Confirmaremos tu pedido en breve\n\n";
+        
+        $mensaje .= "🕐 *Horario de atención:*\n";
+        $mensaje .= "Lunes a Viernes: 8:00 AM - 6:00 PM\n";
+        $mensaje .= "Sábados: 9:00 AM - 1:00 PM\n\n";
+        
+        $mensaje .= "¡Gracias por tu preferencia! 🙏✨";
+        
+        // Codificar mensaje para URL
+        $mensajeCodificado = urlencode($mensaje);
+        
+        // Generar URL de WhatsApp
+        return "https://wa.me/{$numeroWhatsApp}?text={$mensajeCodificado}";
     }
     
     /**

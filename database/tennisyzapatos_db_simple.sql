@@ -175,6 +175,7 @@ CREATE TABLE IF NOT EXISTS `pedidos` (
   `subtotal` decimal(10,2) NOT NULL,
   `descuento` decimal(10,2) DEFAULT 0.00,
   `impuestos` decimal(10,2) DEFAULT 0.00,
+  `costo_envio` decimal(10,2) DEFAULT 0.00,
   `metodo_pago_id` int(11) NOT NULL,
   `estado_pedido_id` int(11) NOT NULL,
   `tipo_pedido` enum('online','presencial') NOT NULL DEFAULT 'online',

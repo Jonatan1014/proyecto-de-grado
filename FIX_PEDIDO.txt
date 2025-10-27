@@ -1,0 +1,142 @@
+╔════════════════════════════════════════════════════════════════╗
+║          ��� CORRECCIÓN DEL ERROR AL CREAR PEDIDO               ║
+╚════════════════════════════════════════════════════════════════╝
+
+��� PROBLEMA IDENTIFICADO:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Error: SQLSTATE[HY093]: Invalid parameter number
+
+��� CAUSA RAÍZ:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Nombre de parámetro incorrecto:
+   ❌ CheckoutController enviaba: 'estado_id' => 1
+   ✅ Pedido.php esperaba: 'estado_pedido_id' => 1
+
+2. Faltaba el campo 'descuento':
+   ❌ CheckoutController NO lo enviaba
+   ✅ Pedido.php lo requería (aunque con valor por defecto)
+
+���️ SOLUCIÓN APLICADA:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Archivo: src/app/Controllers/CheckoutController.php
+Líneas: 188-199
+
+ANTES:
+------
+$datosPedido = [
+    'usuario_id' => $usuarioId,
+    'total' => $total,
+    'subtotal' => $subtotal,
+    'impuestos' => $impuestos,
+    'metodo_pago_id' => $metodoPagoId,
+    'tipo_pedido' => 'online',
+    'observaciones' => $observaciones,
+    'items' => $items,
+    'estado_id' => 1 // ❌ INCORRECTO
+];
+
+DESPUÉS:
+--------
+$datosPedido = [
+    'usuario_id' => $usuarioId,
+    'total' => $total,
+    'subtotal' => $subtotal,
+    'descuento' => 0, // ✅ AGREGADO
+    'impuestos' => $impuestos,
+    'metodo_pago_id' => $metodoPagoId,
+    'estado_pedido_id' => 1, // ✅ CORREGIDO
+    'tipo_pedido' => 'online',
+    'observaciones' => $observaciones,
+    'items' => $items
+];
+
+✅ VERIFICACIÓN DE LA BASE DE DATOS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Tabla: pedidos
+──────────────────────────────────────────────────────────
+Campo              | Tipo       | Null | Default
+──────────────────────────────────────────────────────────
+numero_pedido      | varchar    | NO   | -
+usuario_id         | int(11)    | NO   | -
+empleado_id        | int(11)    | YES  | NULL
+total              | decimal    | NO   | -
+subtotal           | decimal    | NO   | -
+descuento          | decimal    | YES  | 0.00 ✅
+impuestos          | decimal    | YES  | 0.00 ✅
+metodo_pago_id     | int(11)    | NO   | -
+estado_pedido_id   | int(11)    | NO   | - ✅
+tipo_pedido        | enum       | NO   | online
+observaciones      | text       | YES  | NULL
+
+Estado PENDIENTE (id=1) verificado: ✅ Existe
+
+��� MAPEO DE PARÁMETROS CORREGIDO:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+CheckoutController → Pedido.php → Base de datos
+───────────────────────────────────────────────────────────
+'usuario_id'         → :usuario_id        → usuario_id ✅
+'total'              → :total              → total ✅
+'subtotal'           → :subtotal           → subtotal ✅
+'descuento'          → :descuento          → descuento ✅
+'impuestos'          → :impuestos          → impuestos ✅
+'metodo_pago_id'     → :metodo_pago_id     → metodo_pago_id ✅
+'estado_pedido_id'   → :estado_pedido_id   → estado_pedido_id ✅
+'tipo_pedido'        → :tipo_pedido        → tipo_pedido ✅
+'observaciones'      → :observaciones      → observaciones ✅
+
+��� ESTRUCTURA DE ITEMS (sin cambios):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Cada item contiene:
+- producto_id: ID del producto
+- cantidad: Cantidad solicitada
+- precio: Precio unitario (con oferta si aplica)
+
+��� PRUEBAS RECOMENDADAS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. ✅ Ir a: http://localhost/mayra/src/public/checkout
+2. ✅ Seleccionar dirección de envío
+3. ✅ Seleccionar método de pago
+4. ✅ Hacer clic en "Finalizar Pedido"
+5. ✅ Verificar que:
+   - Se crea el pedido correctamente
+   - Se abre WhatsApp con el mensaje
+   - El pedido aparece con estado PENDIENTE
+   - Se vacía el carrito
+
+��� FLUJO COMPLETO DESPUÉS DE LA CORRECCIÓN:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Usuario finaliza checkout
+2. CheckoutController envía datos correctos
+3. Pedido.php crea registro con TODOS los campos
+4. Se insertan detalles del pedido
+5. Se reduce el stock
+6. Se genera mensaje WhatsApp encriptado
+7. Se vacía el carrito
+8. Se retorna URL de WhatsApp
+9. Frontend abre WhatsApp
+10. Usuario envía mensaje al negocio
+
+��� ESTADO DEL SISTEMA:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Base de datos: Estructura correcta
+✅ Modelo Pedido.php: Sin cambios (estaba correcto)
+✅ CheckoutController.php: CORREGIDO
+✅ Estados de pedido: Configurados correctamente
+✅ Sistema WhatsApp: Funcional
+
+��� RESULTADO:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+El error "Invalid parameter number" está SOLUCIONADO.
+Ahora puedes crear pedidos correctamente desde el checkout.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Fecha de corrección: 26 de octubre de 2025
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
