@@ -304,16 +304,31 @@ private static function reducirStock($productoId, $cantidad) {
     /**
      * Actualizar estado del pedido
      */
-    public static function actualizarEstado($pedidoId, $estadoId) {
+    public static function actualizarEstado($pedidoId, $estadoId, $observaciones = null) {
         $db = Database::getConnection();
         
-        $sql = "UPDATE pedidos SET estado_pedido_id = :estado_id WHERE id = :pedido_id";
-        
-        $stmt = $db->prepare($sql);
-        return $stmt->execute([
-            ':estado_id' => $estadoId,
-            ':pedido_id' => $pedidoId
-        ]);
+        // Si se proporcionan observaciones, actualizar también ese campo
+        if ($observaciones !== null) {
+            $sql = "UPDATE pedidos 
+                    SET estado_pedido_id = :estado_id, 
+                        observaciones = :observaciones 
+                    WHERE id = :pedido_id";
+            
+            $stmt = $db->prepare($sql);
+            return $stmt->execute([
+                ':estado_id' => $estadoId,
+                ':observaciones' => $observaciones,
+                ':pedido_id' => $pedidoId
+            ]);
+        } else {
+            $sql = "UPDATE pedidos SET estado_pedido_id = :estado_id WHERE id = :pedido_id";
+            
+            $stmt = $db->prepare($sql);
+            return $stmt->execute([
+                ':estado_id' => $estadoId,
+                ':pedido_id' => $pedidoId
+            ]);
+        }
     }
    
 

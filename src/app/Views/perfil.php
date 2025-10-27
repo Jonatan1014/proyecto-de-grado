@@ -289,6 +289,24 @@
         padding: 15px;
         margin-bottom: 20px;
     }
+
+    .btn-sm {
+        font-size: 13px;
+        padding: 8px 16px;
+    }
+
+    .btn-outline-warning {
+        border: 2px solid #ffba00;
+        color: #ffba00;
+        background: transparent;
+        border-radius: 6px;
+        transition: all 0.3s;
+    }
+
+    .btn-outline-warning:hover {
+        background: #ffba00;
+        color: white;
+    }
     </style>
 </head>
 
@@ -589,10 +607,15 @@
                                             </div>
                                         </div>
                                         <div class="col-md-3 text-right">
+                                            <a href="seguimiento-pedido?id=<?php echo $pedido['id']; ?>"
+                                                class="btn btn-sm btn-primary-custom mr-2">
+                                                <i class="ti-location-arrow mr-1"></i>
+                                                Seguimiento
+                                            </a>
                                             <a href="detalle-pedido?id=<?php echo $pedido['id']; ?>"
                                                 class="btn btn-sm btn-outline-warning">
                                                 <i class="ti-eye mr-1"></i>
-                                                Ver Detalles
+                                                Detalles
                                             </a>
                                         </div>
                                     </div>

@@ -59,7 +59,7 @@ class AdminController {
             $categoriaFilter = $_GET['categoria'] ?? '';
             $estadoFilter = $_GET['estado'] ?? '';
             
-            $productos = Producto::obtenerTodos($search, $categoriaFilter, $estadoFilter);
+            $productos = Producto::obtenerTodos(null, $search, $categoriaFilter, $estadoFilter);
         } elseif ($action === 'editar' && $productoId) {
             $producto = Producto::obtenerPorId($productoId);
         }
@@ -608,11 +608,13 @@ class AdminController {
                     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $pedidoId = $_POST['pedido_id'] ?? null;
                         $estadoId = $_POST['estado_id'] ?? null;
+                        $observaciones = $_POST['observaciones'] ?? null;
 
                         if ($pedidoId && $estadoId) {
-                            $resultado = Pedido::actualizarEstado($pedidoId, $estadoId);
+                            // Actualizar estado con observaciones si se proporcionan
+                            $resultado = Pedido::actualizarEstado($pedidoId, $estadoId, $observaciones);
                             if ($resultado) {
-                                echo json_encode(['success' => true, 'message' => 'Estado actualizado']);
+                                echo json_encode(['success' => true, 'message' => 'Estado actualizado correctamente']);
                             } else {
                                 echo json_encode(['success' => false, 'message' => 'Error al actualizar estado']);
                             }
@@ -1048,7 +1050,6 @@ class AdminController {
         }
     }
 
-}
 
     /**
      * Mostrar página de desencriptación
@@ -1121,4 +1122,4 @@ class AdminController {
         }
     }
 }
-}
+

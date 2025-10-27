@@ -286,7 +286,15 @@ $usuario = $_SESSION['user'];
 
         .actions-group {
             display: flex;
-            gap: 5px;
+            gap: 8px;
+            flex-wrap: nowrap;
+            min-width: 200px;
+        }
+
+        .btn-sm {
+            white-space: nowrap;
+            font-size: 12px;
+            padding: 6px 12px;
         }
 
         .modal {
@@ -424,6 +432,59 @@ $usuario = $_SESSION['user'];
             font-size: 20px;
             color: #667eea;
         }
+
+        /* Estilos para badges de estado */
+        .badge-estado {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .estado-1 {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .estado-2 {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .estado-3 {
+            background: #fd7e14;
+            color: white;
+        }
+
+        .estado-4 {
+            background: #20c997;
+            color: white;
+        }
+
+        .estado-5 {
+            background: #28a745;
+            color: white;
+        }
+
+        .estado-6 {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
     </style>
 </head>
 
@@ -534,13 +595,13 @@ $usuario = $_SESSION['user'];
                     <table class="pedidos-table">
                         <thead>
                             <tr>
-                                <th>N° Pedido</th>
-                                <th>Cliente</th>
-                                <th>Fecha</th>
-                                <th>Total</th>
-                                <th>Estado</th>
-                                <th>Tipo</th>
-                                <th>Acciones</th>
+                                <th style="width: 12%;">N° Pedido</th>
+                                <th style="width: 18%;">Cliente</th>
+                                <th style="width: 12%;">Fecha</th>
+                                <th style="width: 12%;">Total</th>
+                                <th style="width: 14%;">Estado</th>
+                                <th style="width: 10%;">Tipo</th>
+                                <th style="width: 22%;">Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="pedidos-tbody">
@@ -567,6 +628,52 @@ $usuario = $_SESSION['user'];
 
             <div id="modal-body">
                 <!-- El contenido se cargará dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Cambiar Estado -->
+    <div id="modalCambiarEstado" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h3>Cambiar Estado del Pedido</h3>
+                <span class="close-modal" onclick="cerrarModalEstado()">&times;</span>
+            </div>
+
+            <div class="modal-body" style="padding: 30px;">
+                <div style="margin-bottom: 20px;">
+                    <strong>Pedido:</strong> <span id="estado-numero-pedido"></span><br>
+                    <strong>Cliente:</strong> <span id="estado-cliente"></span><br>
+                    <strong>Estado Actual:</strong> <span id="estado-actual"></span>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="font-weight: 600; display: block; margin-bottom: 10px;">Nuevo Estado:</label>
+                    <select id="select-nuevo-estado" class="form-control" style="padding: 10px; font-size: 16px;">
+                        <option value="1">🕐 Pendiente</option>
+                        <option value="2">✅ Confirmado</option>
+                        <option value="3">📦 En Preparación</option>
+                        <option value="4">🚚 Enviado</option>
+                        <option value="5">✔️ Entregado</option>
+                        <option value="6">❌ Cancelado</option>
+                    </select>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="font-weight: 600; display: block; margin-bottom: 10px;">Observaciones (Opcional):</label>
+                    <textarea id="observaciones-estado" class="form-control" rows="3" 
+                              placeholder="Agregar comentarios sobre el cambio de estado..." 
+                              style="resize: vertical;"></textarea>
+                </div>
+
+                <div style="text-align: right;">
+                    <button onclick="cerrarModalEstado()" class="btn btn-secondary" style="margin-right: 10px;">
+                        Cancelar
+                    </button>
+                    <button onclick="confirmarCambioEstado()" class="btn btn-primary">
+                        <i class="ti-check mr-2"></i>Actualizar Estado
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -669,11 +776,11 @@ $usuario = $_SESSION['user'];
                     <td>${pedido.tipo_pedido}</td>
                     <td class="actions-group">
                         <button class="btn btn-sm btn-info" onclick="verDetalle(${pedido.id})" title="Ver detalle">
-                            <i class="ti-eye"></i>
+                            <i class="ti-eye"></i> Ver
                         </button>
                         ${pedido.estado_pedido_id !== 5 && pedido.estado_pedido_id !== 6 ? `
-                        <button class="btn btn-sm btn-success" onclick="cambiarEstado(${pedido.id})" title="Cambiar estado">
-                            <i class="ti-pencil"></i>
+                        <button class="btn btn-sm btn-warning" onclick="cambiarEstado(${pedido.id})" title="Cambiar estado" style="background: #ffc107; color: #000; font-weight: 600;">
+                            <i class="ti-reload"></i> Editar Estado
                         </button>
                         ` : ''}
                     </td>
@@ -862,36 +969,49 @@ $usuario = $_SESSION['user'];
         const pedido = pedidosData.find(p => p.id === pedidoId);
         if (!pedido) return;
 
-        const estados = [
-            { id: 1, nombre: 'Pendiente' },
-            { id: 2, nombre: 'Confirmado' },
-            { id: 3, nombre: 'En Proceso' },
-            { id: 4, nombre: 'Enviado' },
-            { id: 5, nombre: 'Entregado' },
-            { id: 6, nombre: 'Cancelado' }
-        ];
+        // Mostrar modal de cambio de estado
+        document.getElementById('estado-numero-pedido').textContent = pedido.numero_pedido;
+        document.getElementById('estado-cliente').textContent = `${pedido.usuario_nombre} ${pedido.usuario_apellido}`;
+        document.getElementById('estado-actual').innerHTML = `<span class="badge-estado estado-${pedido.estado_pedido_id}">${pedido.estado_nombre}</span>`;
+        document.getElementById('select-nuevo-estado').value = pedido.estado_pedido_id;
+        
+        // Guardar ID del pedido en el modal
+        document.getElementById('modalCambiarEstado').dataset.pedidoId = pedidoId;
+        
+        // Mostrar modal
+        document.getElementById('modalCambiarEstado').style.display = 'block';
+    }
 
-        let opciones = '';
-        estados.forEach(estado => {
-            const selected = estado.id === pedido.estado_pedido_id ? 'selected' : '';
-            opciones += `<option value="${estado.id}" ${selected}>${estado.nombre}</option>`;
-        });
-
-        const nuevoEstadoId = prompt(
-            `Cambiar estado del pedido #${pedido.numero_pedido}\n\nEstado actual: ${pedido.estado_nombre}\n\nIngrese el número del nuevo estado:\n1. Pendiente\n2. Confirmado\n3. En Proceso\n4. Enviado\n5. Entregado\n6. Cancelado`,
-            pedido.estado_pedido_id
-        );
-
-        if (nuevoEstadoId && nuevoEstadoId != pedido.estado_pedido_id) {
-            actualizarEstadoPedido(pedidoId, nuevoEstadoId);
+    // Confirmar cambio de estado
+    function confirmarCambioEstado() {
+        const pedidoId = document.getElementById('modalCambiarEstado').dataset.pedidoId;
+        const nuevoEstadoId = document.getElementById('select-nuevo-estado').value;
+        const observaciones = document.getElementById('observaciones-estado').value;
+        
+        const pedido = pedidosData.find(p => p.id == pedidoId);
+        
+        if (nuevoEstadoId == pedido.estado_pedido_id) {
+            alert('El estado seleccionado es el mismo que el actual');
+            return;
         }
+        
+        actualizarEstadoPedido(pedidoId, nuevoEstadoId, observaciones);
+    }
+
+    // Cerrar modal de cambio de estado
+    function cerrarModalEstado() {
+        document.getElementById('modalCambiarEstado').style.display = 'none';
+        document.getElementById('observaciones-estado').value = '';
     }
 
     // Actualizar estado del pedido
-    function actualizarEstadoPedido(pedidoId, estadoId) {
+    function actualizarEstadoPedido(pedidoId, estadoId, observaciones = '') {
         const formData = new FormData();
         formData.append('pedido_id', pedidoId);
         formData.append('estado_id', estadoId);
+        if (observaciones) {
+            formData.append('observaciones', observaciones);
+        }
 
         fetch('admin-pedidos-api?action=cambiar-estado', {
             method: 'POST',
@@ -900,15 +1020,16 @@ $usuario = $_SESSION['user'];
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert('Estado actualizado correctamente');
+                cerrarModalEstado();
+                alert('✅ Estado actualizado correctamente');
                 cargarPedidos();
             } else {
-                alert('Error: ' + data.message);
+                alert('❌ Error: ' + data.message);
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Error al actualizar el estado');
+            alert('❌ Error al actualizar el estado');
         });
     }
 

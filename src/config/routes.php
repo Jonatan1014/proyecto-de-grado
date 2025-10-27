@@ -60,6 +60,10 @@ return [
     // Rutas de pedidos
     '/detalle-pedido' => ['controller' => 'PedidoController', 'action' => 'detalle'],
     '/pedido/cancelar' => ['controller' => 'PedidoController', 'action' => 'cancelar'],
+    
+    // Rutas de seguimiento de pedidos
+    '/seguimiento-pedido' => ['controller' => 'SeguimientoPedidoController', 'action' => 'index'],
+    '/api/seguimiento/estado' => ['controller' => 'SeguimientoPedidoController', 'action' => 'obtenerEstado'],
 
 
     // Rutas panel administrativo
