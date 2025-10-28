@@ -246,6 +246,105 @@ if (!isset($producto, $imagenes, $productosRelacionados)) {
         font-size: 16px;
     }
 
+    /* Selector de Tallas */
+    .size-selector {
+        margin: 30px 0;
+    }
+
+    .size-label {
+        display: block;
+        font-weight: 600;
+        font-size: 16px;
+        margin-bottom: 15px;
+        color: #222;
+    }
+
+    .size-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 10px;
+    }
+
+    .size-option {
+        position: relative;
+        min-width: 60px;
+        height: 50px;
+        border: 2px solid #e0e0e0;
+        background: white;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 600;
+        color: #333;
+        cursor: pointer;
+        transition: all 0.3s;
+        padding: 8px 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .size-option:hover:not(.disabled) {
+        border-color: #ffba00;
+        background: #fff8e6;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 186, 0, 0.2);
+    }
+
+    .size-option.selected {
+        border-color: #ffba00;
+        background: #ffba00;
+        color: white;
+        box-shadow: 0 4px 12px rgba(255, 186, 0, 0.3);
+    }
+
+    .size-option.disabled {
+        background: #f5f5f5;
+        color: #999;
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+    .sold-out-badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: #dc3545;
+        color: white;
+        font-size: 9px;
+        padding: 2px 6px;
+        border-radius: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .low-stock-badge {
+        position: absolute;
+        bottom: -8px;
+        right: -8px;
+        background: #ff9800;
+        color: white;
+        font-size: 9px;
+        padding: 2px 6px;
+        border-radius: 10px;
+        font-weight: 600;
+    }
+
+    .error-message {
+        color: #dc3545;
+        font-size: 14px;
+        margin-top: 8px;
+        padding: 8px 12px;
+        background: #f8d7da;
+        border-radius: 6px;
+        border-left: 3px solid #dc3545;
+    }
+
+    .error-message i {
+        margin-right: 6px;
+    }
+
     .quantity-selector {
         display: flex;
         align-items: center;
@@ -699,6 +798,34 @@ if (!isset($producto, $imagenes, $productosRelacionados)) {
                         </div>
 
                         <?php if ($stock > 0): ?>
+                        
+                        <!-- Selector de Talla -->
+                        <?php if (!empty($tallasDisponibles)): ?>
+                        <div class="size-selector">
+                            <span class="size-label">Selecciona tu talla:</span>
+                            <div class="size-options">
+                                <?php foreach ($tallasDisponibles as $talla): ?>
+                                <button type="button" 
+                                        class="size-option <?= $talla['stock'] > 0 ? '' : 'disabled' ?>" 
+                                        data-talla-id="<?= $talla['id'] ?>"
+                                        data-talla-nombre="<?= htmlspecialchars($talla['nombre']) ?>"
+                                        data-stock="<?= $talla['stock'] ?>"
+                                        <?= $talla['stock'] == 0 ? 'disabled' : '' ?>>
+                                    <?= htmlspecialchars($talla['nombre']) ?>
+                                    <?php if ($talla['stock'] == 0): ?>
+                                    <span class="sold-out-badge">Agotado</span>
+                                    <?php elseif ($talla['stock'] < 5): ?>
+                                    <span class="low-stock-badge"><?= $talla['stock'] ?> disponibles</span>
+                                    <?php endif; ?>
+                                </button>
+                                <?php endforeach; ?>
+                            </div>
+                            <div id="talla-error" class="error-message" style="display: none;">
+                                <i class="fa fa-exclamation-circle"></i> Por favor, selecciona una talla
+                            </div>
+                        </div>
+                        <?php endif; ?>
+                        
                         <!-- Selector de Cantidad -->
                         <div class="quantity-selector">
                             <span class="quantity-label">Cantidad:</span>
@@ -874,6 +1001,10 @@ if (!isset($producto, $imagenes, $productosRelacionados)) {
 
     <script>
     $(document).ready(function() {
+        // Variable para almacenar la talla seleccionada
+        let tallaSeleccionada = null;
+        let stockTallaSeleccionada = 0;
+
         // Inicializar el carousel de imágenes del producto
         $('.s_Product_carousel').owlCarousel({
             items: 1,
@@ -884,6 +1015,41 @@ if (!isset($producto, $imagenes, $productosRelacionados)) {
             autoplayTimeout: 5000,
             autoplayHoverPause: true,
             navText: ['<i class="fa fa-chevron-left"></i>', '<i class="fa fa-chevron-right"></i>']
+        });
+
+        // Funcionalidad de Selector de Tallas
+        $('.size-option').on('click', function() {
+            // No hacer nada si el botón está deshabilitado
+            if ($(this).hasClass('disabled')) {
+                return;
+            }
+
+            // Remover selección previa
+            $('.size-option').removeClass('selected');
+
+            // Marcar este botón como seleccionado
+            $(this).addClass('selected');
+
+            // Guardar la talla seleccionada
+            tallaSeleccionada = $(this).data('talla-id');
+            stockTallaSeleccionada = parseInt($(this).data('stock'));
+
+            // Ocultar mensaje de error si existe
+            $('#talla-error').hide();
+
+            // Actualizar el stock máximo del input de cantidad
+            const qtyInput = $('#qty');
+            qtyInput.attr('max', stockTallaSeleccionada);
+
+            // Si la cantidad actual es mayor al stock disponible, ajustar
+            if (parseInt(qtyInput.val()) > stockTallaSeleccionada) {
+                qtyInput.val(stockTallaSeleccionada > 0 ? 1 : 0);
+            }
+
+            // Actualizar el atributo data-stock del botón de agregar al carrito
+            $('#btn-add-to-cart').data('stock', stockTallaSeleccionada);
+
+            console.log('Talla seleccionada:', tallaSeleccionada, 'Stock:', stockTallaSeleccionada);
         });
 
         // Control de cantidad - Botón Decrementar
@@ -913,14 +1079,27 @@ if (!isset($producto, $imagenes, $productosRelacionados)) {
             const cantidad = parseInt($('#qty').val());
             const stock = parseInt(btn.data('stock'));
 
+            // Verificar si hay tallas disponibles y si se seleccionó una
+            const haySelectorTallas = $('.size-selector').length > 0;
+            if (haySelectorTallas && !tallaSeleccionada) {
+                $('#talla-error').show().text('Por favor, selecciona una talla antes de agregar al carrito');
+                $('html, body').animate({
+                    scrollTop: $('.size-selector').offset().top - 100
+                }, 500);
+                return;
+            }
+
             // Validar cantidad
             if (isNaN(cantidad) || cantidad < 1) {
                 mostrarNotificacion('Por favor, ingresa una cantidad válida.', 'error');
                 return;
             }
 
-            if (cantidad > stock) {
-                mostrarNotificacion('La cantidad solicitada excede el stock disponible (' + stock +
+            // Si hay talla seleccionada, validar contra el stock de esa talla
+            const stockValidar = haySelectorTallas ? stockTallaSeleccionada : stock;
+            
+            if (cantidad > stockValidar) {
+                mostrarNotificacion('La cantidad solicitada excede el stock disponible (' + stockValidar +
                     ' unidades).', 'error');
                 return;
             }
@@ -930,12 +1109,27 @@ if (!isset($producto, $imagenes, $productosRelacionados)) {
             const originalText = btn.html();
             btn.html('<i class="fa fa-spinner fa-spin"></i> Agregando...');
 
-            // Llamar a la función del carrito
+            // Llamar a la función del carrito con talla_id si está disponible
             if (typeof agregarAlCarrito === 'function') {
+                // Extender la función agregarAlCarrito para incluir talla
+                const datosProducto = {
+                    producto_id: productoId,
+                    cantidad: cantidad
+                };
+                
+                if (haySelectorTallas && tallaSeleccionada) {
+                    datosProducto.talla_id = tallaSeleccionada;
+                }
+
                 agregarAlCarrito(productoId, cantidad, function(success) {
                     if (success) {
                         // Resetear cantidad a 1
                         $('#qty').val(1);
+
+                        // Limpiar selección de talla
+                        $('.size-option').removeClass('selected');
+                        tallaSeleccionada = null;
+                        stockTallaSeleccionada = 0;
 
                         // Mostrar mensaje de éxito personalizado
                         mostrarNotificacion('¡Producto agregado al carrito exitosamente!',
@@ -945,16 +1139,22 @@ if (!isset($producto, $imagenes, $productosRelacionados)) {
                     // Rehabilitar botón
                     btn.prop('disabled', false);
                     btn.html(originalText);
-                });
+                }, tallaSeleccionada);
             } else {
                 // Fallback: llamada AJAX directa si carrito.js no está disponible
+                const ajaxData = {
+                    producto_id: productoId,
+                    cantidad: cantidad
+                };
+                
+                if (haySelectorTallas && tallaSeleccionada) {
+                    ajaxData.talla_id = tallaSeleccionada;
+                }
+
                 $.ajax({
                     url: '/carrito/agregar',
                     method: 'POST',
-                    data: {
-                        producto_id: productoId,
-                        cantidad: cantidad
-                    },
+                    data: ajaxData,
                     dataType: 'json',
                     success: function(response) {
                         if (response.success) {
@@ -966,8 +1166,11 @@ if (!isset($producto, $imagenes, $productosRelacionados)) {
                                 $('.cart-count').text(response.totalItems);
                             }
 
-                            // Resetear cantidad
+                            // Resetear cantidad y talla
                             $('#qty').val(1);
+                            $('.size-option').removeClass('selected');
+                            tallaSeleccionada = null;
+                            stockTallaSeleccionada = 0;
                         } else {
                             mostrarNotificacion('Error: ' + (response.message ||
                                 'No se pudo agregar el producto'), 'error');

@@ -24,11 +24,11 @@ class Pedido {
             
             // Insertar pedido
             $sql = "INSERT INTO pedidos (
-                        numero_pedido, usuario_id, empleado_id, total, subtotal, 
+                        numero_pedido, usuario_id, direccion_id, empleado_id, total, subtotal, 
                         descuento, impuestos, costo_envio, metodo_pago_id, estado_pedido_id, 
                         tipo_pedido, observaciones
                     ) VALUES (
-                        :numero_pedido, :usuario_id, :empleado_id, :total, :subtotal,
+                        :numero_pedido, :usuario_id, :direccion_id, :empleado_id, :total, :subtotal,
                         :descuento, :impuestos, :costo_envio, :metodo_pago_id, :estado_pedido_id,
                         :tipo_pedido, :observaciones
                     )";
@@ -40,6 +40,7 @@ class Pedido {
             $executeArray = [
                 ':numero_pedido' => $numeroPedido,
                 ':usuario_id' => $datos['usuario_id'],
+                ':direccion_id' => $datos['direccion_id'] ?? null,
                 ':empleado_id' => $datos['empleado_id'] ?? null,
                 ':total' => $datos['total'],
                 ':subtotal' => $datos['subtotal'],
@@ -222,6 +223,33 @@ private static function reducirStock($productoId, $cantidad) {
      */
     private static function generarNumeroPedido() {
         return 'PED-' . date('Ymd') . '-' . strtoupper(substr(uniqid(), -6));
+    }
+    
+    /**
+     * Obtener pedido por número de pedido
+     */
+    public static function obtenerPorNumero($numeroPedido) {
+        $db = Database::getConnection();
+        
+        $sql = "SELECT p.*, 
+                       ep.nombre as estado_nombre,
+                       ep.color as estado_color,
+                       mp.nombre as metodo_pago_nombre,
+                       u.nombre as usuario_nombre,
+                       u.email as usuario_email,
+                       u.telefono as usuario_telefono
+                FROM pedidos p
+                LEFT JOIN estados_pedido ep ON p.estado_pedido_id = ep.id
+                LEFT JOIN metodos_pago mp ON p.metodo_pago_id = mp.id
+                LEFT JOIN usuarios u ON p.usuario_id = u.id
+                WHERE p.numero_pedido = :numero_pedido
+                LIMIT 1";
+        
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':numero_pedido', $numeroPedido, PDO::PARAM_STR);
+        $stmt->execute();
+        
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     
     /**

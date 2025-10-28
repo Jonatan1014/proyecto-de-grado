@@ -54,6 +54,7 @@ class CarritoController {
             $carritoId = $this->obtenerCarritoId();
             $productoId = $data['producto_id'] ?? null;
             $cantidad = isset($data['cantidad']) ? (int)$data['cantidad'] : 1;
+            $tallaId = $data['talla_id'] ?? null; // Nuevo: Capturar talla_id
 
             if (!$productoId) {
                 http_response_code(400);
@@ -75,19 +76,36 @@ class CarritoController {
                 return;
             }
 
-            // Verificar stock disponible
-            if ($producto['stock'] < $cantidad) {
-                http_response_code(400);
-                echo json_encode([
-                    'success' => false,
-                    'message' => 'Stock insuficiente. Disponible: ' . $producto['stock']
-                ]);
-                return;
+            // Si se especifica talla, verificar stock de la talla específica
+            if ($tallaId) {
+                require_once __DIR__ . '/../Models/ProductoTalla.php';
+                
+                // Verificar si el producto tiene esa talla disponible
+                $tallaDisponible = ProductoTalla::verificarStock($productoId, $tallaId, $cantidad);
+                
+                if (!$tallaDisponible) {
+                    http_response_code(400);
+                    echo json_encode([
+                        'success' => false,
+                        'message' => 'Stock insuficiente para la talla seleccionada'
+                    ]);
+                    return;
+                }
+            } else {
+                // Verificar stock general del producto (sin talla específica)
+                if ($producto['stock'] < $cantidad) {
+                    http_response_code(400);
+                    echo json_encode([
+                        'success' => false,
+                        'message' => 'Stock insuficiente. Disponible: ' . $producto['stock']
+                    ]);
+                    return;
+                }
             }
 
-            // Agregar al carrito
+            // Agregar al carrito (con o sin talla)
             $precio = $producto['precio_oferta'] ?? $producto['precio'];
-            $resultado = Carrito::agregar($carritoId, $productoId, $cantidad, $precio);
+            $resultado = Carrito::agregar($carritoId, $productoId, $cantidad, $precio, $tallaId);
 
             if ($resultado) {
                 $totalItems = Carrito::contarItems($carritoId);

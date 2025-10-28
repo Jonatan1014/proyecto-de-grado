@@ -187,6 +187,7 @@ class CheckoutController {
             // Crear pedido con estado PENDIENTE
             $datosPedido = [
                 'usuario_id' => $usuarioId,
+                'direccion_id' => $direccionId,
                 'total' => $total,
                 'subtotal' => $subtotal,
                 'impuestos' => $impuestos,
@@ -530,4 +531,63 @@ public function eliminarItem() {
     }
     exit;
 }
+
+    /**
+     * Página de confirmación del pedido
+     */
+    public function confirmacion() {
+        // Iniciar sesión si no está iniciada
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        // Verificar que el usuario esté logueado
+        if (!isset($_SESSION['usuario_id'])) {
+            header('Location: login');
+            exit();
+        }
+        
+        // Obtener número de pedido de la URL
+        $numeroPedido = $_GET['pedido'] ?? null;
+        
+        if (!$numeroPedido) {
+            header('Location: home');
+            exit();
+        }
+        
+        // Obtener datos del pedido
+        $usuarioId = $_SESSION['usuario_id'];
+        $pedido = Pedido::obtenerPorNumero($numeroPedido);
+        
+        // Verificar que el pedido pertenezca al usuario
+        if (!$pedido || $pedido['usuario_id'] != $usuarioId) {
+            header('Location: home');
+            exit();
+        }
+        
+        // Obtener detalles del pedido con tallas
+        require_once __DIR__ . '/../Models/DetallePedido.php';
+        $detallesPedido = DetallePedido::obtenerPorPedidoConTallas($pedido['id']);
+        
+        // Obtener dirección de envío (puede ser NULL para pedidos antiguos)
+        $direccion = null;
+        if (!empty($pedido['direccion_id'])) {
+            $direccion = Direccion::obtenerPorId($pedido['direccion_id']);
+        }
+        
+        // Obtener método de pago
+        $metodoPago = MetodoPago::obtenerPorId($pedido['metodo_pago_id']);
+        
+        // Datos para la vista
+        $data = [
+            'pedido' => $pedido,
+            'detalles' => $detallesPedido,
+            'direccion' => $direccion,
+            'metodoPago' => $metodoPago
+        ];
+        
+        // Cargar vista
+        extract($data);
+        include __DIR__ . '/../Views/confirmation.php';
+    }
 }

@@ -1,8 +1,6 @@
 <?php
 // Iniciar sesión si no está iniciada
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+
 
 // Obtener contador del carrito
 require_once __DIR__ . '/../../Models/Carrito.php';

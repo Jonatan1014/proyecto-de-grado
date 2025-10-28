@@ -3,12 +3,17 @@
  */
 
 // Agregar producto al carrito
-function agregarAlCarrito(productoId, cantidad = 1) {
+function agregarAlCarrito(productoId, cantidad = 1, callback = null, tallaId = null) {
     const url = 'api/carrito/agregar';
     const data = {
         producto_id: productoId,
         cantidad: cantidad
     };
+
+    // Agregar talla_id si está presente
+    if (tallaId) {
+        data.talla_id = tallaId;
+    }
 
     fetch(url, {
         method: 'POST',
@@ -22,13 +27,28 @@ function agregarAlCarrito(productoId, cantidad = 1) {
         if (result.success) {
             mostrarNotificacion('✓ Producto agregado al carrito', 'success');
             actualizarContadorCarrito(result.total_items || result.totalItems || 0);
+            
+            // Ejecutar callback si existe
+            if (typeof callback === 'function') {
+                callback(true);
+            }
         } else {
             mostrarNotificacion('✗ ' + result.message, 'error');
+            
+            // Ejecutar callback con false si existe
+            if (typeof callback === 'function') {
+                callback(false);
+            }
         }
     })
     .catch(error => {
         console.error('Error:', error);
         mostrarNotificacion('✗ Error al agregar al carrito', 'error');
+        
+        // Ejecutar callback con false en caso de error
+        if (typeof callback === 'function') {
+            callback(false);
+        }
     });
 }
 

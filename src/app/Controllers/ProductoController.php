@@ -437,10 +437,15 @@ class ProductoController {
                 4
             );
 
+            // Obtener tallas disponibles
+            require_once __DIR__ . '/../Models/ProductoTalla.php';
+            $tallasDisponibles = ProductoTalla::obtenerPorProducto($id);
+
             $data = [
                 'producto' => $producto,
                 'imagenes' => $imagenes,
-                'productosRelacionados' => $productosRelacionados
+                'productosRelacionados' => $productosRelacionados,
+                'tallasDisponibles' => $tallasDisponibles
             ];
 
             extract($data);

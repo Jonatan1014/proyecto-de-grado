@@ -8,18 +8,31 @@ class Carrito {
     /**
      * Agregar producto al carrito
      */
-    public static function agregar($carritoId, $productoId, $cantidad, $precio) {
+    public static function agregar($carritoId, $productoId, $cantidad, $precio, $tallaId = null) {
         $db = Database::getConnection();
 
-        // Verificar si el producto ya está en el carrito
-        $sqlCheck = "SELECT id, cantidad FROM carrito 
-                     WHERE usuario_id = :carrito_id AND producto_id = :producto_id";
+        // Verificar si el producto ya está en el carrito (considerando la talla)
+        if ($tallaId) {
+            $sqlCheck = "SELECT id, cantidad FROM carrito 
+                         WHERE usuario_id = :carrito_id 
+                         AND producto_id = :producto_id 
+                         AND talla_id = :talla_id";
+        } else {
+            $sqlCheck = "SELECT id, cantidad FROM carrito 
+                         WHERE usuario_id = :carrito_id 
+                         AND producto_id = :producto_id 
+                         AND (talla_id IS NULL OR talla_id = 0)";
+        }
         
         $stmtCheck = $db->prepare($sqlCheck);
         $stmtCheck->bindValue(':carrito_id', $carritoId, PDO::PARAM_STR);
         $stmtCheck->bindValue(':producto_id', $productoId, PDO::PARAM_INT);
-        $stmtCheck->execute();
         
+        if ($tallaId) {
+            $stmtCheck->bindValue(':talla_id', $tallaId, PDO::PARAM_INT);
+        }
+        
+        $stmtCheck->execute();
         $existing = $stmtCheck->fetch(PDO::FETCH_ASSOC);
 
         if ($existing) {
@@ -28,14 +41,23 @@ class Carrito {
             return self::actualizarCantidad($existing['id'], $nuevaCantidad);
         } else {
             // Insertar nuevo item
-            $sql = "INSERT INTO carrito (usuario_id, producto_id, cantidad, precio) 
-                    VALUES (:carrito_id, :producto_id, :cantidad, :precio)";
+            if ($tallaId) {
+                $sql = "INSERT INTO carrito (usuario_id, producto_id, cantidad, precio, talla_id) 
+                        VALUES (:carrito_id, :producto_id, :cantidad, :precio, :talla_id)";
+            } else {
+                $sql = "INSERT INTO carrito (usuario_id, producto_id, cantidad, precio) 
+                        VALUES (:carrito_id, :producto_id, :cantidad, :precio)";
+            }
             
             $stmt = $db->prepare($sql);
             $stmt->bindValue(':carrito_id', $carritoId, PDO::PARAM_STR);
             $stmt->bindValue(':producto_id', $productoId, PDO::PARAM_INT);
             $stmt->bindValue(':cantidad', $cantidad, PDO::PARAM_INT);
             $stmt->bindValue(':precio', $precio, PDO::PARAM_STR);
+            
+            if ($tallaId) {
+                $stmt->bindValue(':talla_id', $tallaId, PDO::PARAM_INT);
+            }
             
             return $stmt->execute();
         }
