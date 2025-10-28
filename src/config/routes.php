@@ -80,6 +80,9 @@ return [
     '/admin-clientes-api' => ['controller' => 'AdminController', 'action' => 'clientesApi'],
     '/admin-usuarios' => ['controller' => 'AdminController', 'action' => 'usuarios'],
     '/admin-usuarios-api' => ['controller' => 'AdminController', 'action' => 'usuariosApi'],
+    '/admin-reportes' => ['controller' => 'AdminController', 'action' => 'reportes'],
+    '/admin-reportes-api' => ['controller' => 'AdminController', 'action' => 'reportesApi'],
+    '/admin-exportar-reporte' => ['controller' => 'AdminController', 'action' => 'exportarReporte'],
     '/admin-desencriptar' => ['controller' => 'AdminController', 'action' => 'desencriptar'],
     '/api/desencriptar-datos' => ['controller' => 'AdminController', 'action' => 'desencriptarApi'],
 
